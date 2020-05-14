@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.db import transaction
@@ -9,8 +9,12 @@ from .models import Note
 from .forms import NoteForm, ReferenceFormSet
 
 
-def dashboard(request):
-    return render(request, 'dashboard.html')
+class Notes(LoginRequiredMixin, ListView):
+    """
+    List a User's Notes.
+    """
+    template_name = 'notes.html'
+    model = Note
 
 class CreateNote(LoginRequiredMixin, CreateView):
     """

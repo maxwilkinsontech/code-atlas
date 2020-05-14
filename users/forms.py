@@ -24,14 +24,12 @@ class SettingsForm(forms.Form):
         self.fields['email'].initial = user.email
 
     def save(self):
+        user = self.user
         cd = self.cleaned_data
         first_name = cd.get('first_name')
         last_name = cd.get('last_name')
         email = cd.get('email')
         password = cd.get('password')
-        user = self.user
-
-        print(first_name)
 
         if first_name is not None:
             user.first_name = first_name

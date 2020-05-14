@@ -1,1 +1,41 @@
-{{ user.email }}
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
+{% endblock head_extra %}
+
+{% block content %}
+<div class="pb-0 min-vh-100 o-hidden" data-overlay="" style="padding-top: 80px !important;">
+    <section class="">
+        <div class="container">
+            <div
+                class="row align-items-center justify-content-center justify-content-lg-between text-center text-lg-left">
+                <div class="col-md-9 col-lg-6 col-xl-5 pl-lg-5 pl-xl-0 order-lg-2 aos-init aos-animate"
+                    data-aos="fade-left" data-aos-delay="250">
+                    <h1 class="display-3">A feisty group of <mark data-aos="highlight-text" data-aos-delay="500"
+                            class="aos-init aos-animate">change makers</mark></h1>
+                    <p class="lead">
+                        Berspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
+                        rem aperiam.
+                    </p>
+                    <a href="#" class="lead">Meet the crew</a>
+                </div>
+                <div class="col-md-8 col-lg-6 mt-4 mt-md-5 mt-lg-0 order-lg-1 aos-init aos-animate"
+                    data-aos="fade-right">
+                    <img src="assets/img/about-1.jpg" alt="Image" class="rounded img-fluid shadow-lg">
+                </div>
+            </div>
+        </div>
+        <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"
+            style="z-index: 0; transform: translate3d(0px, 1.1876px, 0px);">
+            <div class="blob bg-primary opacity-20 w-100 h-100 top left"></div>
+            <div id="jarallax-container-0"
+                style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -100;">
+                <div style="position: fixed;"></div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
