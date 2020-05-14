@@ -6,12 +6,13 @@
 <section class="pb-0 bg-light">
     <div class="container">
         <div class="row section-title justify-content-center text-center">
-            <div class="col-md-9 col-lg-8 col-xl-7">
-                <h3 class="display-4">Create a new Note</h3>
-                <div class="lead">Create a new note to never forgot that little thing ever again!</div>
+            <div class="col-md-9 col-lg-8 col-xl-7 mb-0">
+                <h3 class="display-4 mb-2">Edit Note</h3>
+                <small class="text-muted my-2">Created on {{ object.date_created }}<br>Last updated
+                    {{ object.last_edited }}</small>
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-0">
             <div class="col-xl-8 col-lg-9 col-md-10">
                 <form action="" method="post" novalidate>
                     {% csrf_token %}
@@ -48,7 +49,11 @@
                         </tr>
                         {% endfor %}
                     </table>
-                    <button class="btn btn-primary btn-block" type="submit">Create Note</button>
+                    <button class="btn btn-primary btn-block" type="submit">Save Note</button>
+                </form>
+                <form method="POST" action="{% url 'delete_note' object.id %}" onsubmit="return confirm('Are you sure you want to delete this Note?');">
+                    {% csrf_token %}
+                    <button class="btn btn-danger float-right mt-2" type="submit">Delete Note</button>
                 </form>
             </div>
         </div>

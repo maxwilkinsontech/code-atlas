@@ -2,19 +2,23 @@
 
 {% for field in form %}
     <div class="form-group">
+        {% if label %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% endif %}
         {% if form.is_bound %}
             {% if field.errors %}
-                {% render_field field class="form-control is-invalid pb_height-50 reverse" placeholder=field.label %}
+                {% render_field field class="form-control is-invalid pb_height-50 reverse" %}
                 {% for error in field.errors %}
                     <div class="invalid-feedback">
                         {{ error }}
                     </div>
                 {% endfor %}
             {% else %}
-                {% render_field field class="form-control is-valid pb_height-50 reverse" placeholder=field.label %}
+                {% render_field field class="form-control is-valid pb_height-50 reverse" %}
             {% endif %}
         {% else %}
-            {% render_field field class="form-control pb_height-50 reverse" placeholder=field.label %}
+            {% render_field field class="form-control pb_height-50 reverse" %}
         {% endif %}
+        <small>{{ field.help_text }}</small>
     </div>
 {% endfor %}

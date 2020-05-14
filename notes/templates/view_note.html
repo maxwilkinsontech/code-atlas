@@ -11,14 +11,59 @@
     <div class="container min-vh-100">
         <div class="row section-title justify-content-center">
             <div class="col-md-12 col-lg-9 col-xl-9">
+                <div class="row">
+                    <div class="col d-flex flex-column align-items-start">
+                        <nav aria-label="breadcrumb ">
+                            <ol class="breadcrumb px-3">
+                                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">
+                                    <img src="{% static 'img/icons/interface/icon-arrow-left.svg' %}" alt="arrow-left icon" class="icon icon-sm text-primary">
+                                    Go back</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-start ">
+                            <nav aria-label="breadcrumb ">
+                                <ol class="breadcrumb px-3">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'edit_note' object.id %}">
+                                            <img src="{% static 'img/icons/theme/general/edit.svg' %}" alt="arrow-left icon" class="icon icon-sm text-primary">
+                                            Edit
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
                 <h3 class="display-4 text-center">{{ object.title }}</h3>
                 <div class="card">
-                    <div class="lead m-4" id="body"></div>
+                    <div class="lead m-4" id="content"></div>
                 </div>
+                <small class="text-muted float-right text-right my-2">Created on {{ object.date_created }}<br>Last updated {{ object.last_edited }}</small>
+                {% with references=object.references.all %}
+                    {% if references %}
+                        <h4 class="mt-5">References</h4>
+                    {% endif %}
+                    {% for ref in references %}
+                        <div class="card hover-box-shadow my-3">
+                            <div class="m-3">
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-9">
+                                        <h5><a href="{{ ref.reference_url }}">{{ ref.reference_url }}</a></h5>
+                                        <p class="mb-2">{{ ref.reference_desc }}</p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-3">
+                                        <small class="text-muted float-right text-right">Last updated {{ ref.last_edited }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endwith %}
             </div>
-            {% for ref in object.references.all %}
-                {{ ref }}
-            {% endfor %}
         </div>
     </div>
     <div class="divider divider-bottom bg-primary-3"></div>
@@ -31,13 +76,13 @@
 
 <script id="mdown" type="text/markdown">
 {% autoescape off %}
-{{ object.body }}
+{{ object.content }}
 {% endautoescape %}
 </script>
 <script>
     hljs.initHighlightingOnLoad();
-    var body = document.getElementById('body');
+    var content = document.getElementById('content');
     var mdown = document.getElementById('mdown');
-    body.innerHTML = marked(mdown.textContent);
+    content.innerHTML = marked(mdown.textContent);
 </script>
 {% endblock scripts_extra %}

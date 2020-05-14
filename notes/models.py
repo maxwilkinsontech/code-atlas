@@ -13,8 +13,13 @@ class Note(DateModel):
         on_delete=models.CASCADE
     )
     is_private = models.BooleanField(default=False)
-    title = models.CharField(max_length=255)
-    body = models.TextField()
+    title = models.CharField(
+        max_length=255,
+        help_text='You\'ll use the title to find this note in the future.'
+    )
+    content = models.TextField(
+        help_text='Write your note content here. You can use markdown for better formatting.'
+    )
 
     def __str__(self):
         return self.title
