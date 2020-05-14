@@ -28,6 +28,14 @@ DATABASES = {
     }
 }
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+
 # Python Social Auth
 
 SOCIAL_AUTH_GITHUB_KEY = env_config.get('SOCIAL_AUTH_GITHUB_KEY')

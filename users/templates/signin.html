@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div data-overlay class="min-vh-100 bg-light d-flex flex-column justify-content-md-center">
+        <section class="py-3">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-4 col-lg-5 col-md-6">
+                        <div class="card card-body shadow">
+                            <h1 class="h5 text-center">Sign In</h1>
+                            {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                    <p class="text-danger text-center">{{ error }}</p>
+                                {% endfor %}
+                            {% endif %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                <div class="form-group">
+                                    {% if form.is_bound %}
+                                        {% if field.errors %}
+                                        {% render_field field class="form-control is-invalid pb_height-50 reverse" placeholder=field.label %}
+                                            {% for error in field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% render_field field class="form-control is-valid pb_height-50 reverse" placeholder=field.label %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% render_field field class="form-control pb_height-50 reverse" placeholder=field.label %}
+                                    {% endif %}
+                                    {% if field.name == 'password' %}
+                                        <div class="text-right text-small mt-2">
+                                            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                                <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+                            </form>
+                            <p class="mt-4 text-center">Or Sign In with</p>
+                            <a class="btn btn-primary btn-block" style="background-color: #DB4437; border-color: #DB4437;" href="{% url "social:begin" "google-oauth2" %}">Google+</a>
+                            <a class="btn btn-primary btn-block" style="background-color: #4267B2; border-color: #4267B2;" href="{% url "social:begin" "facebook" %}">Facebook</a>
+                        </div>
+                        <div class="text-center text-small mt-3">
+                            Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock content %}

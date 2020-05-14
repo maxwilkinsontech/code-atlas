@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<section class="pb-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center">
+                <div class="d-inline-block p-3 p-md-4 rounded-circle bg-primary-alt">
+                    <img src="{% static 'img/icons/theme/general/settings-1.svg' %}" alt="Confirmation Icon"
+                        class="icon bg-primary" data-inject-svg="data-inject-svg">
+                </div>
+                <div class="ml-4">
+                    <h1 class="mb-2">Account Settings</h1>
+                    <div class="lead">Manage your profile and billing preferences.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab"
+                            aria-controls="general" aria-selected="true">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="billing-tab" data-toggle="tab" href="#billing" role="tab"
+                            aria-controls="billing" aria-selected="false">Billing</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="bg-light tab-content pt-5">
+    <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+        <div class="container">
+            <div class="row mb-4 mb-md-5 align-items-start">
+                <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0 sticky-lg-top pl-lg-5">
+                    <div class="alert alert-primary">Your information is always kept secure and can never be accessed
+                        by third parties.
+                        <a href="#">View our Privacy Policy</a>
+                    </div>
+                </div>
+                <div class="col-lg-8 border-lg-right pr-lg-5">
+                    <div class="row mb-lg-5">
+                        <div class="col">
+                            <h3>Account Details</h3>
+                        </div>
+                    </div>
+                    <form method="POST" id="settings-form">
+                        {% csrf_token %}
+                        <div class="row form-row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="first_name">First Name</label>
+                                    <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" name="email" class="form-control" value="{{ user.email }}">
+                            <small>Used to log in to your account</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control">
+                            <small>Change your password by entering a new one above</small>
+                        </div>
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <p class="text-danger text-center">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <button id="settings-form-button" class="btn btn-primary" type="submit" disabled="disabled">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+        <div class="container">
+            <div class="row justify-content-between align-items-center mb-4 mb-md-5">
+                <div class="col-auto">
+                    <h3 class="mb-sm-0">Billing</h3>
+                </div>
+            </div>
+        </div>
+        <form class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-4 mb-3 mb-md-4">
+                    <div class="border rounded bg-white px-4 py-4 pb-4 pt-2">
+                        {% if user.revision_access %}
+                            <p>Your subscription will end on: {{ user.revision_access_end_date }}</p>
+                        {% else %}
+                            <p>You do not have any active subscriptions.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts_extra %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#settings-form').on('input change', function () {
+            $('#settings-form-button').removeAttr('disabled');
+        });
+    });
+
+    {% if request.GET.changed == 'true' %}
+        Swal.fire(
+            'Account Details Saved',
+            'You account details have been successfully updated.',
+            'success'
+        );
+        window.history.replaceState({}, document.title, "/accounts/settings/");
+    {% endif %}
+</script>
+{% endblock scripts_extra %}
