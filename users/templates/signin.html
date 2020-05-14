@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 
 {% block content %}
     <div data-overlay class="min-vh-100 bg-light d-flex flex-column justify-content-md-center">
@@ -14,31 +13,9 @@
                                     <p class="text-danger text-center">{{ error }}</p>
                                 {% endfor %}
                             {% endif %}
-                            <form method="POST">
+                            <form method="POST" novalidate>
                                 {% csrf_token %}
-                                {% for field in form %}
-                                <div class="form-group">
-                                    {% if form.is_bound %}
-                                        {% if field.errors %}
-                                        {% render_field field class="form-control is-invalid pb_height-50 reverse" placeholder=field.label %}
-                                            {% for error in field.errors %}
-                                            <div class="invalid-feedback">
-                                                {{ error }}
-                                            </div>
-                                            {% endfor %}
-                                        {% else %}
-                                            {% render_field field class="form-control is-valid pb_height-50 reverse" placeholder=field.label %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% render_field field class="form-control pb_height-50 reverse" placeholder=field.label %}
-                                    {% endif %}
-                                    {% if field.name == 'password' %}
-                                        <div class="text-right text-small mt-2">
-                                            <a href="{% url 'password_reset' %}">Forgot Password?</a>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                {% endfor %}
+                                {% include 'forms/form.html' with form=form %}
                                 <button class="btn btn-primary btn-block" type="submit">Sign In</button>
                             </form>
                             <p class="mt-4 text-center">Or Sign In with</p>

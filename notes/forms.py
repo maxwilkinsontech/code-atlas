@@ -8,6 +8,10 @@ class NoteForm(ModelForm):
         model = Note
         fields = ['title', 'body']
 
+    def __init__(self, *args, **kwargs):
+        super(NoteForm, self).__init__(*args, **kwargs)
+        self.fields['title'].help_text = 'Keep the title short but descriptive. You\'ll use this title to find this note in the future.'
+        self.fields['body'].help_text = 'Write you note content. You can use markdown for better formatting.'
 
 class ReferenceForm(ModelForm):
     class Meta:

@@ -17,15 +17,19 @@
                     <h1 class="display-3">A feisty group of <mark data-aos="highlight-text" data-aos-delay="500"
                             class="aos-init aos-animate">change makers</mark></h1>
                     <p class="lead">
-                        Berspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                        rem aperiam.
+                        <a href="{% url 'create_note' %}">Create new note</a>
+                        <li>
+                            {% for note in object_list %}
+                               <li><a href="{% url 'view_note' note.id %}">{{ note.title }}</a></li>
+                            {% endfor %}
+                        </li>
                     </p>
                     <a href="#" class="lead">Meet the crew</a>
                 </div>
-                <div class="col-md-8 col-lg-6 mt-4 mt-md-5 mt-lg-0 order-lg-1 aos-init aos-animate"
+                <!-- <div class="col-md-8 col-lg-6 mt-4 mt-md-5 mt-lg-0 order-lg-1 aos-init aos-animate"
                     data-aos="fade-right">
                     <img src="assets/img/about-1.jpg" alt="Image" class="rounded img-fluid shadow-lg">
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"

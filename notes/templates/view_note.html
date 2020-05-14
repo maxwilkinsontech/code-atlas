@@ -7,13 +7,13 @@
 {% endblock head_extra %}
 
 {% block content %}
-<section class="pb-0 bg-light">
-    <div class="container">
+<section class="pb-0 bg-light ">
+    <div class="container min-vh-100">
         <div class="row section-title justify-content-center">
             <div class="col-md-12 col-lg-9 col-xl-9">
                 <h3 class="display-4 text-center">{{ object.title }}</h3>
                 <div class="card">
-                    <div class="lead m-4" id="body">Nothing to show here </div>
+                    <div class="lead m-4" id="body"></div>
                 </div>
             </div>
             {% for ref in object.references.all %}
@@ -38,7 +38,6 @@
     hljs.initHighlightingOnLoad();
     var body = document.getElementById('body');
     var mdown = document.getElementById('mdown');
-
     body.innerHTML = marked(mdown.textContent);
 </script>
 {% endblock scripts_extra %}

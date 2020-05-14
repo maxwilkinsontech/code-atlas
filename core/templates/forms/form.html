@@ -1,0 +1,20 @@
+{% load widget_tweaks %}
+
+{% for field in form %}
+    <div class="form-group">
+        {% if form.is_bound %}
+            {% if field.errors %}
+                {% render_field field class="form-control is-invalid pb_height-50 reverse" placeholder=field.label %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% render_field field class="form-control is-valid pb_height-50 reverse" placeholder=field.label %}
+            {% endif %}
+        {% else %}
+            {% render_field field class="form-control pb_height-50 reverse" placeholder=field.label %}
+        {% endif %}
+    </div>
+{% endfor %}

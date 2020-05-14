@@ -14,7 +14,7 @@ class Note(DateModel):
     )
     is_private = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
-    body = models.TextField(blank=True)
+    body = models.TextField()
 
     def __str__(self):
         return self.title
