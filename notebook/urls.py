@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('social_django.urls', namespace='social')),
     path('', include('core.urls')),
-    path('', include('notes.urls')),
+    path('notes/', include('notes.urls')),
     path('accounts/', include('users.urls')),
     path('search/', include('search.urls')),
 ]

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<section class="pb-0 bg-light">
+    <div class="container">
+        <div class="row section-title justify-content-center text-center">
+            <div class="col-md-9 col-lg-8 col-xl-7">
+                <h3 class="display-4">Create a new Note</h3>
+                <div class="lead">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                    laudantium, totam rem aperiam, eaque ipsa.</div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-9 col-md-10">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {% if form.is_bound %}
+                                {% if field.errors %}
+                                {% render_field field class="form-control is-invalid pb_height-50 reverse" placeholder=field.label %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% render_field field class="form-control is-valid pb_height-50 reverse" placeholder=field.label %}
+                                {% endif %}
+                            {% else %}
+                                {% render_field field class="form-control pb_height-50 reverse" placeholder=field.label %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                
+                    <table class="table">
+                        {{ references.management_form }}
+                
+                        {% for form in references.forms %}
+                            {% if forloop.first %}
+                            <thead>
+                                <tr>
+                                    {% for field in form.visible_fields %}
+                                        <th>{{ field.label|capfirst }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                        {% endif %}
+                        <tr class="formset_row">
+                            {% for field in form.visible_fields %}
+                                <td>
+                                    {% if forloop.first %}
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if form.is_bound %}
+                                        {% if field.errors %}
+                                            {% render_field field class="form-control is-invalid pb_height-50 reverse" placeholder=field.label %}
+                                            {% for error in field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% render_field field class="form-control is-valid pb_height-50 reverse" placeholder=field.label %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% render_field field class="form-control pb_height-50 reverse" placeholder=field.label %}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <button class="btn btn-primary btn-block" type="submit">Create Note</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="divider divider-bottom bg-primary-3"></div>
+</section>
+{% endblock content %}
+
+{% block scripts_extra %}
+    <script src="{% static 'js/formset/jquery.formset.js' %}"></script>
+    <script type="text/javascript">
+        $('.formset_row').formset({
+            addText: 'add another reference',
+            deleteText: 'remove',
+            prefix: 'references'
+        });
+    </script>
+{% endblock scripts_extra %}
