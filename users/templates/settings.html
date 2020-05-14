@@ -28,10 +28,6 @@
                         <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab"
                             aria-controls="general" aria-selected="true">Profile</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="billing-tab" data-toggle="tab" href="#billing" role="tab"
-                            aria-controls="billing" aria-selected="false">Billing</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -53,85 +49,36 @@
                             <h3>Account Details</h3>
                         </div>
                     </div>
-                    <form method="POST" id="settings-form">
+                    <form method="POST">
                         {% csrf_token %}
-                        <div class="row form-row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="first_name">First Name</label>
-                                    <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
-                                </div>
+                        {% for field in form %}
+                            <div class="form-group">
+                                {% if form.is_bound %}
+                                    {% if field.errors %}
+                                        {% render_field field class="form-control is-invalid pb_height-50 reverse" placeholder=field.label %}
+                                        {% for error in field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field field class="form-control is-valid pb_height-50 reverse" placeholder=field.label %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field field class="form-control pb_height-50 reverse" placeholder=field.label %}
+                                {% endif %}
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="last_name">Last Name</label>
-                                    <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" name="email" class="form-control" value="{{ user.email }}">
-                            <small>Used to log in to your account</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control">
-                            <small>Change your password by entering a new one above</small>
-                        </div>
+                        {% endfor %}
                         {% if form.non_field_errors %}
                             {% for error in form.non_field_errors %}
                                 <p class="text-danger text-center">{{ error }}</p>
                             {% endfor %}
                         {% endif %}
-                        <button id="settings-form-button" class="btn btn-primary" type="submit" disabled="disabled">Save changes</button>
+                        <button id="settings-form-button" class="btn btn-primary" type="submit">Save changes</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-        <div class="container">
-            <div class="row justify-content-between align-items-center mb-4 mb-md-5">
-                <div class="col-auto">
-                    <h3 class="mb-sm-0">Billing</h3>
-                </div>
-            </div>
-        </div>
-        <form class="container">
-            <div class="row">
-                <div class="col-sm-6 col-lg-4 mb-3 mb-md-4">
-                    <div class="border rounded bg-white px-4 py-4 pb-4 pt-2">
-                        {% if user.revision_access %}
-                            <p>Your subscription will end on: {{ user.revision_access_end_date }}</p>
-                        {% else %}
-                            <p>You do not have any active subscriptions.</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
 </section>
 {% endblock content %}
-
-{% block scripts_extra %}
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#settings-form').on('input change', function () {
-            $('#settings-form-button').removeAttr('disabled');
-        });
-    });
-
-    {% if request.GET.changed == 'true' %}
-        Swal.fire(
-            'Account Details Saved',
-            'You account details have been successfully updated.',
-            'success'
-        );
-        window.history.replaceState({}, document.title, "/accounts/settings/");
-    {% endif %}
-</script>
-{% endblock scripts_extra %}

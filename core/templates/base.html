@@ -26,15 +26,7 @@
                     <img alt="Jumpstart" data-inject-svg src="{% static 'img/logos/jumpstart.svg' %}">
                 </a>
                 <div class="d-flex align-items-center order-lg-3">
-                        {% if not request.user.is_authenticated %}
-                            <a href="#" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0 d-none d-sm-block order-lg-3">Start Revising</a>
-                        {% else %}
-                            {% if request.user.is_tutor %}
-                                <a href="{% url 'portal_home' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0 d-none d-sm-block order-lg-3">Go To Portal Home</a>
-                            {% else %}
-                                <a href="{% url 'revision' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0 d-none d-sm-block order-lg-3">Go To Revison Home</a>
-                            {% endif %}
-                        {% endif %}
+                        Dashboard
                     <button aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                         data-target=".navbar-collapse" data-toggle="collapse" type="button">
                         <img alt="Navbar Toggler Open Icon" class="navbar-toggler-open icon icon-sm" data-inject-svg

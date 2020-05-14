@@ -110,12 +110,18 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'users.User'
 
+LOGIN_URL = '/accounts/signin'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 # Python Social Auth
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+
+SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',

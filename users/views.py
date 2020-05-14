@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
 from django.views.generic import FormView
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 from django.urls import reverse_lazy
 
 from .forms import SignUpForm, SettingsForm
@@ -10,7 +10,7 @@ from .forms import SignUpForm, SettingsForm
 class SignUp(FormView):
     form_class = SignUpForm
     template_name = 'signup.html'
-    success_url = reverse_lazy('checkout')
+    success_url = reverse_lazy('dashboard')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -24,7 +24,7 @@ class SignUp(FormView):
 
 class Settings(LoginRequiredMixin, FormView):
     template_name = 'settings.html'
-    form_class = SettingsForm
+    success_url = '/accounts/settings/'
 
-    def success_url(self):
-        return reverse_lazy('account_settings') + '?changed=true'
+    def get_form(self, form_class=None):
+        return SettingsForm(self.request.user)
