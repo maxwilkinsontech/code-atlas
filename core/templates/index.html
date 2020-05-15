@@ -1,0 +1,740 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Django Notebook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bootstrap HTML template and UI kit by Medium Rare">
+    <!-- Begin loading animation -->
+    <link href="{% static 'css/loaders/loader-pulse.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <!-- End loading animation -->
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="loader">
+        <div class="loading-animation"></div>
+    </div>
+
+    <div class="navbar-container" style="min-height: 80px; margin-bottom: -80px;">
+        <nav class="navbar navbar-expand-lg navbar-light" data-overlay="" data-sticky="top"
+            style="max-width: 1516px; top: 0px;">
+            <div class="container">
+                <a class="navbar-brand navbar-brand-dynamic-color fade-page" href="{% url 'home' %}">
+                    Django Notebook
+                </a>
+                <div class="d-flex align-items-center order-lg-3">
+                    <a href="https://themeforest.net/item/jumpstart-app-and-software-template/24207799"
+                        class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0 d-none d-sm-block order-lg-3">Buy Jumpstart</a>
+                    <button aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                        data-target=".navbar-collapse" data-toggle="collapse" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            class="injected-svg navbar-toggler-open icon icon-sm"
+                            data-src="assets/img/icons/interface/icon-menu.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M3 12H21" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path d="M3 6H21" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path d="M3 18H21" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            class="injected-svg navbar-toggler-close icon icon-sm"
+                            data-src="assets/img/icons/interface/icon-x.svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M18 6L6 18" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path d="M6 6L18 18" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse order-3 order-lg-2 justify-content-lg-end" id="navigation-menu">
+                    <ul class="navbar-nav my-3 my-lg-0">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a aria-expanded="false" aria-haspopup="true"
+                                    class="dropdown-toggle nav-link nav-item arrow-bottom" data-toggle="dropdown-grid"
+                                    href="#" role="button">Demos</a>
+                                <div class="row dropdown-menu">
+                                    <div class="col-auto" data-dropdown-content="">
+                                        <div class="dropdown-grid-menu"><a href="index.html"
+                                                class="dropdown-item fade-page">Overview</a><a href="landing-1.html"
+                                                class="dropdown-item fade-page">Landing 1</a><a href="landing-2.html"
+                                                class="dropdown-item fade-page">Landing 2</a><a href="landing-3.html"
+                                                class="dropdown-item fade-page">Landing 3</a><a href="landing-4.html"
+                                                class="dropdown-item fade-page">Landing 4</a><a href="landing-5.html"
+                                                class="dropdown-item fade-page">Landing 5</a><a href="landing-6.html"
+                                                class="dropdown-item fade-page">Landing 6</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a aria-expanded="false" aria-haspopup="true"
+                                    class="dropdown-toggle nav-link nav-item arrow-bottom" data-toggle="dropdown-grid"
+                                    href="#" role="button">Pages</a>
+                                <div class="row dropdown-menu">
+                                    <div class="col-auto" data-dropdown-content="">
+                                        <div class="dropdown-grid-menu">
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Company</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="company-about-1.html"
+                                                                class="dropdown-item fade-page">About 1</a><a
+                                                                href="company-about-2.html"
+                                                                class="dropdown-item fade-page">About 2</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Blog</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="blog-listing-1.html"
+                                                                class="dropdown-item fade-page">Blog Listing 1</a><a
+                                                                href="blog-listing-2.html"
+                                                                class="dropdown-item fade-page">Blog Listing 2</a><a
+                                                                href="blog-listing-3.html"
+                                                                class="dropdown-item fade-page">Blog Listing 3</a>
+                                                            <a href="blog-article.html" class="dropdown-item fade-page">Blog
+                                                                Article</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Help Center</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="help-center-home.html"
+                                                                class="dropdown-item fade-page">Help Center Home</a><a
+                                                                href="help-center-category.html"
+                                                                class="dropdown-item fade-page">Help Center Category</a><a
+                                                                href="help-center-article.html"
+                                                                class="dropdown-item fade-page">Help Center Article</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Careers</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="careers-1.html"
+                                                                class="dropdown-item fade-page">Careers 1</a><a
+                                                                href="careers-2.html"
+                                                                class="dropdown-item fade-page">Careers 2</a><a
+                                                                href="career-single.html"
+                                                                class="dropdown-item fade-page">Career Single</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Case Studies</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="case-studies.html"
+                                                                class="dropdown-item fade-page">Case Studies</a><a
+                                                                href="case-study-single.html"
+                                                                class="dropdown-item fade-page">Case Study Single</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Pricing</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="pricing-plans.html"
+                                                                class="dropdown-item fade-page">Pricing Plans</a><a
+                                                                href="pricing-table.html"
+                                                                class="dropdown-item fade-page">Pricing Table</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Contact</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="contact.html"
+                                                                class="dropdown-item fade-page">Contact</a><a
+                                                                href="contact-map.html"
+                                                                class="dropdown-item fade-page">Contact Map</a><a
+                                                                href="contact-planner.html"
+                                                                class="dropdown-item fade-page">Contact Planner</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Account</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a href="account-settings.html"
+                                                                class="dropdown-item fade-page">Account Settings</a><a
+                                                                href="account-invoice.html"
+                                                                class="dropdown-item fade-page">Invoice</a><a
+                                                                href="account-sign-up-cover.html"
+                                                                class="dropdown-item fade-page">Sign Up - Cover</a>
+                                                            <a href="account-sign-in-cover.html"
+                                                                class="dropdown-item fade-page">Sign In - Cover</a><a
+                                                                href="account-sign-up-simple.html"
+                                                                class="dropdown-item fade-page">Sign Up - Simple</a><a
+                                                                href="account-sign-in-simple.html"
+                                                                class="dropdown-item fade-page">Sign In - Simple</a><a
+                                                                href="account-forgot-password.html"
+                                                                class="dropdown-item fade-page">Forgot Password</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dropdown">
+                                                <a aria-expanded="false" aria-haspopup="true" class="dropdown-item"
+                                                    data-toggle="dropdown-grid" href="#" role="button">Utility</a>
+                                                <div class="row dropdown-menu">
+                                                    <div class="col-auto" data-dropdown-content="">
+                                                        <div class="dropdown-grid-menu"><a
+                                                                href="utility-coming-soon-subscribe.html"
+                                                                class="dropdown-item fade-page">Coming Soon Subscribe</a><a
+                                                                href="utility-coming-soon-countdown.html"
+                                                                class="dropdown-item fade-page">Coming Soon Countdown</a><a
+                                                                href="utility-coming-soon-social.html"
+                                                                class="dropdown-item fade-page">Coming Soon Social</a><a
+                                                                href="utility-legal-terms.html"
+                                                                class="dropdown-item fade-page">Legal Terms</a><a
+                                                                href="404.html" class="dropdown-item fade-page">404</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a aria-expanded="false" aria-haspopup="true"
+                                    class="dropdown-toggle nav-link nav-item arrow-bottom" data-toggle="dropdown-grid"
+                                    href="#" role="button">Features</a>
+                                <div class="row dropdown-menu">
+                                    <div class="col-auto" data-dropdown-content="">
+                                        <div class="dropdown-grid-menu"><a href="style-guide.html"
+                                                class="dropdown-item fade-page">Style Guide</a><a href="plugins.html"
+                                                class="dropdown-item fade-page">Plugins</a><a href="navigation-bars.html"
+                                                class="dropdown-item fade-page">Navigation Bars</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a aria-expanded="false" aria-haspopup="true"
+                                    class="dropdown-toggle nav-link nav-item arrow-bottom" data-toggle="dropdown-grid"
+                                    href="#" role="button">Support</a>
+                                <div class="row dropdown-menu">
+                                    <div class="col-auto" data-dropdown-content="">
+                                        <div class="dropdown-grid-menu"><a href="documentation/index.html"
+                                                class="dropdown-item" target="_blank">Documentation</a><a
+                                                href="documentation/changelog.html" class="dropdown-item"
+                                                target="_blank">Changelog</a><a href="https://mediumrare.ticksy.com/"
+                                                class="dropdown-item" target="_blank">Get Help</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div data-overlay="" class="o-hidden" style="padding-top: 80px !important;">
+        <section class="pb-0 mb-4">
+            <div class="container">
+                <div class="row justify-content-center text-center min-vh-40 d-flex flex-column align-items-center">
+                    <div class="col-md-10 col-lg-9 col-xl-8 aos-init aos-animate" data-aos="fade-up">
+                        <h1 class="display-3">Never again forget<br> <mark><span data-typed-text="" data-loop="true" data-type-speed="120"
+                                    data-strings="[&quot;&quot;,&quot;a code snippet&quot;,&quot;that import&quot;,&quot;a command&quot;,&quot;StackOverflow answer&quot;]">
+                                
+                                </span></mark></h1>
+
+                        <p class="lead px-xl-5">Ever spent hours finding the solution to something, <br>only to forget and repeat the same, long process <br>again next time?
+                        Yeah, me too... <br><br>Django Notebook has your covered.</p>
+                        <div class="d-flex flex-column flex-sm-row mt-4 mt-md-5 justify-content-center aos-init aos-animate mt-2"
+                            data-aos="fade-up" data-aos-delay="300">
+                            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg mx-sm-2 my-1 my-sm-0"
+                                data-smooth-scroll="">Get Started</a>
+                            <a href="#find-out-more"
+                                class="btn btn-outline-primary btn-lg mx-sm-2 my-1 my-sm-0">Find out more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="position-absolute bottom left w-50 h-50 d-none d-md-block" data-jarallax-element="-24 48"
+                style="z-index: 0; transform: translate3d(-6.55728px, 3.27864px, 0px);">
+                <div class="blob bg-gradient w-50 h-100 bottom left"></div>
+                <div id="jarallax-container-0"
+                    style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -100;">
+                    <div style="position: fixed;"></div>
+                </div>
+            </div>
+            <div class="position-absolute top right w-50 h-50 d-none d-md-block" data-jarallax-element="48"
+                style="z-index: 0; transform: translate3d(0px, 24.531px, 0px);">
+                <div class="blob blob-2 bg-gradient w-50 h-50 top right"></div>
+                <div id="jarallax-container-1"
+                    style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -100;">
+                    <div style="position: fixed;"></div>
+                </div>
+            </div>
+        </section>
+        <div class="divider divider-bottom bg-light"></div>
+    </div>
+
+    <section class="bg-light o-hidden" id="find-out-more">
+        <div class="container">
+            <div class="row section-title justify-content-center text-center">
+                <div class="col-md-9 col-lg-8 col-xl-7">
+                    <h2 class="display-4">What is Django Notebook?</h2>
+                    <div class="lead">
+                        Django Notebook was created in spite of wasting so much time googling trival things I knew I had done before. 
+                        I often found myself looking through previous projects for code extracts. I thought there had to be an better way...
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-around">
+                <div class="col-md-9 col-lg-5 aos-init aos-animate" data-aos="fade-in">
+                    <img src="{% static 'img/square-2.jpg' %}" alt="Image" class="img-fluid rounded shadow">
+                    <img src="{% static 'img/square-1.jpg' %}" alt="Image"
+                        class="position-absolute p-0 col-4 col-xl-5 border border-white border-thick rounded-circle top left shadow-lg mt-5 ml-n5 ml-lg-n3 ml-xl-n5 d-none d-md-block"
+                        data-jarallax-element="-20 0" style="z-index: 0; transform: translate3d(0px, 19.2834px, 0px);">
+                </div>
+                <div class="col-md-9 col-lg-6 col-xl-5 mt-4 mt-md-5 mt-lg-0">
+                    <ol class="list-unstyled p-0">
+                        <li class="d-flex align-items-start my-4 my-md-5">
+                            <div
+                                class="rounded-circle p-3 p-sm-4 d-flex align-items-center justify-content-center bg-success">
+                                <div class="position-absolute text-white h5 mb-0">1</div>
+                            </div>
+                            <div class="ml-3 ml-md-4">
+                                <h4>Create a Note</h4>
+                                <p>
+                                    Notes are for anything that was hard to find and even harder to remember. If you think it might
+                                    be useful in the future, add it to a note.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start my-4 my-md-5">
+                            <div
+                                class="rounded-circle p-3 p-sm-4 d-flex align-items-center justify-content-center bg-success">
+                                <div class="position-absolute text-white h5 mb-0">2</div>
+                            </div>
+                            <div class="ml-3 ml-md-4">
+                                <h4>Search your Notes</h4>
+                                <p>
+                                    You're stuck. You can't remember how you solved that tricky problem you spent hours on a few months ago. Oh wait! By 
+                                    searching your Notes, you easily find what you did last time!
+                                </p>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start my-4 my-md-5">
+                            <div
+                                class="rounded-circle p-3 p-sm-4 d-flex align-items-center justify-content-center bg-success">
+                                <div class="position-absolute text-white h5 mb-0">3</div>
+                            </div>
+                            <div class="ml-3 ml-md-4">
+                                <h4>Edit and Improve</h4>
+                                <p>
+                                    Edit your Notes at any time, add references as well as get direct results from the Django documentation.
+                                </p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-0 bg-primary row no-gutters o-hidden">
+        <div class="col-lg-5 col-xl-6 d-flex align-items-center justify-content-center">
+            <a data-fancybox="" href="https://vimeo.com/166034462#t=32s"
+                class="btn btn-lg btn-light rounded-circle position-absolute aos-init aos-animate" data-aos="zoom-in"
+                data-aos-delay="400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    class="injected-svg icon icon-lg bg-dark pl-1" data-src="assets/img/icons/interface/icon-media-play.svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path
+                        d="M18.2403 11.5659C18.5762 11.7578 18.5762 12.2422 18.2403 12.4341L5.74807 19.5725C5.41474 19.763 5 19.5223 5 19.1384L5 4.86159C5 4.47768 5.41474 4.23699 5.74807 4.42747L18.2403 11.5659Z"
+                        fill="#2C3038"></path>
+                </svg>
+            </a>
+            <img src="{% static 'img/heros/hero-2.jpg' %}" alt="Image" class="w-100 h-100">
+            <div class="divider divider-side bg-primary d-none d-lg-block"></div>
+        </div>
+        <div class="col-lg-7 col-xl-6">
+            <section>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col col-md-10 col-xl-9">
+                            <div class="text-white text-center text-lg-left">
+                                <h3 class="h1">Why use Django Notebook?</h3>
+                                <p class="lead">
+                                    It can be tricky to keep your notes in one place. As soon as you lose discipline, you're in the same 
+                                    situation of scattered notes all over again. With Django Notebook, everything is in one place. 
+                                    Made for making your life easier, features include:
+                                </p>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-center justify-content-lg-start mt-4 mt-md-5">
+                                <div class="mx-2 ml-sm-0 ml-sm-0 mb-2 bg-white rounded p-2 pr-3 p-md-3 pr-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success-alt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none"
+                                                class="injected-svg m-2 icon icon-xs bg-success"
+                                                data-src="assets/img/icons/interface/icon-check.svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <path d="M20 6L9 17L4 12" stroke="#2C3038" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                        <h6 class="mb-0 ml-3">Markdown Editing</h6>
+                                    </div>
+                                </div>
+                                <div class="mx-2 ml-sm-0 ml-sm-0 mb-2 bg-white rounded p-2 pr-3 p-md-3 pr-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success-alt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none"
+                                                class="injected-svg m-2 icon icon-xs bg-success"
+                                                data-src="assets/img/icons/interface/icon-check.svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <path d="M20 6L9 17L4 12" stroke="#2C3038" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                        <h6 class="mb-0 ml-3">Tagging</h6>
+                                    </div>
+                                </div>
+                                <div class="mx-2 ml-sm-0 ml-sm-0 mb-2 bg-white rounded p-2 pr-3 p-md-3 pr-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success-alt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none"
+                                                class="injected-svg m-2 icon icon-xs bg-success"
+                                                data-src="assets/img/icons/interface/icon-check.svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <path d="M20 6L9 17L4 12" stroke="#2C3038" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                        <h6 class="mb-0 ml-3">Url References</h6>
+                                    </div>
+                                </div>
+                                <div class="mx-2 ml-sm-0 ml-sm-0 mb-2 bg-white rounded p-2 pr-3 p-md-3 pr-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success-alt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none"
+                                                class="injected-svg m-2 icon icon-xs bg-success"
+                                                data-src="assets/img/icons/interface/icon-check.svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <path d="M20 6L9 17L4 12" stroke="#2C3038" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                        <h6 class="mb-0 ml-3">Quick Search</h6>
+                                    </div>
+                                </div>
+                                <div class="mx-2 ml-sm-0 ml-sm-0 mb-2 bg-white rounded p-2 pr-3 p-md-3 pr-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success-alt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none"
+                                                class="injected-svg m-2 icon icon-xs bg-success"
+                                                data-src="assets/img/icons/interface/icon-check.svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <path d="M20 6L9 17L4 12" stroke="#2C3038" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                        <h6 class="mb-0 ml-3">Documentation Search</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>    
+
+    <section class="o-hidden">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 mb-5 mb-xl-0 aos-init aos-animate" data-aos="fade-right">
+                    <div class="text-center text-xl-left mb-lg-5">
+                        <h3 class="h1">
+                            Searching your Notes <mark data-aos="highlight-text" data-aos-delay="250"
+                                class="aos-init aos-animate">couldn't</mark> be easier
+                        </h3>
+                    </div>
+                    <ul class="nav nav-pills justify-content-center flex-xl-column pr-xl-5" role="tablist">
+                        <li class="nav-item">
+                            <a class="btn btn-lg btn-primary w-100" id="tab-1" data-toggle="tab" href="#home-6" role="tab"
+                                aria-controls="tab-1" aria-selected="false">
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        class="injected-svg icon bg-primary"
+                                        data-src="assets/img/icons/theme/design/layers.svg">
+                                        <title>Icon For Layers</title>
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <polygon opacity="0" points="0 0 24 0 24 24 0 24"></polygon>
+                                            <path
+                                                d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z"
+                                                fill="#000000" fill-rule="nonzero"></path>
+                                            <path
+                                                d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z"
+                                                fill="#000000" opacity="0.3"></path>
+                                        </g>
+                                    </svg>
+                                    <span>Full Text Search</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-lg btn-primary w-100 active" id="tab-2" data-toggle="tab" href="#profile-6"
+                                role="tab" aria-controls="tab-2" aria-selected="true">
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        class="injected-svg icon bg-primary"
+                                        data-src="assets/img/icons/theme/devices/display-1.svg">
+                                        <title>Icon For Display#1</title>
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M11,20 L11,17 C11,16.4477153 11.4477153,16 12,16 C12.5522847,16 13,16.4477153 13,17 L13,20 L15.5,20 C15.7761424,20 16,20.2238576 16,20.5 C16,20.7761424 15.7761424,21 15.5,21 L8.5,21 C8.22385763,21 8,20.7761424 8,20.5 C8,20.2238576 8.22385763,20 8.5,20 L11,20 Z"
+                                                fill="#000000" opacity="0.3"></path>
+                                            <path
+                                                d="M3,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,16 C22,16.5522847 21.5522847,17 21,17 L3,17 C2.44771525,17 2,16.5522847 2,16 L2,6 C2,5.44771525 2.44771525,5 3,5 Z M4.5,8 C4.22385763,8 4,8.22385763 4,8.5 C4,8.77614237 4.22385763,9 4.5,9 L13.5,9 C13.7761424,9 14,8.77614237 14,8.5 C14,8.22385763 13.7761424,8 13.5,8 L4.5,8 Z M4.5,10 C4.22385763,10 4,10.2238576 4,10.5 C4,10.7761424 4.22385763,11 4.5,11 L7.5,11 C7.77614237,11 8,10.7761424 8,10.5 C8,10.2238576 7.77614237,10 7.5,10 L4.5,10 Z"
+                                                fill="#000000"></path>
+                                        </g>
+                                    </svg>
+                                    <span>Filter by Tags</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-lg btn-primary w-100" id="tab-3" data-toggle="tab" href="#contact-6"
+                                role="tab" aria-controls="tab-3" aria-selected="false">
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        class="injected-svg icon bg-primary"
+                                        data-src="assets/img/icons/theme/general/folder.svg">
+                                        <title>Icon For Folder</title>
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M3.5,20 L20.5,20 C21.3284271,20 22,19.3284271 22,18.5 L22,8.5 C22,7.67157288 21.3284271,7 20.5,7 L11,7 L8.43933983,4.43933983 C8.15803526,4.15803526 7.77650439,4 7.37867966,4 L3.5,4 C2.67157288,4 2,4.67157288 2,5.5 L2,18.5 C2,19.3284271 2.67157288,20 3.5,20 Z"
+                                                fill="#000000"></path>
+                                        </g>
+                                    </svg>
+                                    <span>Results from Docs</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col aos-init aos-animate" data-aos="fade-left" data-aos-delay="250">
+                    <div class="tab-content">
+                        <div class="tab-pane fade" id="home-6" role="tabpanel" aria-labelledby="tab-1">
+                            <div class="row justify-content-around align-items-center">
+                                <div class="col-8 col-sm-4 col-lg-4 col-xl-5">
+                                    <img src="{% static 'img/mobile-app/mobile-app-2.png' %}" alt="Screenshot" class="img-fluid">
+                                </div>
+                                <div class="col-sm col-md-6 mt-4 mt-sm-0">
+                                    <h5>Suits your style</h5>
+                                    <p>
+                                        Ned ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                                        doloremque laudantium, totam rem aperiam, eaque ipsa.
+                                    </p>
+                                    <div class="mt-4">
+                                        <div
+                                            class="media rounded align-items-center pl-3 pr-3 pr-md-4 py-2 d-inline-flex text-left bg-secondary">
+                                            <img src="{% static 'img/avatars/female-4.jpg' %}" alt="Ashley Mance avatar image"
+                                                class="avatar avatar-sm flex-shrink-0 mr-3">
+                                            <div class="text-dark mb-0">“Jumpstart is a dream come true.”</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade active show" id="profile-6" role="tabpanel" aria-labelledby="tab-2">
+                            <div class="row justify-content-around align-items-center">
+                                <div class="col-8 col-sm-4 col-lg-4 col-xl-5">
+                                    <img src="{% static 'img/mobile-app/mobile-app-3.png' %}" alt="Screenshot" class="img-fluid">
+                                </div>
+                                <div class="col-sm col-md-6 mt-4 mt-sm-0">
+                                    <h5>Spruik this feature</h5>
+                                    <p>
+                                        Ned ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                                        doloremque laudantium, totam rem aperiam, eaque ipsa.
+                                    </p>
+                                    <div class="mt-4">
+                                        <div
+                                            class="media rounded align-items-center pl-3 pr-3 pr-md-4 py-2 d-inline-flex text-left bg-secondary">
+                                            <img src="{% static 'img/avatars/male-1.jpg' %}" alt="Harvey Derwent avatar image"
+                                                class="avatar avatar-sm flex-shrink-0 mr-3">
+                                            <div class="text-dark mb-0">“Jumpstart increases productivity.”</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact-6" role="tabpanel" aria-labelledby="tab-3">
+                            <div class="row justify-content-around align-items-center">
+                                <div class="col-8 col-sm-4 col-lg-4 col-xl-5">
+                                    <img src="{% static 'img/mobile-app/mobile-app-4.png' %}" alt="Screenshot" class="img-fluid">
+                                </div>
+                                <div class="col-sm col-md-6 mt-4 mt-sm-0">
+                                    <h5>Everything you could want</h5>
+                                    <p>
+                                        Ned ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                                        doloremque laudantium, totam rem aperiam, eaque ipsa.
+                                    </p>
+                                    <div class="mt-4">
+                                        <div
+                                            class="media rounded align-items-center pl-3 pr-3 pr-md-4 py-2 d-inline-flex text-left bg-secondary">
+                                            <img src="{% static 'img/avatars/female-3.jpg' %}" alt="Mary Goddard avatar image"
+                                                class="avatar avatar-sm flex-shrink-0 mr-3">
+                                            <div class="text-dark mb-0">“Top notch support on-call? Yes please.”</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pb-0">
+        <div class="container">
+            <div class="row section-title justify-content-center text-center">
+                <div class="col-md-9 col-lg-8 col-xl-7">
+                    <h3 class="display-4">Improve you productivity right now.</h3>
+                    <div class="lead">What are you waiting for, save time and effort by using Django Notebook.</div>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center mt-md-n4">
+                <div class="col-auto">
+                    <a href="{% url 'signup' %}"
+                        class="btn btn-primary btn-lg">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <div class="divider divider-bottom bg-primary-3 mt-5"></div>
+    </section>
+
+    <footer class="bg-primary-3 text-white links-white pb-4 pt-4 footer-1">
+        <div class="container">
+            <div
+                class="row flex-column flex-lg-row align-items-center justify-content-center justify-content-lg-between text-center text-lg-left">
+                <div class="col-auto">
+                    <div class="d-flex flex-column flex-sm-row align-items-center text-small">
+                        <div class="text-muted">© Copyright 2020, Django Notebook
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#top" class="btn btn-primary rounded-circle btn-back-to-top" data-smooth-scroll data-aos="fade-up"
+        data-aos-offset="2000" data-aos-mirror="true" data-aos-once="false">
+        <img src="{% static 'img/icons/interface/icon-arrow-up.svg' %}" alt="Icon" class="icon bg-white"
+            data-inject-svg>
+    </a>
+    <!-- Required vendor scripts (Do not remove) -->
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+    <!-- AOS (Animate On Scroll - animates elements into view while scrolling down) -->
+    <script type="text/javascript" src="{% static 'js/aos.js' %}"></script>
+    <!-- Clipboard (copies content from browser into OS clipboard) -->
+    <script type="text/javascript" src="{% static 'js/clipboard.min.js' %}"></script>
+    <!-- Fancybox (handles image and video lightbox and galleries) -->
+    <script type="text/javascript" src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+    <!-- Flatpickr (calendar/date/time picker UI) -->
+    <script type="text/javascript" src="{% static 'js/flatpickr.min.js' %}"></script>
+    <!-- Flickity (handles touch enabled carousels and sliders) -->
+    <script type="text/javascript" src="{% static 'js/flickity.pkgd.min.js' %}"></script>
+    <!-- Ion rangeSlider (flexible and pretty range slider elements) -->
+    <script type="text/javascript" src="{% static 'js/ion.rangeSlider.min.js' %}"></script>
+    <!-- Isotope (masonry layouts and filtering) -->
+    <script type="text/javascript" src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <!-- jarallax (parallax effect and video backgrounds) -->
+    <script type="text/javascript" src="{% static 'js/jarallax.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jarallax-video.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jarallax-element.min.js' %}"></script>
+    <!-- jQuery Countdown (displays countdown text to a specified date) -->
+    <script type="text/javascript" src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <!-- jQuery smartWizard facilitates steppable wizard content -->
+    <script type="text/javascript" src="{% static 'js/jquery.smartWizard.min.js' %}"></script>
+    <!-- Plyr (unified player for Video, Audio, Vimeo and Youtube) -->
+    <script type="text/javascript" src="{% static 'js/plyr.polyfilled.min.js' %}"></script>
+    <!-- Prism (displays formatted code boxes) -->
+    <script type="text/javascript" src="{% static 'js/prism.js' %}"></script>
+    <!-- ScrollMonitor (manages events for elements scrolling in and out of view) -->
+    <script type="text/javascript" src="{% static 'js/scrollMonitor.js' %}"></script>
+    <!-- Smooth scroll (animation to links in-page)-->
+    <script type="text/javascript" src="{% static 'js/smooth-scroll.polyfills.min.js' %}"></script>
+    <!-- SVGInjector (replaces img tags with SVG code to allow easy inclusion of SVGs with the benefit of inheriting colors and styles)-->
+    <script type="text/javascript" src="{% static 'js/svg-injector.umd.production.js' %}"></script>
+    <!-- TwitterFetcher (displays a feed of tweets from a specified account)-->
+    <script type="text/javascript" src="{% static 'js/twitterFetcher_min.js' %}"></script>
+    <!-- Typed text (animated typing effect)-->
+    <script type="text/javascript" src="{% static 'js/typed.min.js' %}"></script>
+    <!-- Required theme scripts (Do not remove) -->
+    <script type="text/javascript" src="{% static 'js/theme.js' %}"></script>
+    <!-- Removes page load animation when window is finished loading -->
+    <script type="text/javascript">
+        window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
+    </script>
+
+</body>
+
+</html>
