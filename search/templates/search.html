@@ -9,8 +9,8 @@
 {% block nav-bar-color %}navbar-dark{% endblock nav-bar-color %}
 
 {% block content %}
-<div data-overlay="" class="{% if not request.GET.q %}min-vh-100{% endif %} bg-primary-3 text-white o-hidden" style="padding-top: 62px !important;">
-    <section {% if request.GET.q %}class="py-0"{% endif %}>
+<div data-overlay="" class="{% if not view.get_search_query %}min-vh-100{% endif %} bg-primary-3 text-white o-hidden" style="padding-top: 62px !important;">
+    <section {% if view.get_search_query %}class="py-0"{% endif %}>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-9 text-center">
@@ -18,24 +18,21 @@
                     <div class="lead">Search from your Notes, Django documentation as well other people's public Notes</div>
                     <form class="mt-5 d-flex flex-column flex-md-row form-group" method="GET">
                         <input class="form-control form-control-lg h-100 mb-2 mb-md-0 mr-md-3" name="q"
-                            placeholder="Search Notes..." type="search" value="{{ request.GET.q }}">
+                            placeholder="Search Notes..." type="search" value="{{ view.get_search_query|default:'' }}">
                         <button class="btn btn-lg btn-primary" type="submit">Search</button>
                     </form>
-                    <div class="d-flex flex-wrap align-items-center justify-content-center">
-                        <div class="text-small mb-2 mb-sm-0 mr-2">Previous searches:</div>
-                        <ul class="d-flex flex-wrap list-unstyled mb-0">
-                            <li class="m-1">
-                                <a class="badge badge-pill badge-white" href="#">security</a>
-                            </li>
-                            <li class="m-1">
-                                <a class="badge badge-pill badge-white" href="#">payment method</a>
-                            </li>
-                            <li class="m-1">
-                                <a class="badge badge-pill badge-white" href="#">invoice</a>
-                            </li>
-                            <li class="m-1">
-                                <a class="badge badge-pill badge-white" href="#">upgrade</a>
-                            </li>
+                    <div class="d-flex align-items-center justify-content-center" style="overflow: hidden; white-space: nowrap;">
+                        <div class="text-small mb-2 mb-sm-0 mr-2">Recent searches:</div>
+                        <ul class="d-flex list-unstyled mb-0" style="overflow: hidden">
+                            {% for search in view.get_search_history %}
+                                <li class="m-1">
+                                    <a class="badge badge-pill badge-white" href="{% url 'search' %}?q={{ search.query }}">{{ search.query }}</a>
+                                </li>
+                            {% empty %}
+                                <li class="m-1">
+                                    <a class="badge badge-pill badge-white">No recent searches</a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -50,11 +47,11 @@
             </div>
         </div>
     </section>
-    {% if request.GET.q %}
+    {% if view.get_search_query %}
         <div class="divider divider-bottom bg-light"></div>
     {% endif %}
 </div>
-{% if request.GET.q %}
+{% if view.get_search_query %}
 <section class="bg-light pt-1 pb-0">
         <div class="container">
             <h2 class="h1 mt-4">Your Notes</h2>
