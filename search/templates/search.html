@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
+{% endblock head_extra %}
+
+{% block nav-bar-color %}navbar-dark{% endblock nav-bar-color %}
+
+{% block content %}
+<div data-overlay="" class="{% if not request.GET.q %}min-vh-100{% endif %} bg-primary-3 text-white o-hidden" style="padding-top: 62px !important;">
+    <section {% if request.GET.q %}class="py-0"{% endif %}>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-9 text-center">
+                    <h1 class="display-3">Search for a Note</h1>
+                    <div class="lead">Search from your Notes, Django documentation as well other people's public Notes</div>
+                    <form class="mt-5 d-flex flex-column flex-md-row form-group" method="GET">
+                        <input class="form-control form-control-lg h-100 mb-2 mb-md-0 mr-md-3" name="q"
+                            placeholder="Search Notes..." type="search" value="{{ request.GET.q }}">
+                        <button class="btn btn-lg btn-primary" type="submit">Search</button>
+                    </form>
+                    <div class="d-flex flex-wrap align-items-center justify-content-center">
+                        <div class="text-small mb-2 mb-sm-0 mr-2">Previous searches:</div>
+                        <ul class="d-flex flex-wrap list-unstyled mb-0">
+                            <li class="m-1">
+                                <a class="badge badge-pill badge-white" href="#">security</a>
+                            </li>
+                            <li class="m-1">
+                                <a class="badge badge-pill badge-white" href="#">payment method</a>
+                            </li>
+                            <li class="m-1">
+                                <a class="badge badge-pill badge-white" href="#">invoice</a>
+                            </li>
+                            <li class="m-1">
+                                <a class="badge badge-pill badge-white" href="#">upgrade</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="position-absolute w-50 h-75 bottom right" data-jarallax-element="100"
+            style="z-index: 0; transform: translate3d(0px, 5.53668px, 0px);">
+            <div class="blob blob-4 bg-gradient w-100 h-100 bottom right"></div>
+            <div id="jarallax-container-0"
+                style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -100;">
+                <div style="position: fixed;"></div>
+            </div>
+        </div>
+    </section>
+    {% if request.GET.q %}
+        <div class="divider divider-bottom bg-light"></div>
+    {% endif %}
+</div>
+{% if request.GET.q %}
+<section class="bg-light pt-1 pb-0">
+        <div class="container">
+            <h2 class="h1 mt-4">Your Notes</h2>
+            <div class="row">
+                {% for note in object_list %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
+                            <h4>{{ note.title }}</h4>
+                            <div style="max-height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <hr class="my-md-4 my-lg-5">
+            <h2 class="h1 mt-4">Django Docs</h2>
+            {% with django=view.django_search_info %}
+            <div class="lead mb-4">Results directly from the Django documentation {{ django.version }} <a href="{{ django.url }}">docs.djangoproject.com</a>.</div>
+            {% endwith %}
+            <ul class="list-group">
+            {% for result in view.get_django_search_results %}
+                <a href="{{ result.url }}" target="_blank">
+                    <li class="list-group-item p-4 my-1">
+                        <h6 class="mb-2">{{ result.title }}</h6>
+                        <p>{{ result.breadcrumbs }}</p>
+                    </li>
+                </a>
+            {% empty %}
+                </ul><p class="mt-4">No results found.</p>
+            {% endfor %}
+            <!-- <hr class="my-md-4 my-lg-5">
+            <h2 class="h1 mt-4">Other User's Notes</h2>
+            <div class="lead">Notes made by other users. </div> -->
+        </div>
+        <div class="divider divider-bottom bg-primary-3"></div>
+    </section>
+{% endif %}
+{% endblock content %}
+
+{% block scripts_extra %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+<script>
+    hljs.initHighlightingOnLoad();
+    var content;
+    $(".note-content").each(function () {
+        content = $(this).html();
+        if (content != '') {
+            $(this).html(marked(content));
+        }
+    });
+</script>
+{% endblock scripts_extra %}

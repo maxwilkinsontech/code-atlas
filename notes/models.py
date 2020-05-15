@@ -10,9 +10,9 @@ class Note(DateModel):
     """
     user = models.ForeignKey(
         User, 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='notes'
     )
-    is_private = models.BooleanField(default=False)
     title = models.CharField(
         max_length=255,
         help_text='You\'ll use the title to find this note in the future.'
@@ -20,6 +20,7 @@ class Note(DateModel):
     content = models.TextField(
         help_text='Write your note content here. You can use markdown for better formatting.'
     )
+    is_private = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
