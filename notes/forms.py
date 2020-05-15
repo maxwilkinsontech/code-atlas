@@ -1,14 +1,16 @@
-from django.forms import ModelForm, inlineformset_factory
+from django import forms
 
 from .models import Note, Reference
 
 
-class NoteForm(ModelForm):
+class NoteForm(forms.ModelForm):
+    tags = forms.CharField(required=False, help_text='Add some tags to make finding this Note easier in the future')
+
     class Meta:
         model = Note
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'tags']
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, note=None, *args, **kwargs):
         super(NoteForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({
             'placeholder': 'Keep the title short but descriptive',
@@ -16,8 +18,13 @@ class NoteForm(ModelForm):
         self.fields['content'].widget.attrs.update({
             'placeholder': 'To include code with highlighting: \n\n```python\ndef some_function():\n\treturn 1\n\nsome_function()\n```',
         })
+        self.fields['tags'].widget.attrs.update({
+            'placeholder': 'Provide a comma seperated list of tags e.g. python, django',
+        })
+        if note:
+            self.fields['tags'].initial = ', '.join([str(i) for i in note.tags])
 
-class ReferenceForm(ModelForm):
+class ReferenceForm(forms.ModelForm):
     class Meta:
         model = Reference
         exclude = ()
@@ -32,7 +39,7 @@ class ReferenceForm(ModelForm):
             'rows': 1
         })
 
-ReferenceFormSet = inlineformset_factory(
+ReferenceFormSet = forms.inlineformset_factory(
     Note,
     Reference,
     form=ReferenceForm,

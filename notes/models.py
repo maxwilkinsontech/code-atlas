@@ -1,5 +1,7 @@
 from django.db import models
 
+from tagging.registry import register
+
 from core.models import DateModel
 from users.models import User
 
@@ -37,4 +39,5 @@ class Reference(DateModel):
     reference_url = models.URLField()
     reference_desc = models.TextField(max_length=255, blank=True)
 
-
+# Register Note model for tagging
+register(Note)

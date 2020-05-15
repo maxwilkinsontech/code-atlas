@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 
     'social_django',
     'widget_tweaks',
+    'tagging',
 
     'core',
     'users',
@@ -114,6 +115,9 @@ LOGIN_URL = '/accounts/signin'
 LOGIN_REDIRECT_URL = '/notes'
 LOGOUT_REDIRECT_URL = '/'
 
+# Django tagging
+
+FORCE_LOWERCASE_TAGS = True
 
 # Python Social Auth
 
