@@ -11,11 +11,11 @@ from .models import User
 class SignUp(FormView):
     template_name = 'signup.html'
     form_class = SignUpForm
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('notes')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('dashboard')
+            return redirect('notes')
         return super(SignUp, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):

@@ -84,7 +84,7 @@ class EditNote(LoginRequiredMixin, UpdateView):
         return reverse_lazy('view_note', args=[self.object.id])
 
     def get_form(self):
-        return NoteForm(note=self.get_object(), **self.get_form_kwargs())
+        return NoteForm(*self.get_form_kwargs())
 
     def dispatch(self, request, *args, **kwargs):
         note = self.get_object()
@@ -129,7 +129,7 @@ class DeleteNote(LoginRequiredMixin, DeleteView):
     View to delete a note. Only the owner of a Note can edit it.
     """
     model = Note
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('notes')
 
     def dispatch(self, request, *args, **kwargs):
         note = self.get_object()
