@@ -1,3 +1,6 @@
+import random
+import string 
+
 from django.db import models
 
 from tagging.registry import register
@@ -10,6 +13,11 @@ class Note(DateModel):
     """
     Model to represent a memorable point.
     """
+    id = models.IntegerField(
+        primary_key=True, 
+        blank=True, 
+        unique=True
+    )
     user = models.ForeignKey(
         User, 
         on_delete=models.CASCADE,
@@ -26,6 +34,16 @@ class Note(DateModel):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        """Generate a random id of length 10 of numerical characters"""
+        if not self.id:
+            while True:
+                id = ''.join(random.choice(string.digits) for _ in range(8))
+                if not Note.objects.filter(id=id).exists():
+                    break
+            self.id = id
+        super(Note, self).save(*args, **kwargs)
 
 class Reference(DateModel):
     """

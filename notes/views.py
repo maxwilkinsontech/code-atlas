@@ -62,8 +62,8 @@ class CreateNote(LoginRequiredMixin, CreateView):
         tags = self.request.POST.get('tags')
 
         note.is_public = True if is_public == 'on' else False
-        Tag.objects.update_tags(note, tags)
-        self.object.save()
+        note.tags = tags
+        note.save()
 
 class ViewNote(LoginRequiredMixin, DetailView):
     """
