@@ -67,8 +67,8 @@
         </div>
         <hr class="my-md-4 my-lg-5">
         <h2 class="h1 mt-4">Django Docs</h2>
-        {% with django=view.django_search_info %}
-        <div class="lead mb-4">Results directly from the Django documentation {{ django.version }} <a href="{{ django.url }}">docs.djangoproject.com</a>.</div>
+        {% with docs=view.django_doc_info %}
+        <div class="lead mb-4">Results directly from the Django documentation {{ docs.version }} <a href="{{ docs.url }}">docs.djangoproject.com</a>.</div>
         {% endwith %}
         <ul class="list-group">
         {% for result in view.get_django_search_results %}

@@ -1,12 +1,13 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
 from .utils import search_django_site
 from .models import SearchHistory
 from notes.models import Note
 
-#TODO: anonymous users
-class Search(ListView):
+
+class SearchView(LoginRequiredMixin, ListView):
     """
     Search and return a list Note objects. Search query queries against Note title.
     """
@@ -21,7 +22,7 @@ class Search(ListView):
         if search_query is not None:
             user = self.request.user
             # Log search query.
-            SearchHistory.objects.create(user=user, query=search_query)
+            a = SearchHistory.objects.create(user=user, query=search_query)
             # Search for matching Notes.
             search_django_site(search_query)
             vector = SearchVector('title', 'content')
@@ -41,7 +42,6 @@ class Search(ListView):
         Return the 5 most recent searches the User has made.
         """
         history = self.request.user.search_history.order_by('-search_date').values('query')[:5]
-        print(history)
         return history
 
     def get_django_search_results(self):
@@ -51,9 +51,9 @@ class Search(ListView):
         search_query = self.get_search_query()
         if search_query is not None:
             return search_django_site(search_query)
-        return 
+        return []
 
-    def django_search_info(self):
+    def django_doc_info(self):
         """
         Method called from template. Used so that url can be easily changed in future if needed.
         Return a dict.
