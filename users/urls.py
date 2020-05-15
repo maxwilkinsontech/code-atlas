@@ -8,6 +8,10 @@ urlpatterns = [
         views.Settings.as_view(), 
         name='account_settings'
     ),
+    path('settings/delete-account/<slug>/', 
+        views.DeleteAccount.as_view(), 
+        name='delete_account'
+    ),
     path('signup/', 
         views.SignUp.as_view(), 
         name='signup'

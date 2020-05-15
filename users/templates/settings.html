@@ -57,7 +57,22 @@
                                 <p class="text-danger text-center">{{ error }}</p>
                             {% endfor %}
                         {% endif %}
-                        <button id="settings-form-button" class="btn btn-primary" type="submit">Save changes</button>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </form>
+                    <hr>
+                    <div class="row mb-lg-5">
+                        <div class="col">
+                            <h3>Account Details</h3>
+                            <p>
+                                To delete you account and all data associated with it, click below. 
+                                Please note that this operation is irreversible and you will not be
+                                able to recover any data.
+                            </p>
+                        </div>
+                    </div>
+                    <form method="POST" action="{% url 'delete_account' user.email %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Delete Account</button>
                     </form>
                 </div>
             </div>
