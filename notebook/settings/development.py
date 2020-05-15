@@ -24,6 +24,6 @@ DATABASES = {
         'USER': env_config.get('DB_USER'),
         'PASSWORD': env_config.get('DB_PASSWORD'),
         'HOST': env_config.get('DB_HOST'),
-        'PORT': '',
+        'PORT': env_config.get('DB_PORT'),
     }
 }
