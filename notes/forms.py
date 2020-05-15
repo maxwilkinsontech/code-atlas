@@ -4,7 +4,10 @@ from .models import Note, Reference
 
 
 class NoteForm(forms.ModelForm):
-    tags = forms.CharField(required=False, help_text='Add some tags to make finding this Note easier in the future')
+    tags = forms.CharField(
+        required=False,
+        help_text='Adding tags will make filtering and finding Notes easier.'
+    )
 
     class Meta:
         model = Note
@@ -16,7 +19,7 @@ class NoteForm(forms.ModelForm):
             'placeholder': 'Keep the title short but descriptive',
         })
         self.fields['content'].widget.attrs.update({
-            'placeholder': 'To include code with highlighting: \n\n```python\ndef some_function():\n\treturn 1\n\nsome_function()\n```',
+            'placeholder': 'To include code with highlighting: \n\n```python\ndef some_function():\n\tpass\n\nsome_function()\n```',
         })
         self.fields['tags'].widget.attrs.update({
             'placeholder': 'Provide a comma seperated list of tags e.g. python, django',
@@ -35,7 +38,7 @@ class ReferenceForm(forms.ModelForm):
             'placeholder': 'Reference URL',
         })
         self.fields['reference_desc'].widget.attrs.update({
-            'placeholder': 'Notes about reference',
+            'placeholder': 'Reference notes',
             'rows': 1
         })
 

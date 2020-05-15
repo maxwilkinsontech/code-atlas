@@ -16,6 +16,7 @@ class Notes(LoginRequiredMixin, ListView):
     List a User's Notes.
     """
     template_name = 'notes.html'
+    paginate_by = 50
     model = Note
 
     def get_queryset(self):
@@ -27,12 +28,7 @@ class CreateNote(LoginRequiredMixin, CreateView):
     """
     template_name = 'create_note.html'
     model = Note
-
-    def success_url(self):
-        return reverse_lazy('view_note', args=[self.object.id])
-
-    def get_form(self):
-        return NoteForm()
+    form_class = NoteForm
 
     def get_context_data(self, **kwargs):
         data = super(CreateNote, self).get_context_data(**kwargs)
@@ -41,6 +37,9 @@ class CreateNote(LoginRequiredMixin, CreateView):
         else:
             data['references'] = ReferenceFormSet(instance=self.object)
         return data
+
+    def success_url(self):
+        return reverse_lazy('view_note', args=[self.object.id])
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -66,12 +65,19 @@ class CreateNote(LoginRequiredMixin, CreateView):
         Tag.objects.update_tags(note, tags)
         self.object.save()
 
-class ViewNote(DetailView):
+class ViewNote(LoginRequiredMixin, DetailView):
     """
     View for a user to view a Note.
     """ 
     template_name = 'view_note.html'
     model = Note
+
+    def dispatch(self, request, *args, **kwargs):
+        # Prevent another user from viewing a private note.
+        note = self.get_object()
+        if not note.is_public and note.user != request.user:
+            return redirect('notes')
+        return super().dispatch(request, *args, **kwargs)
 
 class EditNote(LoginRequiredMixin, UpdateView):
     """
@@ -79,12 +85,7 @@ class EditNote(LoginRequiredMixin, UpdateView):
     """
     template_name = 'edit_note.html'
     model = Note
-
-    def success_url(self):
-        return reverse_lazy('view_note', args=[self.object.id])
-
-    def get_form(self):
-        return NoteForm(*self.get_form_kwargs())
+    form_class = NoteForm
 
     def dispatch(self, request, *args, **kwargs):
         note = self.get_object()
@@ -99,6 +100,9 @@ class EditNote(LoginRequiredMixin, UpdateView):
         else:
             data['references'] = ReferenceFormSet(instance=self.object)
         return data
+
+    def success_url(self):
+        return reverse_lazy('view_note', args=[self.object.id])
 
     def form_valid(self, form):
         context = self.get_context_data()

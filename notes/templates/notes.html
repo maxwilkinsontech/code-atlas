@@ -10,34 +10,54 @@
 <div class="pb-0 min-vh-100 o-hidden" data-overlay="" style="padding-top: 80px !important;">
     <section class="">
         <div class="container">
-            <div
-                class="row justify-content-center justify-content-lg-between text-center text-lg-left">
-                <div class="col-md-9 col-lg-6 col-xl-5 pl-lg-5 pl-xl-0 order-lg-1 aos-init aos-animate"
-                    data-aos="fade-left" data-aos-delay="250">
-                    <h1 class="display-3">My <mark data-aos="highlight-text" data-aos-delay="500"
-                            class="aos-init aos-animate">Notes</mark></h1>
-                    <p class="lead">
-                        <ul>
-                            {% for note in object_list %}
-                               <li><a href="{% url 'view_note' note.id %}" class="fade-page">{{ note.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </p>
-                </div>
-                <div class="col-md-8 col-lg-6 mt-4 mt-md-5 mt-lg-0 order-lg-2 aos-init aos-animate"
-                    data-aos="fade-right">
-                    {% with note=object_list.first %}
-                        {% if note %}
-                        <a href="{% url 'view_note' note.id %}" class="fade-page">
-                            <div class="card card-body hover-box-shadow pt-4">
-                                <h5 class="display-5 text-center">{{ note.title }}</h5>
-                                <div class="lead" id="content">{{ note.content }}</div>
-                            </div>
-
+            <h1 class="display-3">My <mark data-aos="highlight-text" data-aos-delay="500"
+                        class="aos-init aos-animate">Notes</mark></h1>
+            <div class="row">
+                {% for note in object_list %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100 fade-page">
+                            <h4>{{ note.title }}</h4>
+                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
                         </a>
-
-                        {% endif %}
-                    {% endwith %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-column align-items-center mt-4">
+                        <nav>
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link rounded fade-page" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                class="injected-svg icon icon-xs bg-primary"
+                                                data-src="assets/img/icons/interface/icon-arrow-left.svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
+                                </li>
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link rounded fade-page" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            class="injected-svg icon icon-xs bg-primary"
+                                            data-src="assets/img/icons/interface/icon-arrow-right.svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>

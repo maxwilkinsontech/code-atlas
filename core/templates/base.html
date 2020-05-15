@@ -28,7 +28,7 @@
                     Django Notebook
                 </a>
                 <div class="d-flex align-items-center order-lg-3">
-                    <a href="{% url 'notes' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0 d-none d-sm-block order-lg-3 fade-page">My Notes</a>
+                    <a href="{% url 'notes' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0  order-lg-3 fade-page">My Notes</a>
                     <button aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                         data-target=".navbar-collapse" data-toggle="collapse" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -72,6 +72,11 @@
                         </div>
                     </form>
                     <ul class="navbar-nav my-3 my-lg-0">
+                        <!-- <div>
+                            <li class="nav-item">
+                                <a href="{% url 'notes' %}" class="nav-link fade-page">My Notes</a>
+                            </li>
+                        </div> -->
                         <li class="nav-item">
                             <a href="{% url 'create_note' %}" class="nav-link fade-page">Create Note</a>
                         </li>

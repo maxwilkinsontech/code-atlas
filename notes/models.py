@@ -17,10 +17,10 @@ class Note(DateModel):
     )
     title = models.CharField(
         max_length=255,
-        help_text='You\'ll use the title to find this note in the future.'
+        help_text='You\'ll use the title to find this Note in the future.'
     )
     content = models.TextField(
-        help_text='Write your note content here. You can use markdown for better formatting.'
+        help_text='Write your Note content here. You can use markdown for better formatting.'
     )
     is_public = models.BooleanField(default=True)
 
