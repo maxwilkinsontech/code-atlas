@@ -14,7 +14,7 @@ class NoteForm(ModelForm):
             'placeholder': 'Keep the title short but descriptive',
         })
         self.fields['content'].widget.attrs.update({
-            'placeholder': 'To include code with highlighting: \n\n ```python\nsome_function()\n```',
+            'placeholder': 'To include code with highlighting: \n\n```python\ndef some_function():\n\treturn 1\n\nsome_function()\n```',
         })
 
 class ReferenceForm(ModelForm):

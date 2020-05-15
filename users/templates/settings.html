@@ -51,7 +51,7 @@
                     </div>
                     <form method="POST" novalidate>
                         {% csrf_token %}
-                        {% include 'forms/form.html' with form=form %}
+                        {% include 'forms/form.html' with form=form label=True %}
                         {% if form.non_field_errors %}
                             {% for error in form.non_field_errors %}
                                 <p class="text-danger text-center">{{ error }}</p>

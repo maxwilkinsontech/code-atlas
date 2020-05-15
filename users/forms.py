@@ -11,30 +11,38 @@ class SignUpForm(UserCreationForm):
         fields = ('email', 'password1', 'password2')
 
 class SettingsForm(forms.Form):
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False)
     email = forms.EmailField(required=False)
     password = forms.CharField(required=False, widget=forms.PasswordInput)
 
     def __init__(self, user, *args, **kwargs):
         super(SettingsForm, self).__init__(*args, **kwargs)
         self.user = user
-        self.fields['first_name'].initial = user.first_name
-        self.fields['last_name'].initial = user.last_name
         self.fields['email'].initial = user.email
+
+    def is_valid(self):
+        valid = super(SettingsForm, self).is_valid()
+        print(valid)
+        if not valid:
+            return valid
+
+        return False
+
+        cd = self.cleaned_data()
+        email = cd.get('email')
+
+        if email is not None and email != '':
+            print(email)
+            # self.add_error('password', "Incorrect password entered.")
+            return False
+
+        return True
 
     def save(self):
         user = self.user
         cd = self.cleaned_data
-        first_name = cd.get('first_name')
-        last_name = cd.get('last_name')
         email = cd.get('email')
         password = cd.get('password')
 
-        if first_name is not None:
-            user.first_name = first_name
-        if last_name is not None:
-            user.last_name = last_name
         if email is not None and email != '':
             user.email = email
         if password is not None and password != '':
