@@ -12,6 +12,15 @@
     <!-- End loading animation -->
     <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155126184-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-155126184-2');
+    </script>
 </head>
 
 <body>
@@ -63,6 +72,27 @@
                 </div>
             </div>
         </nav>
+    </div>
+
+    <div class="modal" id="cookies-modal" tabindex="-1" role="dialog" aria-modal="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content text-center text-lg-left">
+                <div class="modal-body d-flex flex-column flex-lg-row align-items-center">
+                    <div class="col-6 col-sm-5 col-md-4 col-lg-2">
+                        <img src="{% static 'img/flags/eu.svg' %}" alt="EU Flag" class="rounded">
+                    </div>
+                    <div class="col-lg-7 mb-3 mb-lg-0">
+                        Our site uses cookies to ensure the best browsing experience possible. See our <a
+                            href="{% url 'privacy_policy' %}">Privacy
+                            Policy</a> for more details.
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Agree &amp;
+                            Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     {% block content %}{% endblock %}
@@ -133,6 +163,16 @@
     <!-- Removes page load animation when window is finished loading -->
     <script type="text/javascript">
         window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
+    </script>
+    <!-- Cookies  -->
+    <script type="text/javascript" src="{% static 'js/cookies.js' %}"></script>
+    <!-- Privacy Notice Script -->
+    <script>
+        var hasAccepted = Cookies.get('acceptedPrivacyNotice');
+        if (!hasAccepted){
+            Cookies.set('acceptedPrivacyNotice', 'true', { expires: Infinity  });
+            $('#cookies-modal').modal();
+        }
     </script>
 
 </body>
