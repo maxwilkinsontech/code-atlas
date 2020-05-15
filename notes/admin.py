@@ -8,7 +8,7 @@ class ReferenceInLine(admin.TabularInline):
     extra = 0
 
 class NoteAdmin(admin.ModelAdmin):
-    model = Note 
+    model = Note
     inlines = [ReferenceInLine]
 
 admin.site.register(Note, NoteAdmin)

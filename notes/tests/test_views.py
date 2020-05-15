@@ -45,21 +45,17 @@ class NotesTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object_list'].count(), 1)
 
-class CreateNoteTest(TestCase):
+class CreateNoteViewTest(TestCase):
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        password = 'password'
+        self.user.set_password(password)
         self.user.save()
-        self.client.login(
-            email=self.user.email, 
-            password=psw
-        )
+        self.client.login(email=self.user.email, password=password)
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/notes/create/')
-        
+
         self.assertEqual(response.status_code, 200)
            
     def test_view_url_accessible_by_name(self):
@@ -73,11 +69,12 @@ class CreateNoteTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'create_note.html')
 
-    def test_view_context(self):
+    def test_view_correct_context(self):
         response = self.client.get(reverse('create_note'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue('references' in response.context)
+        self.assertTrue('form' in response.context)
 
     def test_post(self):
         response = self.client.post(
@@ -87,15 +84,8 @@ class CreateNoteTest(TestCase):
                 'content': 'content',
                 'tags': 'python, django',
                 'is_public': 'off',
-                'references-TOTAL_FORMS': '1', 
-                'references-INITIAL_FORMS': '0', 
-                'references-MIN_NUM_FORMS': '0', 
-                'references-MAX_NUM_FORMS': '1000', 
-                'references-0-id': '', 
-                'references-0-note': '', 
                 'references-0-reference_url': 'https://google.com', 
-                'references-0-reference_desc': '1', 
-                'references-0-DELETE': ''
+                'references-0-reference_desc': 'testing', 
             }    
         )
 
