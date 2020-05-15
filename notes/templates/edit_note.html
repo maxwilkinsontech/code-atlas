@@ -4,18 +4,37 @@
 
 {% block content %}
 <section class="pb-0 bg-light">
+<form action="" method="post" novalidate>
+{% csrf_token %}
     <div class="container">
-        <div class="row section-title justify-content-center text-center">
-            <div class="col-md-9 col-lg-8 col-xl-7 mb-0">
+        <div class="row section-title justify-content-center text-center mb-4">
+            <div class="col-md-12 col-lg-9 col-xl-9">
+                <div class="row">
+                    <div class="col d-flex flex-column align-items-start">
+                        <nav aria-label="breadcrumb ">
+                            <ol class="breadcrumb px-3">
+                                <li class="breadcrumb-item"><a href="{% url 'view_note' object.id %}">
+                                        <img src="{% static 'img/icons/interface/icon-arrow-left.svg' %}" alt="arrow-left icon"
+                                            class="icon icon-sm text-primary">
+                                        Go back</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col d-flex flex-column align-items-end">
+                        <div class="custom-control custom-switch mr-4">
+                            <input type="checkbox" class="custom-control-input" id="is_public-radio" name="is_public" {% if object.is_public %}checked=""{% endif %}>
+                            <label class="custom-control-label" for="is_public-radio">Anyone can view</label>
+                        </div>
+                    </div>
+                </div>  
                 <h3 class="display-4 mb-2">Edit Note</h3>
                 <small class="text-muted my-2">Created on {{ object.date_created }}<br>Last updated
                     {{ object.last_edited }}</small>
             </div>
         </div>
         <div class="row justify-content-center mt-0">
-            <div class="col-xl-8 col-lg-9 col-md-10">
-                <form action="" method="post" novalidate>
-                    {% csrf_token %}
+            <div class="col-md-12 col-lg-9 col-xl-9">
                     {% include 'forms/form.html' with form=form label=True %}
                     
                     <h4>References</h4>
@@ -69,6 +88,24 @@
             addText: 'Add another reference +',
             deleteText: 'X',
             prefix: 'references'
+        });
+        $(document).delegate('textarea', 'keydown', function (e) {
+            var keyCode = e.keyCode || e.which;
+
+            if (keyCode == 9) {
+                e.preventDefault();
+                var start = this.selectionStart;
+                var end = this.selectionEnd;
+
+                // set textarea value to: text before caret + tab + text after caret
+                $(this).val($(this).val().substring(0, start)
+                    + "\t"
+                    + $(this).val().substring(end));
+
+                // put caret at right position again
+                this.selectionStart =
+                    this.selectionEnd = start + 1;
+            }
         });
     </script>
 {% endblock scripts_extra %}

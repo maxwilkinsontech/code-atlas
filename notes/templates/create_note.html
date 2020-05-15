@@ -16,7 +16,10 @@
                 <form action="" method="post" novalidate>
                     {% csrf_token %}
                     {% include 'forms/form.html' with form=form label=True %}
-                    
+                    <div class="custom-control custom-switch mr-4 mb-4">
+                        <input type="checkbox" class="custom-control-input" id="is_public-radio" name="is_public" checked="">
+                        <label class="custom-control-label" for="is_public-radio">Anyone can view</label>
+                    </div>
                     <h4>References</h4>
                     <table class="table">
                         {{ references.management_form }}

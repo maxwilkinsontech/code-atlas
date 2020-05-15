@@ -43,6 +43,10 @@ class CreateNote(LoginRequiredMixin, CreateView):
         with transaction.atomic():
             form.instance.user = self.request.user
             self.object = form.save()
+            # Update is_public.
+            is_public = self.request.POST.get('is_public')
+            self.object.is_public = True if is_public == 'on' else False
+            self.object.save()
             if references.is_valid():
                 references.instance = self.object
                 references.save()
@@ -86,6 +90,10 @@ class EditNote(LoginRequiredMixin, UpdateView):
         with transaction.atomic():
             form.instance.user = self.request.user
             self.object = form.save()
+            # Update is_public.
+            is_public = self.request.POST.get('is_public')
+            self.object.is_public = True if is_public == 'on' else False
+            self.object.save()
             if references.is_valid():
                 references.instance = self.object
                 references.save()

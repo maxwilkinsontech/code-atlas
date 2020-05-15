@@ -20,7 +20,7 @@ class Note(DateModel):
     content = models.TextField(
         help_text='Write your note content here. You can use markdown for better formatting.'
     )
-    is_private = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
