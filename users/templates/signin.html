@@ -17,7 +17,7 @@
                                 {% csrf_token %}
                                 {% include 'forms/form.html' with form=form %}
                                 <div class="text-right text-small mt-2 mb-3">
-                                    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                                    <a href="{% url 'password_reset' %}" class="fade-page">Forgot Password?</a>
                                 </div>
                                 <button class="btn btn-primary btn-block" type="submit">Sign In</button>
                             </form>
@@ -26,7 +26,7 @@
                             <a class="btn btn-primary btn-block" style="background-color: #000000; border-color: #000000;" href="{% url "social:begin" "github" %}">GitHub</a>
                         </div>
                         <div class="text-center text-small mt-3">
-                            Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>
+                            Don't have an account? <a href="{% url 'signup' %}" class="fade-page">Sign up here</a>
                         </div>
                     </div>
                 </div>

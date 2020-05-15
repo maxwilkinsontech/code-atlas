@@ -53,40 +53,40 @@
 </div>
 {% if view.get_search_query %}
 <section class="bg-light pt-1 pb-0">
-        <div class="container">
-            <h2 class="h1 mt-4">Your Notes</h2>
-            <div class="row">
-                {% for note in object_list %}
-                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
-                            <h4>{{ note.title }}</h4>
-                            <div style="max-height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-            <hr class="my-md-4 my-lg-5">
-            <h2 class="h1 mt-4">Django Docs</h2>
-            {% with django=view.django_search_info %}
-            <div class="lead mb-4">Results directly from the Django documentation {{ django.version }} <a href="{{ django.url }}">docs.djangoproject.com</a>.</div>
-            {% endwith %}
-            <ul class="list-group">
-            {% for result in view.get_django_search_results %}
-                <a href="{{ result.url }}" target="_blank">
-                    <li class="list-group-item p-4 my-1">
-                        <h6 class="mb-2">{{ result.title }}</h6>
-                        <p>{{ result.breadcrumbs }}</p>
-                    </li>
-                </a>
-            {% empty %}
-                </ul><p class="mt-4">No results found.</p>
+    <div class="container">
+        <h2 class="h1 mt-4">Your Notes</h2>
+        <div class="row">
+            {% for note in object_list %}
+                <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                    <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100 fade-page">
+                        <h4>{{ note.title }}</h4>
+                        <div style="max-height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+                    </a>
+                </div>
             {% endfor %}
-            <!-- <hr class="my-md-4 my-lg-5">
-            <h2 class="h1 mt-4">Other User's Notes</h2>
-            <div class="lead">Notes made by other users. </div> -->
         </div>
-        <div class="divider divider-bottom bg-primary-3"></div>
-    </section>
+        <hr class="my-md-4 my-lg-5">
+        <h2 class="h1 mt-4">Django Docs</h2>
+        {% with django=view.django_search_info %}
+        <div class="lead mb-4">Results directly from the Django documentation {{ django.version }} <a href="{{ django.url }}">docs.djangoproject.com</a>.</div>
+        {% endwith %}
+        <ul class="list-group">
+        {% for result in view.get_django_search_results %}
+            <a href="{{ result.url }}" target="_blank">
+                <li class="list-group-item p-4 my-1">
+                    <h6 class="mb-2">{{ result.title }}</h6>
+                    <p>{{ result.breadcrumbs }}</p>
+                </li>
+            </a>
+        {% empty %}
+            </ul><p class="mt-4">No results found.</p>
+        {% endfor %}
+        <!-- <hr class="my-md-4 my-lg-5">
+        <h2 class="h1 mt-4">Other User's Notes</h2>
+        <div class="lead">Notes made by other users. </div> -->
+    </div>
+    <div class="divider divider-bottom bg-primary-3"></div>
+</section>
 {% endif %}
 {% endblock content %}
 

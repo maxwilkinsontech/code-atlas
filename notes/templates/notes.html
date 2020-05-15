@@ -19,7 +19,7 @@
                     <p class="lead">
                         <ul>
                             {% for note in object_list %}
-                               <li><a href="{% url 'view_note' note.id %}">{{ note.title }}</a></li>
+                               <li><a href="{% url 'view_note' note.id %}" class="fade-page">{{ note.title }}</a></li>
                             {% endfor %}
                         </ul>
                     </p>
@@ -27,7 +27,7 @@
                 <div class="col-md-8 col-lg-6 mt-4 mt-md-5 mt-lg-0 order-lg-2 aos-init aos-animate"
                     data-aos="fade-right">
                     {% with note=object_list.first %}
-                        <a href="{% url 'view_note' note.id %}">
+                        <a href="{% url 'view_note' note.id %}" class="fade-page">
                             <div class="card card-body hover-box-shadow pt-4">
                                 <h5 class="display-5 text-center">{{ note.title }}</h5>
                                 <div class="lead" id="content">{{ note.content }}</div>

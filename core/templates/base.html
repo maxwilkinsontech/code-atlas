@@ -24,11 +24,11 @@
     <div class="navbar-container">
         <nav class="navbar navbar-expand-lg {% block nav-bar-color %}navbar-light{% endblock nav-bar-color %}" {% block nav-bar-overlay %}data-overlay{% endblock nav-bar-overlay %}>
             <div class="container">
-                <a class="navbar-brand navbar-brand-dynamic-color fade-page" href="{% url 'home' %}">
+                <a class="navbar-brand navbar-brand-dynamic-color fade-page" href="{% url 'dashboard' %}">
                     Django Notebook
                 </a>
                 <div class="d-flex align-items-center order-lg-3">
-                    <a href="{% url 'dashboard' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0 d-none d-sm-block order-lg-3">My Notes</a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0 d-none d-sm-block order-lg-3 fade-page">My Notes</a>
                     <button aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                         data-target=".navbar-collapse" data-toggle="collapse" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -73,10 +73,10 @@
                     </form>
                     <ul class="navbar-nav my-3 my-lg-0">
                         <li class="nav-item">
-                            <a href="{% url 'create_note' %}" class="nav-link">Create Note</a>
+                            <a href="{% url 'create_note' %}" class="nav-link fade-page">Create Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'search' %}" class="nav-link">Search Notes</a>
+                            <a href="{% url 'search' %}" class="nav-link fade-page">Search Notes</a>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">

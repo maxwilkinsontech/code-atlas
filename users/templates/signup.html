@@ -20,14 +20,14 @@
                             {% include 'forms/form.html' with form=form %}
                             <button class="btn btn-primary btn-block" type="submit">Continue to checkout</button>
                         </form>
-                        <p class="mt-4 text-center">Or checkout with</p>
+                        <p class="mt-4 text-center">Or sign up with</p>
                         <a class="btn btn-primary btn-block" style="background-color: #DB4437; border-color: #DB4437;"
                             href="{% url "social:begin" "google-oauth2" %}">Google+</a>
-                        <a class="btn btn-primary btn-block" style="background-color: #4267B2; border-color: #4267B2;"
+                        <a class="btn btn-primary btn-block" style="background-color: #000000; border-color: #000000;"
                             href="{% url "social:begin" "github" %}">GitHub</a>
                     </div>
                     <div class="text-center text-small mt-3">
-                        Already have an account? <a href="{% url 'login' %}">Sign in here</a>
+                        Already have an account? <a href="{% url 'login' %}" class="fade-page">Sign in here</a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-auto ml-lg-5 ">
