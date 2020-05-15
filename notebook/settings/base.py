@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'social_django',
     'widget_tweaks',
     'tagging',
+    'storages', 
 
     'core',
     'users',
