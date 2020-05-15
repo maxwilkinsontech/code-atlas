@@ -20,46 +20,59 @@
                             <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
                         </a>
                     </div>
+                {% empty %}
+                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 my-2 ">
+                        <a href="{% url 'create_note' %}" class="card card-body hover-box-shadow p-4 fade-page">
+                            <h4>Looking pretty empty!</h4>
+                            <div style="height: 250px; overflow: hidden;">
+                                Lets change that. <br><br>                       
+                                Click me to create your first Note.<br><br>
+                                Remember that you can use markdown to include code with highlighting.
+                            </div>
+                        </a>
+                    </div>
                 {% endfor %}
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="d-flex flex-column align-items-center mt-4">
-                        <nav>
-                            <ul class="pagination">
-                                {% if page_obj.has_previous %}
+            {% if object_list %}
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-center mt-4">
+                            <nav>
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link rounded fade-page" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    class="injected-svg icon icon-xs bg-primary"
+                                                    data-src="assets/img/icons/interface/icon-arrow-left.svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
+                                    </li>
+                                    {% if page_obj.has_next %}
                                     <li class="page-item">
-                                        <a class="page-link rounded fade-page" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <a class="page-link rounded fade-page" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                 class="injected-svg icon icon-xs bg-primary"
-                                                data-src="assets/img/icons/interface/icon-arrow-left.svg"
+                                                data-src="assets/img/icons/interface/icon-arrow-right.svg"
                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
                                                     stroke-linejoin="round"></path>
                                             </svg>
                                         </a>
                                     </li>
-                                {% endif %}
-                                <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
-                                </li>
-                                {% if page_obj.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link rounded fade-page" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            class="injected-svg icon icon-xs bg-primary"
-                                            data-src="assets/img/icons/interface/icon-arrow-right.svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                        </svg>
-                                    </a>
-                                </li>
-                                {% endif %}
-                            </ul>
-                        </nav>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
         <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"
             style="z-index: 0; transform: translate3d(0px, 1.1876px, 0px);">
