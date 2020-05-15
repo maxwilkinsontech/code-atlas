@@ -11,25 +11,31 @@
     <section class="">
         <div class="container">
             <div
-                class="row align-items-center justify-content-center justify-content-lg-between text-center text-lg-left">
-                <div class="col-md-9 col-lg-6 col-xl-5 pl-lg-5 pl-xl-0 order-lg-2 aos-init aos-animate"
+                class="row justify-content-center justify-content-lg-between text-center text-lg-left">
+                <div class="col-md-9 col-lg-6 col-xl-5 pl-lg-5 pl-xl-0 order-lg-1 aos-init aos-animate"
                     data-aos="fade-left" data-aos-delay="250">
-                    <h1 class="display-3">A feisty group of <mark data-aos="highlight-text" data-aos-delay="500"
-                            class="aos-init aos-animate">change makers</mark></h1>
+                    <h1 class="display-3">My <mark data-aos="highlight-text" data-aos-delay="500"
+                            class="aos-init aos-animate">Notes</mark></h1>
                     <p class="lead">
-                        <a href="{% url 'create_note' %}">Create new note</a>
-                        <li>
+                        <ul>
                             {% for note in object_list %}
                                <li><a href="{% url 'view_note' note.id %}">{{ note.title }}</a></li>
                             {% endfor %}
-                        </li>
+                        </ul>
                     </p>
-                    <a href="#" class="lead">Meet the crew</a>
                 </div>
-                <!-- <div class="col-md-8 col-lg-6 mt-4 mt-md-5 mt-lg-0 order-lg-1 aos-init aos-animate"
+                <div class="col-md-8 col-lg-6 mt-4 mt-md-5 mt-lg-0 order-lg-2 aos-init aos-animate"
                     data-aos="fade-right">
-                    <img src="assets/img/about-1.jpg" alt="Image" class="rounded img-fluid shadow-lg">
-                </div> -->
+                    {% with note=object_list.first %}
+                        <a href="{% url 'view_note' note.id %}">
+                            <div class="card card-body hover-box-shadow pt-4">
+                                <h5 class="display-5 text-center">{{ note.title }}</h5>
+                                <div class="lead" id="content">{{ note.content }}</div>
+                            </div>
+
+                        </a>
+                    {% endwith %}
+                </div>
             </div>
         </div>
         <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"
@@ -43,3 +49,22 @@
     </section>
 </div>
 {% endblock content %}
+
+{% block scripts_extra %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+<script>
+    hljs.initHighlightingOnLoad();
+    $(".note-content").each(function () {
+        content = $(this).html();
+        if (content != '') {
+            $(this).html(marked(content));
+        }
+    });
+    var content = document.getElementById('content');
+    var currentContext = content.innerHTML;
+    var mdown = document.getElementById('mdown');
+    content.innerHTML = marked(currentContext);
+</script>
+{% endblock scripts_extra %}

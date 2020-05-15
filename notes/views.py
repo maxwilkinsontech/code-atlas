@@ -16,6 +16,9 @@ class Notes(LoginRequiredMixin, ListView):
     template_name = 'notes.html'
     model = Note
 
+    def get_queryset(self):
+        return self.request.user.notes.order_by('-last_edited')
+
 class CreateNote(LoginRequiredMixin, CreateView):
     """
     View for User to create a new Note.

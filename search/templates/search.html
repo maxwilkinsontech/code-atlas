@@ -10,12 +10,12 @@
 
 {% block content %}
 <div data-overlay="" class="{% if not view.get_search_query %}min-vh-100{% endif %} bg-primary-3 text-white o-hidden" style="padding-top: 62px !important;">
-    <section {% if view.get_search_query %}class="py-0"{% endif %}>
+    <section {% if view.get_search_query %}class="pt-4 pb-0"{% endif %}>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-9 text-center">
                     <h1 class="display-3">Search for a Note</h1>
-                    <div class="lead">Search from your Notes, Django documentation as well other people's public Notes</div>
+                    <div class="lead">Search your Notes or quickly find what you are looking for in the Django documentation</div>
                     <form class="mt-5 d-flex flex-column flex-md-row form-group" method="GET">
                         <input class="form-control form-control-lg h-100 mb-2 mb-md-0 mr-md-3" name="q"
                             placeholder="Search Notes..." type="search" value="{{ view.get_search_query|default:'' }}">
