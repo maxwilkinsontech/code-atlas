@@ -1,4 +1,5 @@
 {% extends 'auth_base.html' %}
+{% load static %}
 
 {% block content %}
     <div data-overlay class="min-vh-100 bg-light d-flex flex-column justify-content-md-center">
@@ -15,15 +16,21 @@
                             {% endif %}
                             <form method="POST" novalidate>
                                 {% csrf_token %}
-                                {% include 'forms/form.html' with form=form %}
+                                {% include 'forms/form.html' with form=form label=True %}
                                 <div class="text-right text-small mt-2 mb-3">
                                     <a href="{% url 'password_reset' %}" class="fade-page">Forgot Password?</a>
                                 </div>
                                 <button class="btn btn-primary btn-block" type="submit">Sign In</button>
                             </form>
-                            <p class="mt-4 text-center">Or Sign In with</p>
-                            <a class="btn btn-primary btn-block" style="background-color: #DB4437; border-color: #DB4437;" href="{% url "social:begin" "google-oauth2" %}">Google+</a>
-                            <a class="btn btn-primary btn-block" style="background-color: #000000; border-color: #000000;" href="{% url "social:begin" "github" %}">GitHub</a>
+                            <p class="mt-4 text-center">Or sign in with</p>
+                            <a class="btn btn-primary btn-block" style="background-color: #DB4437; border-color: #DB4437;" href="{% url "social:begin" "google-oauth2" %}">
+                                <img class="icon bg-white" src="{% static 'img/icons/social/google.svg' %}" alt="Icon" data-inject-svg />
+                                Google+
+                            </a>
+                            <a class="btn btn-primary btn-block" style="background-color: #000000; border-color: #000000;" href="{% url "social:begin" "github" %}">
+                                <img class="icon bg-white" src="{% static 'img/icons/social/github.svg' %}" alt="Icon" data-inject-svg/>
+                                GitHub
+                            </a>
                         </div>
                         <div class="text-center text-small mt-3">
                             Don't have an account? <a href="{% url 'signup' %}" class="fade-page">Sign up here</a>

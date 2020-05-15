@@ -19,6 +19,8 @@
         {% else %}
             {% render_field field class="form-control pb_height-50 reverse" %}
         {% endif %}
-        <small>{{ field.help_text }}</small>
+        {% if not remove_help_text %}
+            <small>{{ field.help_text }}</small>
+        {% endif %}
     </div>
 {% endfor %}

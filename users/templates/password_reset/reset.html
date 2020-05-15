@@ -17,8 +17,7 @@
                             {% endif %}
                             <form method="POST" novalidate>
                                 {% csrf_token %}
-                                {% include 'forms/form.html' with form=form %}
-                                {% endfor %}
+                                {% include 'forms/form.html' with form=form label=True remove_help_text=True %}
                                 <button class="btn btn-primary btn-block" type="submit">Sign In</button>
                             </form>
                         {% else %}
