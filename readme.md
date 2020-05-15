@@ -6,5 +6,4 @@
 
 # Template todo
 - Footer - GDPR
-- SignIn - right side of screen
 - Account settings - Privacy policy
