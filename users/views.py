@@ -9,8 +9,8 @@ from .models import User
 
 
 class SignUp(FormView):
-    form_class = SignUpForm
     template_name = 'signup.html'
+    form_class = SignUpForm
     success_url = reverse_lazy('dashboard')
 
     def dispatch(self, request, *args, **kwargs):
@@ -25,8 +25,8 @@ class SignUp(FormView):
 
 class Settings(LoginRequiredMixin, FormView):
     template_name = 'settings.html'
-    success_url = '/accounts/settings/'
     form_class = SettingsForm
+    success_url = reverse_lazy('account_settings')
     
     def get_form_kwargs(self):
         kwargs = super(Settings, self).get_form_kwargs()

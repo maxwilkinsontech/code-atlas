@@ -28,13 +28,12 @@ class SettingsForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-
         # Make sure email is not already in use.
         email = cleaned_data.get('email', '')
         if email != '' and email != self.user.email:
             existing_user = User.objects.filter(email=email)
             if existing_user.exists():
-                self.add_error('email', "User with this Email address already exists.") 
+                self.add_error('email', 'User with this Email address already exists.') 
 
     def save(self):
         user = self.user
