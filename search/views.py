@@ -16,13 +16,13 @@ class SearchView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         """
         Get the User's Notes ordered by ranking with given search query. Implements a full-text
-        search on the fields: `title` and `content`
+        search on the fields: `title` and `content`.
         """
         search_query = self.get_search_query()
         if search_query is not None:
             user = self.request.user
             # Log search query.
-            a = SearchHistory.objects.create(user=user, query=search_query)
+            SearchHistory.objects.create(user=user, query=search_query)
             # Search for matching Notes.
             search_django_site(search_query)
             vector = SearchVector('title', 'content')
@@ -56,7 +56,6 @@ class SearchView(LoginRequiredMixin, ListView):
     def django_doc_info(self):
         """
         Method called from template. Used so that url can be easily changed in future if needed.
-        Return a dict.
         """
         url = 'https://docs.djangoproject.com/en/3.0/'
         version = 3.0

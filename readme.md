@@ -1,12 +1,8 @@
 ## Django Notebook
 
-
-## TODO:
-- settings form
-- home page
-- dashboard
-- search with tags
-
+# todo
+- reduce static to only used resources
+- search with tag filters
 
 # Template todo
 - Footer - GDPR
