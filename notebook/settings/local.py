@@ -2,17 +2,13 @@ from .base import *
 
 from decouple import Csv, Config, RepositoryEnv
 
-# Set config as .env.dev file
-env_path = 'notebook/settings/.env.local'
-env_config = Config(RepositoryEnv(env_path))
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env_config.get('SECRET_KEY')
+SECRET_KEY = '#n0#j&y-j+$pjt5-iw&le8j@loxp)q%k)*7*d1@ctk@1!)fdaq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env_config.get('DEBUG', default=False, cast=bool)
+DEBUG = True
 
-ALLOWED_HOSTS = env_config.get('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '192.168.0.61']
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -20,10 +16,10 @@ ALLOWED_HOSTS = env_config.get('ALLOWED_HOSTS', cast=Csv())
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env_config.get('DB_NAME'),
-        'USER': env_config.get('DB_USER'),
-        'PASSWORD': env_config.get('DB_PASSWORD'),
-        'HOST': env_config.get('DB_HOST'),
+        'NAME': 'django_notebook_dev',
+        'USER': 'postgres',
+        'PASSWORD': 'superuser',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
@@ -41,10 +37,18 @@ STATICFILES_DIRS = [
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
+# Set config as .env.dev file
+# Using try expecpt so that tests can be run via GitHub Actions.
+try:
+    env_path = 'notebook/settings/.env.local'
+    env_config = Config(RepositoryEnv(env_path))
+except:
+    env_config = {}
+
 # Python Social Auth
 
-SOCIAL_AUTH_GITHUB_KEY = env_config.get('SOCIAL_AUTH_GITHUB_KEY')
-SOCIAL_AUTH_GITHUB_SECRET = env_config.get('SOCIAL_AUTH_GITHUB_SECRET')
+SOCIAL_AUTH_GITHUB_KEY = env_config.get('SOCIAL_AUTH_GITHUB_KEY', '')
+SOCIAL_AUTH_GITHUB_SECRET = env_config.get('SOCIAL_AUTH_GITHUB_SECRET', '')
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', '')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', '')
