@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load widget_tweaks %}
 
 {% block content %}
 <section class="pb-5">
@@ -11,7 +10,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
                         viewBox="0 0 24 24" version="1.1" class="injected-svg icon bg-primary"
                         data-src="/static/img/icons/theme/general/settings-1.svg" data-inject-svg="data-inject-svg">
-                        <title>Icon For Settings-1</title>
                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <rect opacity="0" x="0" y="0" width="24" height="24"></rect>
                             <path
@@ -50,7 +48,8 @@
         <div class="container">
             <div class="row mb-4 mb-md-5 align-items-start">
                 <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0 sticky-lg-top pl-lg-5">
-                    <div class="alert alert-primary">Your information is always kept secure and can never be accessed
+                    <div class="alert alert-primary">
+                        Your information is always kept secure and can never be accessed
                         by third parties.
                         <a href="{% url 'privacy_policy' %}" target="_this">View our Privacy Policy</a>
                     </div>
