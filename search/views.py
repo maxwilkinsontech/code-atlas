@@ -24,7 +24,9 @@ class SearchView(LoginRequiredMixin, ListView):
         Add Django documentation to context.
         """
         data = super().get_context_data(**kwargs)
-        data['django_search_results'] = search_django_site(self.get_search_query())
+        search_query = self.get_search_query()
+        # Add Django documentation results
+        data['django_search_results'] = search_django_site(search_query)
         data['django_docs_info'] = django_docs_info()
         return data
 
@@ -37,11 +39,10 @@ class SearchView(LoginRequiredMixin, ListView):
         if search_query is not None:
             user = self.request.user
             # Log search query.
-            SearchHistory.objects.create(user=user, query=search_query)
-            # Search for matching Notes.
-            search_django_site(search_query)
+            SearchHistory.objects.create(user=self.request.user, query=search_query)
+            # Return search results
             vector = SearchVector('title', 'content')
             query = SearchQuery(search_query)
-            results = Note.objects.filter(user=user).annotate(rank=SearchRank(vector, query)).order_by('-rank')[:10]
+            results = Note.objects.filter(user=user).annotate(rank=SearchRank(vector, query)).order_by('-rank')[:12]
             return results
         return

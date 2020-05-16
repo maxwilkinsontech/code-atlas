@@ -77,14 +77,14 @@ class SearchViewTest(TestCase):
         request.user = self.user
         view = self.setup_view(SearchView(), request)
 
-        self.assertEqual(view.get_queryset().count(), 10)
+        self.assertEqual(view.get_queryset().count(), 12)
 
-    # TODO: find why this test is not working as expected
-    # def test_get_queryset_create_search_history(self):
-    #     history_count = SearchHistory.objects.filter(user=self.user).count()
-    #     request = factory.get(reverse('search') + '?q=test')
-    #     request.user = self.user
-    #     view = self.setup_view(SearchView(), request) 
+    def test_get_queryset_create_search_history(self):
+        history_count = SearchHistory.objects.filter(user=self.user).count()
+        request = factory.get(reverse('search') + '?q=test')
+        request.user = self.user
+        view = self.setup_view(SearchView(), request)
+        queryset = view.get_queryset()
 
-    #     new_history_count = SearchHistory.objects.filter(user=self.user).count()
-    #     self.assertEqual(history_count+1, new_history_count)
+        new_history_count = SearchHistory.objects.filter(user=self.user).count()
+        self.assertEqual(history_count+1, new_history_count)
