@@ -17,7 +17,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'django_notebook_dev',
-        'USER': 'postgres',
+        'USER': 'django_notebook',
         'PASSWORD': 'superuser',
         'HOST': 'localhost',
         'PORT': '',
