@@ -64,9 +64,14 @@ class DeleteAccountTest(TestCase):
     def test_delete(self):
         email = 'test123@email.com'
         user = User.objects.create_user(email=email)
+        user.set_password('password')
+        user.save()
+        self.client.login(email=email, password='password')
         response = self.client.post(reverse('delete_account', args=[email]))
 
         self.assertEqual(response.status_code, 302)
+        delete_user = User.objects.filter(email=email)
+        self.assertFalse(delete_user.exists())
 
 class SignUpTest(TestCase):
     def test_view_url_exists_at_desired_location(self):
