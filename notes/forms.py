@@ -11,7 +11,7 @@ class NoteForm(forms.ModelForm):
 
     class Meta:
         model = Note
-        fields = ['title', 'content', 'tags']
+        fields = ['title', 'content']
 
     def __init__(self, obj=None, *args, **kwargs):
         super(NoteForm, self).__init__(*args, **kwargs)
@@ -35,8 +35,8 @@ class NoteForm(forms.ModelForm):
         tags = data.get('tags')
         # Radio button has value 'on' if checked, 'off' otherwise.
         note.is_public = True if is_public == 'on' else False
-        note.tags = tags
         note.save()
+        note.tags = tags
         return note
 
 class ReferenceForm(forms.ModelForm):

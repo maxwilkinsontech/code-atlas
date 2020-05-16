@@ -6,7 +6,7 @@ from django.db import transaction
 from .forms import ReferenceFormSet
 
 
-class NoteOwnerMixin(AccessMixin):
+class NoteCreatorMixin(AccessMixin):
     """
     Mixin to only allow access to a view if the creator of the Note is the User making the request.
     """
@@ -21,7 +21,7 @@ class NoteOwnerMixin(AccessMixin):
             return redirect('view_note', note.id)
         return super().dispatch(request, *args, **kwargs)
 
-class NoteOwnerOrPublicMixin(AccessMixin):
+class NoteCreatorOrPublicMixin(AccessMixin):
     """
     Mixin to prevent a User other than the owner from viewing non-public Note.
     """

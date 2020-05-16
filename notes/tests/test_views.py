@@ -7,15 +7,10 @@ from notes.models import Note
 
 class NotesTest(TestCase):
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(
-            email=self.user.email, 
-            password=psw
-        )
+        self.client.login(email=self.user.email, password='password')
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/notes/')
@@ -39,7 +34,6 @@ class NotesTest(TestCase):
             title='test',
             content='content'
         )
-
         response = self.client.get(reverse('notes'))
 
         self.assertEqual(response.status_code, 200)
@@ -48,10 +42,9 @@ class NotesTest(TestCase):
 class CreateNoteViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
-        password = 'password'
-        self.user.set_password(password)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(email=self.user.email, password=password)
+        self.client.login(email=self.user.email, password='password')
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/notes/create/')
@@ -74,9 +67,8 @@ class CreateNoteViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue('references' in response.context)
-        self.assertTrue('form' in response.context)
 
-    def test_post(self):
+    def test_view_create_note_on_post(self):
         response = self.client.post(
             reverse('create_note'),
             data={
@@ -84,8 +76,14 @@ class CreateNoteViewTest(TestCase):
                 'content': 'content',
                 'tags': 'python, django',
                 'is_public': 'off',
+                'references-TOTAL_FORMS': '1', 
+                'references-INITIAL_FORMS': '0', 
+                'references-MIN_NUM_FORMS': '0', 
+                'references-MAX_NUM_FORMS': '1000', 
+                'references-0-id': '', 
+                'references-0-note': '', 
                 'references-0-reference_url': 'https://google.com', 
-                'references-0-reference_desc': 'testing', 
+                'references-0-reference_desc': '1', 
             }    
         )
 
@@ -99,15 +97,10 @@ class CreateNoteViewTest(TestCase):
 
 class ViewNoteTest(TestCase):
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(
-            email=self.user.email, 
-            password=psw
-        )
+        self.client.login(email=self.user.email, password='password')
 
         user = User.objects.create_user(email='test2@email.com')
 
@@ -139,22 +132,12 @@ class ViewNoteTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'view_note.html')
 
-    def test_view_not_public(self):
-        response = self.client.get(reverse('view_note', args=[self.note2.id]))
-
-        self.assertEqual(response.status_code, 302)
-
 class EditNoteTest(TestCase):
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(
-            email=self.user.email, 
-            password=psw
-        )
+        self.client.login(email=self.user.email, password='password')
 
         self.note = Note.objects.create(
             user=self.user,
@@ -178,13 +161,13 @@ class EditNoteTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'edit_note.html')
 
-    def test_view_context(self):
+    def test_view_correct_context(self):
         response = self.client.get(reverse('edit_note', args=[self.note.id]))
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue('references' in response.context)
 
-    def test_post(self):
+    def test_view_update_note_on_post(self):
         response = self.client.post(
             reverse('edit_note', args=[self.note.id]),
             data={
@@ -200,7 +183,6 @@ class EditNoteTest(TestCase):
                 'references-0-note': '', 
                 'references-0-reference_url': 'https://google.com', 
                 'references-0-reference_desc': '1', 
-                'references-0-DELETE': ''
             }    
         )
 
@@ -214,15 +196,11 @@ class EditNoteTest(TestCase):
 
 class DeleteNoteTest(TestCase):
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(
-            email=self.user.email,
-            password=psw
-        )
+        self.client.login(email=self.user.email, password='password')
+        
         self.note = Note.objects.create(
             user=self.user,
             title='test',
@@ -236,10 +214,12 @@ class DeleteNoteTest(TestCase):
         try:
             self.note.refresh_from_db()
         except:
-            # exception from not existing anymore
             self.assertTrue(True)
+        else:
+            self.assertTrue(False)
 
     def test_delete_not_from_creator(self):
         response = self.client.post(reverse('delete_note', args=[self.note.id]))
 
         self.assertEqual(response.status_code, 302)
+        self.assertIsNotNone(self.note)
