@@ -8,7 +8,7 @@ urlpatterns = [
         views.Settings.as_view(), 
         name='account_settings'
     ),
-    path('settings/delete-account/<slug>/', 
+    path('settings/delete-account/', 
         views.DeleteAccount.as_view(), 
         name='delete_account'
     ),

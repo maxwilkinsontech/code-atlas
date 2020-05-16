@@ -67,7 +67,7 @@ class DeleteAccountTest(TestCase):
         user.set_password('password')
         user.save()
         self.client.login(email=email, password='password')
-        response = self.client.post(reverse('delete_account', args=[email]))
+        response = self.client.post(reverse('delete_account'))
 
         self.assertEqual(response.status_code, 302)
         delete_user = User.objects.filter(email=email)

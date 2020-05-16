@@ -81,7 +81,7 @@
                             </p>
                         </div>
                     </div>
-                    <form method="POST" action="{% url 'delete_account' user.email %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+                    <form method="POST" action="{% url 'delete_account' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
                         {% csrf_token %}
                         <button class="btn btn-danger" type="submit">Delete Account</button>
                     </form>

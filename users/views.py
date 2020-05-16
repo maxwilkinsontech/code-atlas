@@ -43,5 +43,7 @@ class DeleteAccount(LoginRequiredMixin, DeleteView):
     Delete a User account and all data associated with it.
     """
     model = User
-    slug_field = 'email'
     success_url = reverse_lazy('home')
+
+    def get_object(self):
+        return self.request.user
