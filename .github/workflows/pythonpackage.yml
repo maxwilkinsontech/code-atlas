@@ -21,6 +21,13 @@ jobs:
       uses: Harmon758/postgresql-action@v1.0.0
       with:
         postgresql version: '12'
+    - name: Create test database
+      run: |
+        psql
+        CREATE DATABASE django_notebook_dev;
+        CREATE USER django_notebook WITH PASSWORD 'superuser';
+        GRANT ALL PRIVILEGES ON DATABASE django_notebook_dev TO django_notebook;
+        \q
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
