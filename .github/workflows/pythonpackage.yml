@@ -23,7 +23,7 @@ jobs:
         postgresql version: '12'
     - name: Create test database
       run: |
-        psql
+        sudo -u postgres psql
         CREATE DATABASE django_notebook_dev;
         CREATE USER django_notebook WITH PASSWORD 'superuser';
         GRANT ALL PRIVILEGES ON DATABASE django_notebook_dev TO django_notebook;
