@@ -2,7 +2,6 @@
     "production": {
         "aws_region": "eu-west-2",
         "django_settings": "notebook.settings.production",
-        "profile_name": "default",
         "project_name": "django-notebook",
         "runtime": "python3.7",
         "s3_bucket": "zappa-22aybqkpy"
