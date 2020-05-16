@@ -6,15 +6,10 @@ from users.models import User
 
 class SettingsTest(TestCase):
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(
-            email=self.user.email, 
-            password=psw
-        )
+        self.client.login(email=self.user.email, password='password')
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/accounts/settings/')
@@ -89,34 +84,6 @@ class SignUpTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'signup.html')
-
-    def test_post_successful(self):
-        email = 'new_user@email.com'
-        response = self.client.post(
-            reverse('signup'),
-            data={
-                'email': email,
-                'password1': 'sdDsd34cvc',
-                'password2': 'sdDsd34cvc',
-            }    
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(User.objects.filter(email=email).exists())
-
-    def test_post_user_already_exists(self):
-        User.objects.create_user(email='test@email.com')
-
-        response = self.client.post(
-            reverse('signup'),
-            data={
-                'email': 'test@email.com',
-                'password1': 'password',
-                'password2': 'password',
-            }    
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertNotEqual(response.context['form'].errors, '')
         
 class SignInTest(TestCase):
     def test_view_url_exists_at_desired_location(self):
@@ -137,15 +104,10 @@ class SignInTest(TestCase):
         
 class LogoutViewTest(TestCase):
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(
-            email=self.user.email, 
-            password=psw
-        )
+        self.client.login(email=self.user.email, password='password')
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/accounts/logout/')
@@ -156,4 +118,3 @@ class LogoutViewTest(TestCase):
         response = self.client.get(reverse('logout'))
 
         self.assertEqual(response.status_code, 302)
-    
