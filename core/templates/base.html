@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
     <!-- highlight.js -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
+    <!-- SimpleMDE -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155126184-2"></script>
     <script>
@@ -122,7 +124,10 @@
                 class="row flex-column flex-lg-row align-items-center justify-content-center justify-content-lg-between text-center text-lg-left">
                 <div class="col-auto">
                     <div class="d-flex flex-column flex-sm-row align-items-center text-small">
-                        <div class="text-muted">Copyright © 2020 Django Notebook, All rights reserved
+                        <div class="text-muted">
+                            Copyright © 2020 Django Notebook, All rights reserved
+                            <a href="{% url 'privacy_policy' %}" class="mx-2">Privacy Policy</a>
+                            <a href="{% url 'terms_of_service' %}">Terms of Service</a>
                         </div>
                     </div>
                 </div>
@@ -192,8 +197,8 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
     <script type="text/javascript" src="{% static 'js/highlight/custom-highlight.js' %}"></script>
-    <!-- Search bar submit with enter -->
-    <script type="text/javascript" src="{% static 'js/search/submit-search.js' %}"></script>
+    <!-- SimpleMDE -->
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <!-- Removes page load animation when window is finished loading -->
     <script type="text/javascript">
         window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
