@@ -11,7 +11,7 @@ class NoteForm(forms.ModelForm):
 
     class Meta:
         model = Note
-        fields = ['title', 'content', 'tags']
+        fields = ['title', 'content']
 
     def __init__(self, note=None, *args, **kwargs):
         super(NoteForm, self).__init__(*args, **kwargs)
@@ -24,8 +24,20 @@ class NoteForm(forms.ModelForm):
         self.fields['tags'].widget.attrs.update({
             'placeholder': 'Provide a comma seperated list of tags e.g. python, django',
         })
-        if note:
-            self.fields['tags'].initial = ', '.join([str(i) for i in note.tags])
+        # Add tags to field if form being called from EditNoteView.
+        if self.instance is not None:
+            self.fields['tags'].initial = ', '.join([str(i) for i in self.instance.tags])
+
+    def save(self, data, commit=True):
+        note = super().save(commit=False)
+        # Save data not in the form.
+        is_public = data.get('is_public')
+        tags = data.get('tags')
+        # Radio button has value 'on' if checked, 'off' otherwise.
+        note.is_public = True if is_public == 'on' else False
+        note.save()
+        note.tags = tags
+        return note
 
 class ReferenceForm(forms.ModelForm):
     class Meta:

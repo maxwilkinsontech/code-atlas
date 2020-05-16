@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load widget_tweaks %}
-
-{% block head_extra %}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
-{% endblock head_extra %}
 
 {% block nav-bar-color %}navbar-dark{% endblock nav-bar-color %}
 
@@ -24,7 +19,7 @@
                     <div class="d-flex align-items-center justify-content-center" style="overflow: hidden; white-space: nowrap;">
                         <div class="text-small mb-2 mb-sm-0 mr-2">Recent searches:</div>
                         <ul class="d-flex list-unstyled mb-0" style="overflow: hidden">
-                            {% for search in view.get_search_history %}
+                            {% for search in user.get_recent_searches %}
                                 <li class="m-1">
                                     <a class="badge badge-pill badge-white" href="{% url 'search' %}?q={{ search.query }}">{{ search.query }}</a>
                                 </li>
@@ -52,57 +47,46 @@
     {% endif %}
 </div>
 {% if view.get_search_query %}
-<section class="bg-light pt-1 pb-0">
-    <div class="container">
-        <h2 class="h1 mt-4">Your Notes</h2>
-        <div class="row">
-            {% for note in object_list %}
-                <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                    <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100 fade-page">
-                        <h4>{{ note.title }}</h4>
-                        <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+    <section class="bg-light pt-1 pb-0">
+        <div class="container">
+            <h2 class="h1 mt-4">Your Notes</h2>
+            <div class="row">
+                {% for note in object_list %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100 fade-page">
+                            <h4>{{ note.title }}</h4>
+                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+                        </a>
+                    </div>
+                {% empty %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                        <p>
+                            You haven't created any notes yet. 
+                            <a href="{% url 'create_note' %}" class="fade-page">Create Note</a>
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+            <hr class="my-md-4 my-lg-5">
+            <h2 class="h1 mt-4">Django Docs</h2>
+            <div class="lead mb-4">
+                Results directly from the Django documentation {{ django_docs_info.version }} 
+                <a href="{{ django_docs_info.url }}">docs.djangoproject.com</a>.
+            </div>
+            <ul class="list-group">
+                {% for result in django_search_results %}
+                    <a href="{{ result.url }}" target="_blank">
+                        <li class="list-group-item p-4 my-1">
+                            <h6 class="mb-2">{{ result.title }}</h6>
+                            <p>{{ result.breadcrumbs }}</p>
+                        </li>
                     </a>
-                </div>
-            {% empty %}
-                <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                    <p>You haven't created any notes yet. <a href="{% url 'create_note' %}" class="fade-page">Create Note</a></p>
-                </div>
-            {% endfor %}
+                {% empty %}
+                    <p class="mt-4">No results found.</p>
+                {% endfor %}
+            </ul>
         </div>
-        <hr class="my-md-4 my-lg-5">
-        <h2 class="h1 mt-4">Django Docs</h2>
-        {% with docs=view.django_doc_info %}
-        <div class="lead mb-4">Results directly from the Django documentation {{ docs.version }} <a href="{{ docs.url }}">docs.djangoproject.com</a>.</div>
-        {% endwith %}
-        <ul class="list-group">
-        {% for result in view.get_django_search_results %}
-            <a href="{{ result.url }}" target="_blank">
-                <li class="list-group-item p-4 my-1">
-                    <h6 class="mb-2">{{ result.title }}</h6>
-                    <p>{{ result.breadcrumbs }}</p>
-                </li>
-            </a>
-        {% empty %}
-            </ul><p class="mt-4">No results found.</p>
-        {% endfor %}
-    </div>
-    <div class="divider divider-bottom bg-primary-3"></div>
-</section>
+        <div class="divider divider-bottom bg-primary-3"></div>
+    </section>
 {% endif %}
 {% endblock content %}
-
-{% block scripts_extra %}
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-<script>
-    hljs.initHighlightingOnLoad();
-    var content;
-    $(".note-content").each(function () {
-        content = $(this).html();
-        if (content != '') {
-            $(this).html(marked(content));
-        }
-    });
-</script>
-{% endblock scripts_extra %}

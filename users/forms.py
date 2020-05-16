@@ -24,16 +24,17 @@ class SettingsForm(forms.Form):
         super(SettingsForm, self).__init__(*args, **kwargs)
         self.request = request
         self.user = user
-        self.fields['email'].initial = user
+        self.fields['email'].initial = user.email
 
     def clean(self):
         cleaned_data = super().clean()
-        # Make sure email is not already in use.
         email = cleaned_data.get('email', '')
+        
+        # Make sure email is not already in use.
         if email != '' and email != self.user.email:
             existing_user = User.objects.filter(email=email)
             if existing_user.exists():
-                self.add_error('email', 'User with this Email address already exists.') 
+                self.add_error('email', 'User with this Email address already exists.')
 
     def save(self):
         user = self.user
@@ -43,6 +44,7 @@ class SettingsForm(forms.Form):
 
         if email != '':
             user.email = email
+            
         if password != '':
             user.set_password(password)
             login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')

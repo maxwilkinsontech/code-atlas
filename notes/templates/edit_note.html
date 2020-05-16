@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load widget_tweaks %}
 
 {% block content %}
 <section class="pb-0 bg-light">
-<form action="" method="post" novalidate>
-{% csrf_token %}
+    {# Begin form here to include is_public radio button #}
+    <form method="post" novalidate>
+    {% csrf_token %}
     <div class="container">
-        <div class="row section-title justify-content-center text-center mt-4 mt-md-0">
+        <div class="row section-title justify-content-center text-center my-4 mt-md-0">
             <div class="col-md-12 col-lg-9 col-xl-9">
                 <div class="row">
                     <div class="col d-flex flex-column align-items-start">
                         <nav aria-label="breadcrumb ">
                             <ol class="breadcrumb px-3">
-                                <li class="breadcrumb-item"><a href="{% url 'view_note' object.id %}" class="fade-page">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'view_note' object.id %}" class="fade-page">
                                         <img src="{% static 'img/icons/interface/icon-arrow-left.svg' %}" alt="arrow-left icon"
                                             class="icon icon-sm text-primary">
-                                        Go back</a>
+                                        Go back
+                                    </a>
                                 </li>
                             </ol>
                         </nav>
@@ -29,45 +31,17 @@
                     </div>
                 </div>  
                 <h3 class="display-4 mb-2">Edit Note</h3>
-                <small class="text-muted my-2">Created on {{ object.date_created }}<br>Last updated
-                    {{ object.last_edited }}</small>
+                <small class="text-muted my-2">
+                    Created on {{ object.date_created }}<br>
+                    Last updated {{ object.last_edited }}
+                </small>
             </div>
         </div>
         <div class="row justify-content-center mt-0">
             <div class="col-md-12 col-lg-9 col-xl-9">
                     {% include 'forms/form.html' with form=form label=True %}
-                    
                     <h4>References</h4>
-                    <table class="table">
-                        {{ references.management_form }}
-                        {% for form in references.forms %}
-                        <tr class="formset_row">
-                            {% for field in form.visible_fields %}
-                                <td>
-                                    {% if forloop.first %}
-                                        {% for hidden in form.hidden_fields %}
-                                            {{ hidden }}
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if form.is_bound %}
-                                        {% if field.errors %}
-                                            {% render_field field class="form-control is-invalid pb_height-50 reverse" %}
-                                            {% for error in field.errors %}
-                                            <div class="invalid-feedback">
-                                                {{ error }}
-                                            </div>
-                                            {% endfor %}
-                                        {% else %}
-                                            {% render_field field class="form-control is-valid pb_height-50 reverse" %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% render_field field class="form-control pb_height-50 reverse" %}
-                                    {% endif %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </table>
+                    {% include 'forms/references_form.html' with references=references %}
                     <button class="btn btn-primary btn-block" type="submit">Save Note</button>
                 </form>
                 <form method="POST" action="{% url 'delete_note' object.id %}" onsubmit="return confirm('Are you sure you want to delete this Note?');">
@@ -89,20 +63,16 @@
             deleteText: 'X',
             prefix: 'references'
         });
+        // Prevent tab from unfocusing from text area and inserting a tab instead.
         $(document).delegate('textarea', 'keydown', function (e) {
             var keyCode = e.keyCode || e.which;
-
             if (keyCode == 9) {
                 e.preventDefault();
                 var start = this.selectionStart;
                 var end = this.selectionEnd;
-
-                // set textarea value to: text before caret + tab + text after caret
                 $(this).val($(this).val().substring(0, start)
                     + "\t"
                     + $(this).val().substring(end));
-
-                // put caret at right position again
                 this.selectionStart =
                     this.selectionEnd = start + 1;
             }

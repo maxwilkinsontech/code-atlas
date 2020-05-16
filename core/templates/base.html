@@ -12,6 +12,8 @@
     <!-- End loading animation -->
     <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155126184-2"></script>
     <script>
@@ -186,11 +188,17 @@
     <script type="text/javascript" src="{% static 'js/typed.min.js' %}"></script>
     <!-- Required theme scripts (Do not remove) -->
     <script type="text/javascript" src="{% static 'js/theme.js' %}"></script>
+    <!-- Rendering of markdown and highlighting of code -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/highlight/custom-highlight.js' %}"></script>
+    <!-- Search bar submit with enter -->
+    <script type="text/javascript" src="{% static 'js/search/submit-search.js' %}"></script>
     <!-- Removes page load animation when window is finished loading -->
     <script type="text/javascript">
         window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
     </script>
-    <!-- Search bar submit with enter -->
+    <!-- Submit Navbar search form upon Enter -->
     <script>
         $(function () {
             $('#search-form').each(function () {
@@ -200,13 +208,12 @@
                         this.form.submit();
                     }
                 });
-
                 $(this).find('input[type=submit]').hide();
             });
         });
     </script>
-    {% block scripts_extra %}{% endblock scripts_extra %}
 
+    {% block scripts_extra %}{% endblock scripts_extra %}
 </body>
 
 </html>

@@ -22,15 +22,10 @@ class SearchViewTest(TestCase):
         return view
 
     def setUp(self):
-        # Login User
         self.user = User.objects.create_user(email='test@email.com')
-        psw = 'password'
-        self.user.set_password(psw)
+        self.user.set_password('password')
         self.user.save()
-        self.client.login(
-            email=self.user.email, 
-            password=psw
-        )
+        self.client.login(email=self.user.email, password='password')
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/search/')
@@ -48,66 +43,48 @@ class SearchViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'search.html')
 
-    def test_get_search_query(self):
+    def test_view_get_search_query(self):
         request = factory.get(reverse('search') + '?q=test')
         view = self.setup_view(SearchView(), request)
 
         self.assertEqual(view.get_search_query(), 'test')
 
-    def test_get_queryset_no_query(self):
+    def test_view_get_queryset_no_query(self):
         request = factory.get(reverse('search'))
         view = self.setup_view(SearchView(), request) 
 
         self.assertIsNone(view.get_queryset())
 
-    # TODO: find why this test is not working as expected
-    # def test_get_queryset_create_search_history(self):
-    #     history_count = SearchHistory.objects.filter(user=self.user).count()
-    #     request = factory.get(reverse('search') + '?q=test')
-    #     request.user = self.user
-    #     view = self.setup_view(SearchView(), request) 
+    def test_view_test_context_correct(self):
+        response = self.client.get(reverse('search'))
 
-    #     new_history_count = SearchHistory.objects.filter(user=self.user).count()
-    #     self.assertEqual(history_count+1, new_history_count)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('django_search_results' in response.context)
+        self.assertTrue('django_docs_info' in response.context)
 
-    def test_get_queryset_with_query(self):
-        for i in range(10):
+    def test_get_queryset_with_empty_query(self):
+        request = factory.get(reverse('search'))
+        request.user = self.user
+        view = self.setup_view(SearchView(), request)
+
+        self.assertIsNone(view.get_queryset())
+
+    def test_get_queryset_with_valid_query(self):
+        for i in range(24):
             Note.objects.create(user=self.user, title='test', content='test')
 
         request = factory.get(reverse('search') + '?q=test')
         request.user = self.user
         view = self.setup_view(SearchView(), request)
 
-        self.assertEqual(view.get_queryset().count(), 10)
+        self.assertEqual(view.get_queryset().count(), 12)
 
-    def test_get_search_history(self):
-        SearchHistory.objects.create(user=self.user, query='1')
-        SearchHistory.objects.create(user=self.user, query='2')
-        SearchHistory.objects.create(user=self.user, query='3')
-
+    def test_get_queryset_create_search_history(self):
+        history_count = SearchHistory.objects.filter(user=self.user).count()
         request = factory.get(reverse('search') + '?q=test')
         request.user = self.user
-        view = self.setup_view(SearchView(), request) 
+        view = self.setup_view(SearchView(), request)
+        queryset = view.get_queryset()
 
-        self.assertEqual(view.get_search_history().count(), 3)
-
-    def test_get_django_search_results_no_query(self):
-        request = factory.get(reverse('search'))
-        view = self.setup_view(SearchView(), request) 
-
-        self.assertEqual(view.get_django_search_results(), [])
-
-    def test_get_django_search_results_query_present(self):
-        request = factory.get(reverse('search') + '?q=test')
-        view = self.setup_view(SearchView(), request) 
-
-        self.assertNotEqual(len(view.get_django_search_results()), 0)
-
-    def test_django_doc_info(self):
-        request = factory.get(reverse('search') + '?q=test')
-        view = self.setup_view(SearchView(), request) 
-
-        info = view.django_doc_info()
-
-        self.assertIsNotNone(info.get('url'))
-        self.assertIsNotNone(info.get('version'))
+        new_history_count = SearchHistory.objects.filter(user=self.user).count()
+        self.assertEqual(history_count+1, new_history_count)

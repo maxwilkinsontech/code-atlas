@@ -13,11 +13,7 @@ class Note(DateModel):
     """
     Model to represent a memorable point.
     """
-    id = models.IntegerField(
-        primary_key=True, 
-        blank=True, 
-        unique=True
-    )
+    id = models.IntegerField(primary_key=True, blank=True, unique=True)
     user = models.ForeignKey(
         User, 
         on_delete=models.CASCADE,
@@ -32,9 +28,6 @@ class Note(DateModel):
     )
     is_public = models.BooleanField(default=True)
 
-    def __str__(self):
-        return self.title
-
     def save(self, *args, **kwargs):
         """Generate a random id of length 10 of numerical characters"""
         if not self.id:
@@ -44,6 +37,9 @@ class Note(DateModel):
                     break
             self.id = id
         super(Note, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
 class Reference(DateModel):
     """
@@ -55,7 +51,13 @@ class Reference(DateModel):
         related_name='references'
     )
     reference_url = models.URLField()
-    reference_desc = models.TextField(max_length=255, blank=True)
+    reference_desc = models.TextField(
+        max_length=255, 
+        blank=True
+    )
+
+    def __str__(self):
+        return self.reference_url
 
 # Register Note model for tagging
 register(Note)

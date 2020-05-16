@@ -70,7 +70,7 @@ AWS_S3_REGION_NAME = 'eu-west-2'
 
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
+    'CacheControl': 'max-age=31536000',
 }
 AWS_LOCATION = 'static'
 

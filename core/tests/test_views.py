@@ -18,3 +18,37 @@ class HomeTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
+
+class PrivacyPolicyTest(TestCase):
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/privacy-policy/')
+        
+        self.assertEqual(response.status_code, 200)
+           
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('privacy_policy'))
+
+        self.assertEqual(response.status_code, 200)
+        
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('privacy_policy'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'privacy_policy.html')
+
+class TermsOfServiceTest(TestCase):
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/terms-of-service/')
+        
+        self.assertEqual(response.status_code, 200)
+           
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('terms_of_service'))
+
+        self.assertEqual(response.status_code, 200)
+        
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('terms_of_service'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'terms_of_service.html')

@@ -1,17 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load widget_tweaks %}
-
-{% block head_extra %}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
-{% endblock head_extra %}
 
 {% block content %}
 <div class="pb-0 min-vh-100 o-hidden" data-overlay="" style="padding-top: 80px !important;">
-    <section class="">
+    <section>
         <div class="container">
             <h1 class="display-3">My <mark data-aos="highlight-text" data-aos-delay="500"
                         class="aos-init aos-animate">Notes</mark></h1>
+            {# User's Notes #}
             <div class="row">
                 {% for note in object_list %}
                     <div class="col-sm-12 col-md-6 col-lg-4 my-2">
@@ -33,6 +29,7 @@
                     </div>
                 {% endfor %}
             </div>
+            {# Pagination Indicator #}
             {% if object_list %}
                 <div class="row">
                     <div class="col">
@@ -55,17 +52,17 @@
                                     <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
                                     </li>
                                     {% if page_obj.has_next %}
-                                    <li class="page-item">
-                                        <a class="page-link rounded fade-page" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                class="injected-svg icon icon-xs bg-primary"
-                                                data-src="assets/img/icons/interface/icon-arrow-right.svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"></path>
-                                            </svg>
-                                        </a>
-                                    </li>
+                                        <li class="page-item">
+                                            <a class="page-link rounded fade-page" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    class="injected-svg icon icon-xs bg-primary"
+                                                    data-src="assets/img/icons/interface/icon-arrow-right.svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </svg>
+                                            </a>
+                                        </li>
                                     {% endif %}
                                 </ul>
                             </nav>
@@ -85,22 +82,3 @@
     </section>
 </div>
 {% endblock content %}
-
-{% block scripts_extra %}
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-<script>
-    hljs.initHighlightingOnLoad();
-    $(".note-content").each(function () {
-        content = $(this).html();
-        if (content != '') {
-            $(this).html(marked(content));
-        }
-    });
-    var content = document.getElementById('content');
-    var currentContext = content.innerHTML;
-    var mdown = document.getElementById('mdown');
-    content.innerHTML = marked(currentContext);
-</script>
-{% endblock scripts_extra %}
