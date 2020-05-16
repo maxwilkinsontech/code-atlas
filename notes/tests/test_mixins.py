@@ -1,6 +1,6 @@
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
-from django.contrib.auth.models import AnonymousUser
 
 from notes.mixins import NoteCreatorMixin, NoteCreatorOrPublicMixin, NoteFormMixin
 from notes.models import Note
@@ -14,17 +14,6 @@ class NoteCreatorMixinTest(TestCase):
     class TestMixin(NoteCreatorMixin):
         def get_object(self):
            return Note.objects.get()
-
-    def setup_view(self, view, request, *args, **kwargs):
-        """
-        Mimic ``as_view()``, but returns view instance.
-        Use this function to get view instances on which you can run unit tests,
-        by testing specific methods.
-        """
-        view.request = request
-        view.args = args
-        view.kwargs = kwargs
-        return view
 
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
@@ -58,17 +47,6 @@ class NoteCreatorOrPublicMixinTest(TestCase):
     class TestMixin(NoteCreatorOrPublicMixin):
         def get_object(self):
            return Note.objects.get()
-
-    def setup_view(self, view, request, *args, **kwargs):
-        """
-        Mimic ``as_view()``, but returns view instance.
-        Use this function to get view instances on which you can run unit tests,
-        by testing specific methods.
-        """
-        view.request = request
-        view.args = args
-        view.kwargs = kwargs
-        return view
 
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
@@ -120,17 +98,6 @@ class NoteFormMixinTest(TestCase):
 
     class TestMixin(NoteFormMixin, HelperClass):
         pass
-
-    def setup_view(self, view, request, *args, **kwargs):
-        """
-        Mimic ``as_view()``, but returns view instance.
-        Use this function to get view instances on which you can run unit tests,
-        by testing specific methods.
-        """
-        view.request = request
-        view.args = args
-        view.kwargs = kwargs
-        return view
 
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
