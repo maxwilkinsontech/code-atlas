@@ -1,18 +1,14 @@
 from .base import *
 
-from decouple import Csv, Config, RepositoryEnv
-
-# Set config as .env.dev file
-env_path = 'notebook/settings/.env'
-env_config = Config(RepositoryEnv(env_path))
+from decouple import Csv, config
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env_config.get('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env_config.get('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = env_config.get('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -20,11 +16,11 @@ ALLOWED_HOSTS = env_config.get('ALLOWED_HOSTS', cast=Csv())
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env_config.get('DB_NAME'),
-        'USER': env_config.get('DB_USER'),
-        'PASSWORD': env_config.get('DB_PASSWORD'),
-        'HOST': env_config.get('DB_HOST'),
-        'PORT': env_config.get('DB_PORT'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
@@ -37,11 +33,11 @@ LOGOUT_REDIRECT_URL = '/production'
 
 # Python social auth
 
-SOCIAL_AUTH_GITHUB_KEY = env_config.get('SOCIAL_AUTH_GITHUB_KEY')
-SOCIAL_AUTH_GITHUB_SECRET = env_config.get('SOCIAL_AUTH_GITHUB_SECRET')
+SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 # Sentry 
 
@@ -60,9 +56,9 @@ sentry_sdk.init(
 
 # S3
 
-AWS_ACCESS_KEY_ID = env_config.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env_config.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = env_config.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_REGION_NAME = 'eu-west-2'
