@@ -47,3 +47,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def get_recent_searches(self):
+        searches = self.search_history.order_by('-search_date').values('query')[:5]
+        return searches

@@ -2,7 +2,7 @@ from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
-from .utils import search_django_site
+from .utils import django_docs_info, search_django_site
 from .models import SearchHistory
 from notes.models import Note
 
@@ -12,6 +12,21 @@ class SearchView(LoginRequiredMixin, ListView):
     Search and return a list Note objects. Search query queries against Note title.
     """
     template_name = 'search.html'
+
+    def get_search_query(self):
+        """
+        Get and return the search query in the url name `q`.
+        """
+        return self.request.GET.get('q')
+
+    def get_context_data(self, **kwargs):
+        """
+        Add Django documentation to context.
+        """
+        data = super().get_context_data(**kwargs)
+        data['django_search_results'] = search_django_site(self.get_search_query())
+        data['django_docs_info'] = django_docs_info()
+        return data
 
     def get_queryset(self):
         """
@@ -30,36 +45,3 @@ class SearchView(LoginRequiredMixin, ListView):
             results = Note.objects.filter(user=user).annotate(rank=SearchRank(vector, query)).order_by('-rank')[:10]
             return results
         return
-
-    def get_search_query(self):
-        """
-        Get and return the search query in the url name `q`.
-        """
-        return self.request.GET.get('q')
-
-    def get_search_history(self):
-        """
-        Return the 5 most recent searches the User has made.
-        """
-        history = self.request.user.search_history.order_by('-search_date').values('query')[:5]
-        return history
-
-    def get_django_search_results(self):
-        """
-        Return the results from Django documentation.
-        """
-        search_query = self.get_search_query()
-        if search_query is not None:
-            return search_django_site(search_query)
-        return []
-
-    def django_doc_info(self):
-        """
-        Method called from template. Used so that url can be easily changed in future if needed.
-        """
-        url = 'https://docs.djangoproject.com/en/3.0/'
-        version = 3.0
-        return {
-            'url': url,
-            'version': version
-        }

@@ -24,7 +24,7 @@
                     <div class="d-flex align-items-center justify-content-center" style="overflow: hidden; white-space: nowrap;">
                         <div class="text-small mb-2 mb-sm-0 mr-2">Recent searches:</div>
                         <ul class="d-flex list-unstyled mb-0" style="overflow: hidden">
-                            {% for search in view.get_search_history %}
+                            {% for search in user.get_recent_searches %}
                                 <li class="m-1">
                                     <a class="badge badge-pill badge-white" href="{% url 'search' %}?q={{ search.query }}">{{ search.query }}</a>
                                 </li>
@@ -71,11 +71,9 @@
         </div>
         <hr class="my-md-4 my-lg-5">
         <h2 class="h1 mt-4">Django Docs</h2>
-        {% with docs=view.django_doc_info %}
-        <div class="lead mb-4">Results directly from the Django documentation {{ docs.version }} <a href="{{ docs.url }}">docs.djangoproject.com</a>.</div>
-        {% endwith %}
+        <div class="lead mb-4">Results directly from the Django documentation {{ django_docs_info.version }} <a href="{{ django_docs_info.url }}">docs.djangoproject.com</a>.</div>
         <ul class="list-group">
-        {% for result in view.get_django_search_results %}
+        {% for result in django_search_results %}
             <a href="{{ result.url }}" target="_blank">
                 <li class="list-group-item p-4 my-1">
                     <h6 class="mb-2">{{ result.title }}</h6>
