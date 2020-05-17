@@ -24,6 +24,12 @@ DATABASES = {
     }
 }
 
+# Cookies
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+
 # Auth Settings
 
 LOGIN_URL = '/accounts/signin'

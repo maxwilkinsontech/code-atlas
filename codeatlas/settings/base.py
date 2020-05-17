@@ -113,12 +113,6 @@ STATICFILES_DIRS = [
 ]
 
 
-# Cookies
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
-
 # Auth Settings
 
 AUTH_USER_MODEL = 'users.User'
