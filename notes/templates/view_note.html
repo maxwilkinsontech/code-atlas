@@ -12,7 +12,7 @@
                             <nav aria-label="breadcrumb ">
                                 <ol class="breadcrumb px-3">
                                     <li class="breadcrumb-item">
-                                        <a href="{% url 'edit_note' object.id %}" class="fade-page">
+                                        <a href="{% url 'edit_note' object.id %}">
                                             <img src="{% static 'img/icons/theme/general/edit.svg' %}" alt="arrow-left icon" class="icon icon-sm text-primary">
                                             Edit
                                         </a>
@@ -52,7 +52,7 @@
                             <div class="m-3">
                                 <div class="row">
                                     <div class="col-sm-8 col-md-9">
-                                        <h5><a href="{{ ref.reference_url }}">{{ ref.reference_url }}</a></h5>
+                                        <h5><a href="{{ ref.reference_url }}" target="_this">{{ ref.reference_url }}</a></h5>
                                         <p class="mb-2">{{ ref.reference_desc }}</p>
                                     </div>
                                     <div class="col-sm-4 col-md-3">

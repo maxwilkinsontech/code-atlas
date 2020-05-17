@@ -53,7 +53,7 @@
             <div class="row">
                 {% for note in object_list %}
                     <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100 fade-page">
+                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
                             <h4>{{ note.title }}</h4>
                             <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
                         </a>
@@ -62,7 +62,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-4 my-2">
                         <p>
                             You haven't created any notes yet. 
-                            <a href="{% url 'create_note' %}" class="fade-page">Create Note</a>
+                            <a href="{% url 'create_note' %}">Create Note</a>
                         </p>
                     </div>
                 {% endfor %}

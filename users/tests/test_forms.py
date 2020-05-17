@@ -1,11 +1,20 @@
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
 
-from users.forms import SettingsForm
+from users.forms import SettingsForm, SignUpForm
 from users.models import User
 
 
 factory = RequestFactory()
+
+class SignUpFormTest(TestCase):
+    def test_form_with_one_password(self):
+        form_data = {'email': 'test@email.com', 'password1': 'password'}
+        form = SignUpForm(data=form_data)
+        form.is_valid()
+        user = form.save()
+
+        self.assertIsNotNone(user)
 
 class SettingsFormTest(TestCase):
     def setUp(self):

@@ -10,6 +10,10 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('email', 'password1', 'password2')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        del self.fields['password2']
+
 class SettingsForm(forms.Form):
     email = forms.EmailField(
         required=False,

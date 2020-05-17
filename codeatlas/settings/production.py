@@ -24,6 +24,22 @@ DATABASES = {
     }
 }
 
+
+# Email - Mailgun
+
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config(EMAIL_HOST_USER)
+EMAIL_HOST_PASSWORD = config(EMAIL_HOST_PASSWORD)
+EMAIL_USE_TLS = True
+
+
+# Cookies
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+
 # Auth Settings
 
 LOGIN_URL = '/accounts/signin'

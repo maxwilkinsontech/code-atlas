@@ -41,11 +41,11 @@
     <div class="navbar-container">
         <nav class="navbar navbar-expand-lg {% block nav-bar-color %}navbar-light{% endblock nav-bar-color %}" {% block nav-bar-overlay %}data-overlay{% endblock nav-bar-overlay %}>
             <div class="container">
-                <a class="navbar-brand navbar-brand-dynamic-color fade-page" href="{% url 'notes' %}">
+                <a class="navbar-brand navbar-brand-dynamic-color" href="{% url 'notes' %}">
                     Code Atlas
                 </a>
                 <div class="d-flex align-items-center order-lg-3">
-                    <a href="{% url 'notes' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0  order-lg-3 fade-page">My Notes</a>
+                    <a href="{% url 'notes' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0  order-lg-3">My Notes</a>
                     <button aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                         data-target=".navbar-collapse" data-toggle="collapse" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -89,16 +89,11 @@
                         </div>
                     </form>
                     <ul class="navbar-nav my-3 my-lg-0">
-                        <!-- <div>
-                            <li class="nav-item">
-                                <a href="{% url 'notes' %}" class="nav-link fade-page">My Notes</a>
-                            </li>
-                        </div> -->
                         <li class="nav-item">
-                            <a href="{% url 'create_note' %}" class="nav-link fade-page">Create Note</a>
+                            <a href="{% url 'create_note' %}" class="nav-link">Create Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'search' %}" class="nav-link fade-page">Search Notes</a>
+                            <a href="{% url 'search' %}" class="nav-link">Search Notes</a>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">
@@ -107,8 +102,8 @@
                                 <div class="row dropdown-menu" style="left: -666px;">
                                     <div class="col-auto" data-dropdown-content="" style="left: 666px;">
                                         <div class="dropdown-grid-menu">
-                                            <a href="{% url 'account_settings' %}" class="dropdown-item fade-page">Settings</a>
-                                            <a href="{% url 'logout' %}" class="dropdown-item fade-page">Logout</a>
+                                            <a href="{% url 'account_settings' %}" class="dropdown-item">Settings</a>
+                                            <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
                                         </div>
                                     </div>
                                 </div>
