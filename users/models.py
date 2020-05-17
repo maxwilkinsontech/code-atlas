@@ -57,14 +57,15 @@ class User(AbstractUser):
         return searches
 
 @receiver(post_save, sender=User)
-def send_welcome_email(sender, instance, **kwargs):
+def send_welcome_email(sender, instance, created, **kwargs):
     """
     Send a new User a welcome email.
     """
-    subject = 'Welcome to Code Atlas'
-    message = render_to_string('email/welcome.html')
-    instance.email_user(
-        subject, 
-        message,
-        from_email='noreply@code-atlas.me'
-    )
+    if created:
+        subject = 'Welcome to Code Atlas'
+        message = render_to_string('email/welcome.html')
+        instance.email_user(
+            subject, 
+            message,
+            from_email='noreply@code-atlas.me'
+        )
