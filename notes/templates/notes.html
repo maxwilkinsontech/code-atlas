@@ -11,14 +11,14 @@
             <div class="row">
                 {% for note in object_list %}
                     <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100 fade-page">
+                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
                             <h4>{{ note.title }}</h4>
                             <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
                         </a>
                     </div>
                 {% empty %}
                     <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 my-2 ">
-                        <a href="{% url 'create_note' %}" class="card card-body hover-box-shadow p-4 fade-page">
+                        <a href="{% url 'create_note' %}" class="card card-body hover-box-shadow p-4">
                             <h4>Looking pretty empty!</h4>
                             <div style="height: 250px; overflow: hidden;">
                                 <p>Lets change that.</p> 
@@ -39,7 +39,7 @@
                                 <ul class="pagination">
                                     {% if page_obj.has_previous %}
                                         <li class="page-item">
-                                            <a class="page-link rounded fade-page" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                            <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                     class="injected-svg icon icon-xs bg-primary"
                                                     data-src="assets/img/icons/interface/icon-arrow-left.svg"
@@ -54,7 +54,7 @@
                                     </li>
                                     {% if page_obj.has_next %}
                                         <li class="page-item">
-                                            <a class="page-link rounded fade-page" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                            <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                     class="injected-svg icon icon-xs bg-primary"
                                                     data-src="assets/img/icons/interface/icon-arrow-right.svg"
