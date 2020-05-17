@@ -4,7 +4,15 @@
         "django_settings": "notebook.settings.production",
         "project_name": "django-notebook",
         "runtime": "python3.7",
-        "s3_bucket": "zappa-22aybqkpy"
+        "s3_bucket": "zappa-22aybqkpy",
+        "certificate_arn": "arn:aws:acm:us-east-1:397167551337:certificate/05229054-92ca-46ef-a582-3cee1839bd19",
+        "domain": "code-atlas.me",
+        "exclude": [
+            ".git/*",
+            ".gitignore",
+            "zappa_settings.json",
+            "README.md"
+        ]
     },
     "staging": {
         "aws_region": "eu-west-2",

@@ -4,9 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Django Notebook</title>
+    <title>Code Atlas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Django Notebook">
+    <meta name="description" content="Code Atlas">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon_io/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon_io/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon_io/favicon-16x16.png' %}">
@@ -42,7 +42,7 @@
         <nav class="navbar navbar-expand-lg {% block nav-bar-color %}navbar-light{% endblock nav-bar-color %}" {% block nav-bar-overlay %}data-overlay{% endblock nav-bar-overlay %}>
             <div class="container">
                 <a class="navbar-brand navbar-brand-dynamic-color fade-page" href="{% url 'notes' %}">
-                    Django Notebook
+                    Code Atlas
                 </a>
                 <div class="d-flex align-items-center order-lg-3">
                     <a href="{% url 'notes' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0  order-lg-3 fade-page">My Notes</a>
@@ -129,7 +129,7 @@
                 <div class="col-auto">
                     <div class="d-flex flex-column flex-sm-row align-items-center text-small">
                         <div class="text-muted">
-                            Copyright © 2020 Django Notebook, All rights reserved
+                            Copyright © 2020 Code Atlas, All rights reserved
                             <a href="{% url 'privacy_policy' %}" class="mx-2">Privacy Policy</a>
                             <a href="{% url 'terms_of_service' %}">Terms of Service</a>
                         </div>
