@@ -27,7 +27,7 @@ DATABASES = {
 
 # Email - Mailgun
 
-EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST = 'smtp.eu.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
