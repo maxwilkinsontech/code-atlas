@@ -26,10 +26,9 @@ DATABASES = {
 
 # Auth Settings
 
-# Change when using custom domain.
-LOGIN_URL = '/production/accounts/signin'
-LOGIN_REDIRECT_URL = '/production/notes'
-LOGOUT_REDIRECT_URL = '/production'
+LOGIN_URL = '/accounts/signin'
+LOGIN_REDIRECT_URL = '/notes'
+LOGOUT_REDIRECT_URL = '/'
 
 # Python social auth
 
