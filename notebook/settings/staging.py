@@ -3,7 +3,7 @@ from .base import *
 from decouple import Csv, Config, RepositoryEnv
 
 # Set config as .env.dev file
-env_path = 'notebook/settings/.env.dev'
+env_path = 'notebook/settings/.env.staging'
 env_config = Config(RepositoryEnv(env_path))
 
 # SECURITY WARNING: keep the secret key used in production secret!

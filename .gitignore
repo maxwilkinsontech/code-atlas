@@ -99,7 +99,7 @@ celerybeat-schedule
 
 # Environments
 .env
-.env.dev
+.env.staging
 .env.local
 .venv
 env/
