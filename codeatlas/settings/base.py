@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'notebook.urls'
+ROOT_URLCONF = 'codeatlas.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'notebook.wsgi.application'
+WSGI_APPLICATION = 'codeatlas.wsgi.application'
 
 
 # Password validation
