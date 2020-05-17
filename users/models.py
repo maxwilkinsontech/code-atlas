@@ -1,5 +1,9 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
+from django.template.loader import render_to_string
+from django.db.models.signals import post_save
+from django.core.mail import send_mail
+from django.dispatch import receiver
 from django.db import models
 
 
@@ -51,3 +55,16 @@ class User(AbstractUser):
     def get_recent_searches(self):
         searches = self.search_history.order_by('-search_date').values('query')[:5]
         return searches
+
+@receiver(post_save, sender=User)
+def send_welcome_email(sender, instance, **kwargs):
+    """
+    Send a new User a welcome email.
+    """
+    subject = 'Welcome to Code Atlas'
+    message = render_to_string('email/welcome.html')
+    instance.email_user(
+        subject, 
+        message,
+        from_email='noreply@code-atlas.me'
+    )
