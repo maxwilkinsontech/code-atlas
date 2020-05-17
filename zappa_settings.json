@@ -1,7 +1,7 @@
 {
     "production": {
         "aws_region": "eu-west-2",
-        "django_settings": "notebook.settings.production",
+        "django_settings": "codeatlas.settings.production",
         "project_name": "django-notebook",
         "runtime": "python3.7",
         "s3_bucket": "zappa-22aybqkpy",
@@ -9,14 +9,17 @@
         "domain": "code-atlas.me",
         "exclude": [
             ".git/*",
+            ".github/*",
+            ".vscode/*",
+            "static/*",
             ".gitignore",
             "zappa_settings.json",
-            "README.md"
+            "readme.md"
         ]
     },
     "staging": {
         "aws_region": "eu-west-2",
-        "django_settings": "notebook.settings.production",
+        "django_settings": "codeatlas.settings.production",
         "project_name": "django-notebook",
         "runtime": "python3.7",
         "s3_bucket": "zappa-22aybqkpz"
