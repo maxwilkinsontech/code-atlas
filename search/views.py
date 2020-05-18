@@ -1,10 +1,8 @@
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
-from .utils import django_docs_info, search_django_site
+from .utils import django_docs_info, search_django_site, SearchUtil
 from .models import SearchHistory
-from notes.models import Note
 
 
 class SearchView(LoginRequiredMixin, ListView):
@@ -32,17 +30,14 @@ class SearchView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """
-        Get the User's Notes ordered by ranking with given search query. Implements a full-text
-        search on the fields: `title` and `content`.
+        If there is a search_query present in the url, search the given User's Notes. Make a log of
+        the search query for the User.
         """
         search_query = self.get_search_query()
         if search_query is not None:
             user = self.request.user
-            # Log search query.
-            SearchHistory.objects.create(user=self.request.user, query=search_query)
-            # Return search results
-            vector = SearchVector('title', 'content')
-            query = SearchQuery(search_query)
-            results = Note.objects.filter(user=user).annotate(rank=SearchRank(vector, query)).order_by('-rank')[:12]
+            SearchHistory.objects.create(user=user, query=search_query)
+            results = SearchUtil(search_query, user)
+            results = results.search()
             return results
         return

@@ -1,5 +1,10 @@
 import requests
+
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+
 from bs4 import BeautifulSoup
+
+from notes.models import Note
 
 
 def django_docs_info():
@@ -47,3 +52,101 @@ def search_django_site(query):
                 })
 
     return final_results
+
+# --------------------------------------------------------------------------------------------------
+#                                   Utils for searching Notes
+# --------------------------------------------------------------------------------------------------
+class SearchUtil:
+    """
+    Class providing implementation for Note searching. Can search a User's Notes or for any public 
+    Notes.
+    """
+    def __init__(self, search_query, user=None, fields=['id', 'title', 'content']):
+        query, tags = self.parse_search_query(search_query)
+        # query data
+        self.query = query
+        self.tags = tags
+        self.user = user
+        self.queryset = self.get_queryset(user)
+        # class settings
+        self.fields = fields
+
+    def parse_search_query(self, search_query):
+        """
+        Extract infomation from search query. User's can use predefined syntax to filter their search. A
+        search query could look like: @tag_name @"tag name" search query
+        The syntax for filter by a tag is @. Double quotations can be used to input a multi-word tag. 
+        The search query is just text.
+
+        This method returns a dictionary with two keys: `query` and `tags` (list).
+        """
+        return search_query, []
+
+    def get_queryset(self, user):
+        """
+        Return a queryset of type Note. If `user` is not None, return the given User's Notes rather
+        than all Notes.
+        """
+        queryset = Note.objects.all()
+        if user is not None:
+            queryset = queryset.filter(user=self.user)
+
+        return queryset
+
+    def search(self):
+        """
+        Call chained search methods.
+        """
+        queryset = (
+            self.filter_tags()
+                .filter_query()
+                .order_queryset()
+                .select_fields()
+        ).queryset
+        return queryset
+
+    def filter_tags(self):
+        """
+        Given a list of tags, return a filtered queryset of the given User's Note objects with tags in 
+        the given tags.
+        """
+        queryset = self.queryset
+        tags = self.tags
+
+        if tags:
+            queryset = queryset.filter(tags_name__in=tags)
+
+        self.queryset = queryset
+        return self
+
+    def filter_query(self):
+        """
+        Filter the queryset against the query.
+        """
+        vector = SearchVector('title', 'content')
+        query = SearchQuery(self.query)
+
+        queryset = self.queryset.annotate(
+            rank=SearchRank(vector, query)
+        )
+
+        self.queryset = queryset
+        return self
+
+    def order_queryset(self):
+        """
+        Order the queryset. 
+        """
+        queryset = self.queryset.order_by('-rank')
+
+        self.queryset = queryset
+        return self
+
+    def select_fields(self):
+        """
+        Define the fields of the model to be selected.
+        """
+        queryset = self.queryset.values(*self.fields)
+
+        self.queryset = queryset
+        return self
