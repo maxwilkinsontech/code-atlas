@@ -1,4 +1,5 @@
 import requests
+import re
 
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db.models import F
@@ -63,7 +64,8 @@ class SearchUtil:
     Class providing implementation for Note searching. Can search a User's Notes or for any public 
     Notes.
     """
-    def __init__(self, search_query, user=None, ordering=['-rank'], fields=['id', 'title', 'content']):
+    def __init__(self, search_query, user=None, ordering=['-rank'], 
+                 fields=['id', 'title', 'content']):
         query, tags = self.parse_search_query(search_query)
         # query data
         self.query = query
@@ -81,9 +83,33 @@ class SearchUtil:
         The syntax for filter by a tag is @. Double quotations can be used to input a multi-word tag. 
         The search query is just text.
 
-        This method returns a dictionary with two keys: `query` and `tags` (list).
+        NOTE: if you're reading this, please suggest some better regex as I have no idea what I'm
+        doing.
         """
-        return search_query, []
+        search_query = search_query.lower()
+        query = search_query
+        tags = []
+        # Match single words following an `@` (with no space between)
+        pattern_1 = "\B@\w+"
+        # Match string (with spaces) between `@"` amd `"`
+        pattern_2 = '@"(.*?)"'
+        results_1 = re.findall(pattern_1, search_query)
+        results_2 = re.findall(pattern_2, search_query)
+
+        for tag in results_1:
+            # Matches still have `@` prepended, so remove.
+            clean_tag = tag.replace('@', '')
+            tags.append(clean_tag)
+            # Remove tag from query
+            query = query.replace(tag, '')
+
+        for tag in results_2:
+            tags.append(tag)
+            # Add back the surrounding strings.
+            tag = f'@"{tag}"'
+            query = query.replace(tag, '')
+
+        return query.strip(), tags
 
     def get_queryset(self, user):
         """
@@ -111,38 +137,44 @@ class SearchUtil:
 
     def filter_query(self):
         """
-        Filter the queryset against the query.
+        Filter the queryset against the query. If the query is empty, then only tags are in the 
+        search query. Skip this step.
         """
-        queryset = self.queryset.filter(
-            document_vector=self.query
-        ).annotate(
-            rank=SearchRank('document_vector', self.query),
-        )
+        query = self.query
+        queryset = self.queryset
+        
+        if query:
+            queryset = queryset.filter(
+                document_vector=query
+            ).annotate(
+                rank=SearchRank('document_vector', query),
+            )
+        # else:
+        #     queryset.annotate(rank=F('last_edited'))
 
         self.queryset = queryset
         return self
 
     def filter_tags(self):
         """
-        Given a list of tags, return a filtered queryset of the given User's Note objects with tags in 
-        the given tags.
+        Given a list of tags, return a filtered queryset of the given User's Note objects with tags 
+        in the given tags.
         """
-        queryset = self.queryset
         tags = self.tags
 
         if tags:
-            queryset = TaggedItem.objects.get_union_by_model(queryset, tags)
+            queryset = TaggedItem.objects.get_union_by_model(self.queryset, tags)
+            self.queryset = queryset
 
-        self.queryset = queryset
         return self
 
     def order_queryset(self):
         """
-        Order the queryset. 
+        Order the queryset by the parameters initialised with.
         """
         queryset = self.queryset.order_by(*self.ordering)
-
         self.queryset = queryset
+
         return self
 
     def select_fields(self):
@@ -150,6 +182,6 @@ class SearchUtil:
         Define the fields of the model to be selected.
         """
         queryset = self.queryset.values(*self.fields)
-
         self.queryset = queryset
+
         return self
