@@ -1,6 +1,7 @@
 import requests
 
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import F
 
 from bs4 import BeautifulSoup
 
@@ -61,7 +62,7 @@ class SearchUtil:
     Class providing implementation for Note searching. Can search a User's Notes or for any public 
     Notes.
     """
-    def __init__(self, search_query, user=None, fields=['id', 'title', 'content']):
+    def __init__(self, search_query, user=None, ordering=['-rank'], fields=['id', 'title', 'content']):
         query, tags = self.parse_search_query(search_query)
         # query data
         self.query = query
@@ -69,6 +70,7 @@ class SearchUtil:
         self.user = user
         self.queryset = self.get_queryset(user)
         # class settings
+        self.ordering = ordering
         self.fields = fields
 
     def parse_search_query(self, search_query):
@@ -84,25 +86,27 @@ class SearchUtil:
 
     def get_queryset(self, user):
         """
-        Return a queryset of type Note. If `user` is not None, return the given User's Notes rather
-        than all Notes.
+        Return a Note queryset. If `user` is not None, return the given User's Notes otherwise 
+        return than all Notes.
+        TODO: index User Notes for faster lookup.
         """
         queryset = Note.objects.all()
-        if user is not None:
-            queryset = queryset.filter(user=self.user)
+        # if user is not None:
+        #     queryset = queryset.filter(user=self.user)
 
         return queryset
 
-    def search(self):
+    def get_search_results(self):
         """
-        Call chained search methods.
+        Call chained search methods. Returns queryset. Queryset is not evaluated.
         """
         queryset = (
-            self.filter_tags()
-                .filter_query()
-                .order_queryset()
+            self.filter_query()
+                #.filter_tags()
+                # .order_queryset()
                 .select_fields()
         ).queryset
+        print(queryset.explain())
         return queryset
 
     def filter_tags(self):
@@ -123,11 +127,11 @@ class SearchUtil:
         """
         Filter the queryset against the query.
         """
-        vector = SearchVector('title', 'content')
-        query = SearchQuery(self.query)
-
         queryset = self.queryset.annotate(
-            rank=SearchRank(vector, query)
+            rank=SearchRank(
+                F('document_vector'),
+                SearchQuery(self.query)
+            ),
         )
 
         self.queryset = queryset
@@ -137,7 +141,7 @@ class SearchUtil:
         """
         Order the queryset. 
         """
-        queryset = self.queryset.order_by('-rank')
+        queryset = self.queryset.order_by(*self.ordering)
 
         self.queryset = queryset
         return self
