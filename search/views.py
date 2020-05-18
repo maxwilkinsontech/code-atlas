@@ -15,7 +15,7 @@ class SearchView(LoginRequiredMixin, ListView):
         """
         Get and return the search query in the url name `q`.
         """
-        return self.request.GET.get('q')
+        return self.request.GET.get('q', '')
 
     def get_context_data(self, **kwargs):
         """
@@ -34,7 +34,7 @@ class SearchView(LoginRequiredMixin, ListView):
         the search query for the User.
         """
         search_query = self.get_search_query()
-        if search_query is not None:
+        if search_query:
             user = self.request.user
             SearchHistory.objects.create(user=user, query=search_query)
             # Get search results.
