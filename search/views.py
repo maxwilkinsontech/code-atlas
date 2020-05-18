@@ -37,8 +37,8 @@ class SearchView(LoginRequiredMixin, ListView):
         if search_query is not None:
             user = self.request.user
             SearchHistory.objects.create(user=user, query=search_query)
+            # Get search results.
             search_util = SearchUtil(search_query, user=user)
             results = search_util.get_search_results()
-
             return results
         return

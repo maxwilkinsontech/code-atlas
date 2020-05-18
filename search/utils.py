@@ -3,6 +3,7 @@ import requests
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db.models import F
 
+from tagging.models import TaggedItem
 from bs4 import BeautifulSoup
 
 from notes.models import Note
@@ -91,8 +92,8 @@ class SearchUtil:
         TODO: index User Notes for faster lookup.
         """
         queryset = Note.objects.all()
-        # if user is not None:
-        #     queryset = queryset.filter(user=self.user)
+        if user is not None:
+            queryset = queryset.filter(user=self.user)
 
         return queryset
 
@@ -102,12 +103,24 @@ class SearchUtil:
         """
         queryset = (
             self.filter_query()
-                #.filter_tags()
-                # .order_queryset()
+                .filter_tags()
+                .order_queryset()
                 .select_fields()
         ).queryset
-        print(queryset.explain())
         return queryset
+
+    def filter_query(self):
+        """
+        Filter the queryset against the query.
+        """
+        queryset = self.queryset.filter(
+            document_vector=self.query
+        ).annotate(
+            rank=SearchRank('document_vector', self.query),
+        )
+
+        self.queryset = queryset
+        return self
 
     def filter_tags(self):
         """
@@ -118,21 +131,7 @@ class SearchUtil:
         tags = self.tags
 
         if tags:
-            queryset = queryset.filter(tags_name__in=tags)
-
-        self.queryset = queryset
-        return self
-
-    def filter_query(self):
-        """
-        Filter the queryset against the query.
-        """
-        queryset = self.queryset.annotate(
-            rank=SearchRank(
-                F('document_vector'),
-                SearchQuery(self.query)
-            ),
-        )
+            queryset = TaggedItem.objects.get_union_by_model(queryset, tags)
 
         self.queryset = queryset
         return self
