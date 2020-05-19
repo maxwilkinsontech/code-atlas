@@ -29,16 +29,6 @@ class SearchUtil:
         self.tags = tags
         self.user = user
         self.queryset = self.get_queryset()
-    
-    def log_search(self):
-        """
-        Make a log of the search query for the given User.
-        """
-        if self.user and self.log:
-            SearchHistory.objects.create(
-                user=self.user, 
-                query=self.query
-            )
 
     def parse_search_query(self, search_query):
         """
@@ -47,17 +37,12 @@ class SearchUtil:
         The syntax for filter by a tag is @. Double quotations can be used to input a multi-word 
         tag.
         """
-        search_query = search_query.lower()
         tags = []
-        # Extract and remove tags from search query
-        regex_pattern = r'@(")?((?(1)[^"]+|\w+))'
-        matches = [m for m in re.finditer(regex_pattern, search_query)]
-        for match in matches:
+        def replacer(match):
             tags.append(match.group(2))
-            unclean_tag = match.group(0)
-            full_tag = unclean_tag + '"' if unclean_tag.startswith('@"') else unclean_tag
-            search_query = search_query.replace(full_tag, '')
-        # Remove white space from end of query as well as duplicate spaces between words.
+            return ""
+
+        search_query = re.sub(r'@(")?((?(1)[^"]+|\w+))(?(1)")', replacer, search_query)
         search_query = re.sub(r'\s+', ' ', search_query).strip()
 
         return search_query, tags
@@ -65,7 +50,7 @@ class SearchUtil:
     def get_queryset(self):
         """
         Return a Note queryset. If `user` is not None, return the given User's Notes otherwise 
-        return than all Notes.
+        return than all Notes. If `log` is False, only return Notes not created by User.
         """
         queryset = Note.objects.all()
         if self.user: 
@@ -75,6 +60,16 @@ class SearchUtil:
                 queryset = queryset.exclude(user=self.user)
 
         return queryset
+
+    def log_search(self):
+        """
+        Make a log of the search query for the given User.
+        """
+        if self.user and self.log:
+            SearchHistory.objects.create(
+                user=self.user, 
+                query=self.query
+            )
 
     def get_search_results(self):
         """

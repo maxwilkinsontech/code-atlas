@@ -6,6 +6,7 @@ from users.models import User
 from notes.models import Note
 
 
+
 class SearchUtilTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
@@ -48,6 +49,11 @@ class SearchUtilTest(TestCase):
                 'expected_query': 'test more test',
                 'expected_tags': ['tag multi', 'tag']
             },
+            {
+                'search_query': '@tag@tag@"tag multi"',
+                'expected_query': '',
+                'expected_tags': ['tag', 'tag', 'tag multi']
+            },
         ]
 
         for test in test_queries:
@@ -80,7 +86,22 @@ class SearchUtilTest(TestCase):
 
         self.assertEqual(results.count(), 20)
 
-    def test_log_search_with_given_user(self):
+    def test_get_queryset_no_log(self):
+        user2 = User.objects.create_user(email='test2@email.com')
+        for i in range(10, 20):
+            Note.objects.create(
+                title=i, 
+                content=f'some words for testing {i}', 
+                user=user2
+            )
+
+        search_util = SearchUtil('test', user=self.user, log=False)
+
+        results = search_util.get_queryset()
+
+        self.assertEqual(results.count(), 10)
+
+    def test_log_search_with_given_user_and_log(self):
         history_count = self.user.search_history.count()
 
         search_util = SearchUtil('1', user=self.user)
@@ -93,6 +114,15 @@ class SearchUtilTest(TestCase):
         history_count = SearchHistory.objects.count()
 
         search_util = SearchUtil('1')
+        search_util.get_search_results()
+
+        new_history_count = SearchHistory.objects.count()
+        self.assertEqual(history_count, new_history_count)
+
+    def test_log_search_no_log(self):
+        history_count = SearchHistory.objects.count()
+
+        search_util = SearchUtil('1', user=self.user, log=False)
         search_util.get_search_results()
 
         new_history_count = SearchHistory.objects.count()
