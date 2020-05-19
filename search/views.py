@@ -2,7 +2,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
 from .utils import SearchUtil
-from docs.utils import django_docs_info, search_django_site
 
 
 class SearchView(LoginRequiredMixin, ListView):

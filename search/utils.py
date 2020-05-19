@@ -15,22 +15,26 @@ class SearchUtil:
     Notes.
     """
     def __init__(self, search_query, user=None, ordering=['-rank'], 
-                 fields=['id', 'title', 'content']):
-        query, tags = self.parse_search_query(search_query)
+                 fields=['id', 'title', 'content'], log=True):
+        """
+        `log`: indicates if the search query should be logged for the given User. Also indicates if 
+        the given User's Notes should be included.
+        """
+        self.ordering = ordering
+        self.fields = fields
+        self.log = log
         # query data
+        query, tags = self.parse_search_query(search_query)
         self.query = query
         self.tags = tags
         self.user = user
         self.queryset = self.get_queryset()
-        # class settings
-        self.ordering = ordering
-        self.fields = fields
     
     def log_search(self):
         """
         Make a log of the search query for the given User.
         """
-        if self.user:
+        if self.user and self.log:
             SearchHistory.objects.create(
                 user=self.user, 
                 query=self.query
@@ -64,8 +68,11 @@ class SearchUtil:
         return than all Notes.
         """
         queryset = Note.objects.all()
-        if self.user is not None:
-            queryset = queryset.filter(user=self.user)
+        if self.user: 
+            if self.log:
+                queryset = queryset.filter(user=self.user)
+            else:
+                queryset = queryset.exclude(user=self.user)
 
         return queryset
 
