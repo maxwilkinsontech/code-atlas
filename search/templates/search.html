@@ -69,12 +69,10 @@
                         </div>
                     {% endif %}
                 {% empty %}
-                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                        <p>
-                            You haven't created any notes yet. 
-                            <a href="{% url 'create_note' %}">Create Note</a>
-                        </p>
-                    </div>
+                    <p class="pl-3">
+                        No Notes matching your query found. 
+                        <a href="{% url 'create_note' %}">Create Note</a>
+                    </p>
                 {% endfor %}
             </div>
             <hr class="my-md-4 my-lg-5">
