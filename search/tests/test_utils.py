@@ -92,14 +92,15 @@ class SearchUtilTest(TestCase):
             Note.objects.create(
                 title=i, 
                 content=f'some words for testing {i}', 
-                user=user2
+                user=user2, 
+                is_public=True if i >= 15 else False
             )
 
         search_util = SearchUtil('test', user=self.user, log=False)
 
         results = search_util.get_queryset()
 
-        self.assertEqual(results.count(), 10)
+        self.assertEqual(results.count(), 5)
 
     def test_log_search_with_given_user_and_log(self):
         history_count = self.user.search_history.count()

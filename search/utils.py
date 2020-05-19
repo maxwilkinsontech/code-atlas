@@ -57,7 +57,7 @@ class SearchUtil:
             if self.log:
                 queryset = queryset.filter(user=self.user)
             else:
-                queryset = queryset.exclude(user=self.user)
+                queryset = queryset.exclude(user=self.user).filter(is_public=True)
 
         return queryset
 
