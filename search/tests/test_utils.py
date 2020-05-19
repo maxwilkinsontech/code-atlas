@@ -170,3 +170,9 @@ class SearchUtilTest(TestCase):
         results = search_util.get_search_results()
 
         self.assertEqual(results.count(), 1)
+
+    def test_get_search_results_with_only_tag(self):
+        search_util = SearchUtil('@1', user=self.user)
+        results = search_util.get_search_results()
+
+        self.assertEqual(results.count(), 1)
