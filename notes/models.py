@@ -75,5 +75,17 @@ class Reference(DateModel):
     def __str__(self):
         return self.reference_url
 
+class NoteMetaData(models.Model):
+    """
+    Model to store meta data for a Note.
+    """
+    note = models.OneToOneField(
+        Note,
+        on_delete=models.CASCADE,
+        related_name='meta_data'
+    )
+    views = models.PositiveIntegerField(default=0)
+    clones = models.PositiveIntegerField(default=0)
+
 # Register Note model for tagging
 register(Note)
