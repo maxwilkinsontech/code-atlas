@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
-from .utils import django_docs_info, search_django_site, SearchUtil
-from .models import SearchHistory
+from .utils import SearchUtil
+from docs.utils import django_docs_info, search_django_site
 
 
 class SearchView(LoginRequiredMixin, ListView):
@@ -10,6 +10,7 @@ class SearchView(LoginRequiredMixin, ListView):
     Search and return a list Note objects. Search query queries against Note title.
     """
     template_name = 'search.html'
+    paginate_by = 12
 
     def get_search_query(self):
         """
@@ -36,9 +37,7 @@ class SearchView(LoginRequiredMixin, ListView):
         search_query = self.get_search_query()
         if search_query:
             user = self.request.user
-            SearchHistory.objects.create(user=user, query=search_query)
-            # Get search results.
             search_util = SearchUtil(search_query, user=user)
             results = search_util.get_search_results()
             return results
-        return
+        return []
