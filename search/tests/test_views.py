@@ -42,13 +42,3 @@ class SearchViewTest(TestCase):
         response = self.client.get((reverse('search') + '?q=test'))
 
         self.assertNotEqual(response.context['object_list'], [])
-
-    # def test_get_queryset_create_search_history(self):
-    #     history_count = SearchHistory.objects.filter(user=self.user).count()
-    #     request = factory.get(reverse('search') + '?q=test')
-    #     request.user = self.user
-    #     view = self.setup_view(SearchView(), request)
-    #     queryset = view.get_queryset()
-
-    #     new_history_count = SearchHistory.objects.filter(user=self.user).count()
-    #     self.assertEqual(history_count+1, new_history_count)
