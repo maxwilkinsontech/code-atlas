@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="pb-0 min-vh-100 o-hidden" data-overlay="" style="padding-top: 80px !important;">
+    <section>
+        <div class="container">
+            <h1 class="display-3">My <mark data-aos="highlight-text" data-aos-delay="500"
+                        class="aos-init aos-animate">Notes</mark></h1>
+            {# User's Notes #}
+            <div class="row">
+                {% for note in object_list %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
+                            <h4>{{ note.title }}</h4>
+                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+                        </a>
+                    </div>
+                {% empty %}
+                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 my-2 ">
+                        <a href="{% url 'create_note' %}" class="card card-body hover-box-shadow p-4">
+                            <h4>Looking pretty empty!</h4>
+                            <div style="height: 250px; overflow: hidden;">
+                                <p>Lets change that.</p> 
+                                <p>What's the last thing you spend hours pulling your hair out trying to solve?</p>
+                                <button class="btn btn-primary mt-2 mb-4">Let's add that to your first Note</button>
+                                <p>Remember that you can use markdown in the Note content to include code with highlighting.</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            {# Pagination Indicator #}
+            {% if object_list %}
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-center mt-4">
+                            <nav>
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    class="injected-svg icon icon-xs bg-primary"
+                                                    data-src="assets/img/icons/interface/icon-arrow-left.svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
+                                    </li>
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    class="injected-svg icon icon-xs bg-primary"
+                                                    data-src="assets/img/icons/interface/icon-arrow-right.svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"
+            style="z-index: 0; transform: translate3d(0px, 1.1876px, 0px);">
+            <div class="blob bg-primary opacity-20 w-100 h-100 top left"></div>
+            <div id="jarallax-container-0"
+                style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -100;">
+                <div style="position: fixed;"></div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, ListView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import redirect, get_object_or_404
@@ -16,6 +16,23 @@ class NotesView(LoginRequiredMixin, ListView):
     """
     template_name = 'notes.html'
     paginate_by = 24
+    model = Note
+
+    def get_queryset(self):
+        return self.request.user.notes.order_by('-last_edited')
+
+class NotesEditView(LoginRequiredMixin, TemplateView):
+    """
+    Returns a template for editing Notes in the masses easily. Data via api.
+    """
+    template_name = 'notes_edit.html'
+
+class NotesTagsView(LoginRequiredMixin, ListView):
+    """
+    List a User's Notes ordered by most recently edited. Results split into pages of 24 objects.
+    """
+    template_name = 'notes_tags.html'
+    paginate_by = 200
     model = Note
 
     def get_queryset(self):
