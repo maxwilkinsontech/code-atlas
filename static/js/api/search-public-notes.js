@@ -24,7 +24,7 @@ $(document).ready(function () {
             for (var i = 0; i < results.length; i++) {
                 // Add "Show more results button"
                 if (i == 6) {
-                    notesHTML += `<button class="btn btn-primary mx-auto" onclick="$('#moreResultsPublicButton').hide();" data-toggle="collapse" id="moreResultsPublicButton" href="#morePublicResults" role="button" aria-expanded="false">
+                    notesHTML += `<button class="btn btn-primary mx-auto my-2" onclick="$('#moreResultsPublicButton').hide();" data-toggle="collapse" id="moreResultsPublicButton" href="#morePublicResults" role="button" aria-expanded="false">
                                     Show more results</button><div class="collapse row" id="morePublicResults">`;
                 }
                 // Create Note card.

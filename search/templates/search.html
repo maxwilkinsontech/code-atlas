@@ -54,7 +54,7 @@
             <div class="row">
                 {% for note in object_list %}
                     {% if forloop.counter == 7 %}
-                        <button class="btn btn-primary mx-auto" onclick="$('#moreResultsButton').hide();" data-toggle="collapse" id="moreResultsButton" href="#moreResults" role="button" aria-expanded="false">
+                        <button class="btn btn-primary mx-auto my-2" onclick="$('#moreResultsButton').hide();" data-toggle="collapse" id="moreResultsButton" href="#moreResults" role="button" aria-expanded="false">
                             Show more results
                         </button>
                         <div class="collapse row" id="moreResults">
