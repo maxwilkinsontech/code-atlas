@@ -41,35 +41,20 @@ class SearchUtil:
         Extract infomation from search query. User's can use predefined syntax to filter their 
         search. A search query could look like: @tag_name @"tag name" search query
         The syntax for filter by a tag is @. Double quotations can be used to input a multi-word 
-        tag. The search query is a String.
-
-        NOTE: if you're reading this, please suggest some better regex as I have no idea what I'm
-        doing. A way to combine patterns?
+        tag.
         """
         search_query = search_query.lower()
-        query = search_query
         tags = []
-        # Match single words following an `@` (with no space between)
-        pattern_1 = "\B@\w+"
-        # Match string (with spaces) between `@"` and `"`
-        pattern_2 = '@"(.*?)"'
-        results_1 = re.findall(pattern_1, search_query)
-        results_2 = re.findall(pattern_2, search_query)
+        # Extract and remove tags from search query
+        regex_pattern = r'@(")?((?(1)[^"]+|\w+))'
+        matches = [m for m in re.finditer(regex_pattern, search_query)]
+        for match in matches:
+            tags.append(match.group(2))
+            unclean_tag = match.group(0)
+            full_tag = unclean_tag + '"' if unclean_tag.startswith('@"') else unclean_tag
+            search_query = search_query.replace(full_tag, '')
 
-        for tag in results_1:
-            # Matches still have `@` prepended, so remove.
-            clean_tag = tag.replace('@', '')
-            tags.append(clean_tag)
-            # Remove tag from query
-            query = query.replace(tag, '')
-
-        for tag in results_2:
-            tags.append(tag)
-            # Add back the surrounding strings and remove from query.
-            tag = f'@"{tag}"'
-            query = query.replace(tag, '')
-
-        return query.strip(), tags
+        return search_query.strip(), tags
 
     def get_queryset(self, user):
         """
