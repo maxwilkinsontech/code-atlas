@@ -131,6 +131,3 @@ dmypy.json
 
 # zappa
 zappa_settings.json
-
-# Mock data
-static/data/*
