@@ -49,12 +49,6 @@ class SearchViewTest(TestCase):
 
         self.assertEqual(view.get_search_query(), 'test')
 
-    def test_view_get_queryset_no_query(self):
-        request = factory.get(reverse('search'))
-        view = self.setup_view(SearchView(), request) 
-
-        self.assertIsNone(view.get_queryset())
-
     def test_view_test_context_correct(self):
         response = self.client.get(reverse('search'))
 
@@ -62,12 +56,11 @@ class SearchViewTest(TestCase):
         self.assertTrue('django_search_results' in response.context)
         self.assertTrue('django_docs_info' in response.context)
 
-    def test_get_queryset_with_empty_query(self):
+    def test_view_get_queryset_no_query(self):
         request = factory.get(reverse('search'))
-        request.user = self.user
-        view = self.setup_view(SearchView(), request)
+        view = self.setup_view(SearchView(), request) 
 
-        self.assertIsNone(view.get_queryset())
+        self.assertEqual(view.get_queryset(), [])    
 
     def test_get_queryset_with_valid_query(self):
         for i in range(24):
