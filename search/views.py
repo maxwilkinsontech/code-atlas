@@ -12,29 +12,12 @@ class SearchView(LoginRequiredMixin, ListView):
     template_name = 'search.html'
     paginate_by = 12
 
-    def get_search_query(self):
-        """
-        Get and return the search query in the url name `q`.
-        """
-        return self.request.GET.get('q', '')
-
-    def get_context_data(self, **kwargs):
-        """
-        Add Django documentation to context.
-        """
-        data = super().get_context_data(**kwargs)
-        search_query = self.get_search_query()
-        # Add Django documentation results
-        data['django_search_results'] = search_django_site(search_query)
-        data['django_docs_info'] = django_docs_info()
-        return data
-
     def get_queryset(self):
         """
         If there is a search_query present in the url, search the given User's Notes. Make a log of
         the search query for the User.
         """
-        search_query = self.get_search_query()
+        search_query = self.request.GET.get('q', '')
         if search_query:
             user = self.request.user
             search_util = SearchUtil(search_query, user=user)
