@@ -76,6 +76,21 @@ class NoteCreatorOrPublicMixinTest(TestCase):
 
         self.assertEqual(dispatch.status_code, 302)
 
+    def test_view_incremented(self):
+        views_before = self.note.meta_data.num_views
+
+        request = factory.get(reverse('home'))
+        request.user = self.user
+        try:
+            dispatch = self.mixin.dispatch(request)
+        except:
+            pass
+
+        self.note.meta_data.refresh_from_db()
+        views_after = self.note.meta_data.num_views
+
+        self.assertEqual(views_before + 1, views_after)
+
 class NoteFormMixinTest(TestCase):
 
     class HelperClass:

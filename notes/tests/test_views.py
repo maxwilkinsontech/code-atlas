@@ -297,3 +297,29 @@ class CloneNoteViewTest(TestCase):
         self.assertIsNotNone(form['content'], self.note.content)
         self.assertIsNotNone(form['tags'], 'test')
         self.assertEqual(len(response.context['references']), 1)
+
+    def test_post_clone_incremented(self):
+        clones_before = self.note.meta_data.num_clones
+        response = self.client.post(
+            reverse('clone_note', args=[self.note.id]),
+            data={
+                'title': 'test',
+                'content': 'content',
+                'tags': 'python, django',
+                'is_public': 'off',
+                'references-TOTAL_FORMS': '1', 
+                'references-INITIAL_FORMS': '0', 
+                'references-MIN_NUM_FORMS': '0', 
+                'references-MAX_NUM_FORMS': '1000', 
+                'references-0-id': '', 
+                'references-0-note': '', 
+                'references-0-reference_url': 'https://google.com', 
+                'references-0-reference_desc': '1', 
+            }     
+        )
+
+        self.note.meta_data.refresh_from_db()
+        clones_after = self.note.meta_data.num_clones
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(clones_before + 1, clones_after)

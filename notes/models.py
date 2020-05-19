@@ -57,6 +57,22 @@ class Note(DateModel):
         tags = ', '.join([str(i) for i in self.tags])
         return tags
 
+    def increment_clone_count(self):
+        """
+        Increment the clone count for the given Note.
+        """
+        meta_data = self.meta_data
+        meta_data.num_clones += 1
+        meta_data.save()
+
+    def increment_view_count(self):
+        """
+        Increment the view count for the given Note.
+        """
+        meta_data = self.meta_data
+        meta_data.num_views += 1
+        meta_data.save()
+
 class Reference(DateModel):
     """
     Model to store a reference link. Associated to a Note.
@@ -84,8 +100,8 @@ class NoteMetaData(models.Model):
         on_delete=models.CASCADE,
         related_name='meta_data'
     )
-    views = models.PositiveIntegerField(default=0)
-    clones = models.PositiveIntegerField(default=0)
+    num_views = models.PositiveIntegerField(default=0)
+    num_clones = models.PositiveIntegerField(default=0)
 
 # Register Note model for tagging
 register(Note)

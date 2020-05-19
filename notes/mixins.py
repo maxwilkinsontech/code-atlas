@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.db import transaction
 
 from .forms import ReferenceFormSet
-
+from .models import NoteMetaData
 
 class NoteCreatorMixin(AccessMixin):
     """
@@ -31,9 +31,11 @@ class NoteCreatorOrPublicMixin(AccessMixin):
         # Check user is authenticated.
         if not user.is_authenticated:
             return redirect('login')
-         # Check user is creator of note or note is public.
+        # Check user is creator of note or note is public.
         if not note.is_public and note.user != request.user:
             return redirect('notes')
+        # Passed checks, increment view count.
+        note.increment_view_count()
         return super().dispatch(request, *args, **kwargs)
 
 class NoteFormMixin(object):

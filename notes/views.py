@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
 from .mixins import NoteFormMixin, NoteCreatorMixin, NoteCreatorOrPublicMixin
-from .models import Note
+from .models import Note, NoteMetaData
 from .forms import NoteForm
 
 
@@ -31,7 +31,8 @@ class CreateNoteView(LoginRequiredMixin, NoteFormMixin, CreateView):
 
 class ViewNoteView(NoteCreatorOrPublicMixin, DetailView):
     """
-    View for a user to view a Note. If the not is not public, only the owner can view it.
+    View for a user to view a Note. If the not is not public, only the owner can view it. The 
+    num_views is incremented when by a User viewing a Note via this view. This is done in the mixin.
     """ 
     model = Note
 
@@ -61,7 +62,8 @@ class DeleteNoteView(NoteCreatorMixin, DeleteView):
 
 class CloneNoteView(CreateNoteView):
     """
-    View for User to make a clone of another Note.
+    View for User to make a clone of another Note. The Note's num_clones is incremented upon a 
+    sucessful clone.
     """
     template_name = 'clone_note.html'
     model = Note
@@ -90,3 +92,11 @@ class CloneNoteView(CreateNoteView):
         initial['tags'] = note.tags_to_string()
 
         return initial
+
+    def form_valid(self, form):
+        """
+        Log that the Note has been cloned.
+        """
+        note = self.get_object()
+        note.increment_clone_count()
+        return super().form_valid(form)
