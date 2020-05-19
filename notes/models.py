@@ -50,6 +50,13 @@ class Note(DateModel):
     def __str__(self):
         return self.title
 
+    def tags_to_string(self):
+        """
+        Return the Note's tags a comma seperated string.
+        """
+        tags = ', '.join([str(i) for i in self.tags])
+        return tags
+
 class Reference(DateModel):
     """
     Model to store a reference link. Associated to a Note.

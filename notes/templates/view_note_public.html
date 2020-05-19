@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="pb-0 bg-light mt-4 mt-md-0">
+    <div class="container min-vh-100">
+        <div class="row section-title justify-content-center mt-2 mt-md-0">
+            <div class="col-md-12 col-lg-9 col-xl-9">
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-start">
+                            <nav aria-label="breadcrumb ">
+                                <ol class="breadcrumb px-3">
+                                    <li class="breadcrumb-item">
+                                        <a href="#">
+                                            <img src="{% static 'img/icons/theme/communication/contact-1.svg' %}" alt="arrow-left icon" class="icon icon-sm text-primary">
+                                            {{ object.user.get_full_name }}
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-end">
+                            <nav aria-label="breadcrumb ">
+                                <ol class="breadcrumb px-3">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'clone_note' object.id %}">
+                                            <img src="{% static 'img/icons/theme/general/duplicate.svg' %}" alt="arrow-left icon" class="icon icon-sm text-primary">
+                                            Clone
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="display-4 text-center">{{ object.title }}</h3>
+                {# Note content #}
+                <div class="card">
+                    <div class="lead m-4 note-content">{{ object.content }}</div>
+                </div>
+                {# Note tags #}
+                <div>
+                    <ul class="d-flex flex-wrap list-unstyled mb-0 mt-2">
+                        {% for tag in object.tags %}
+                            <li class="m-1">
+                                <a class="badge badge-pill badge-dark" href="#">{{ tag }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <small class="text-muted float-right text-right my-2">
+                    Created on {{ object.date_created }}<br>
+                    Last updated {{ object.last_edited }}
+                </small>
+                {# Note references #}
+                {% with references=object.references.all %}
+                    {% if references %}
+                        <h4 class="mt-5">References</h4>
+                    {% endif %}
+                    {% for ref in references %}
+                        <div class="card hover-box-shadow my-3">
+                            <div class="m-3">
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-9">
+                                        <h5><a href="{{ ref.reference_url }}" target="_this">{{ ref.reference_url }}</a></h5>
+                                        <p class="mb-2">{{ ref.reference_desc }}</p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-3">
+                                        <small class="text-muted float-right text-right">
+                                            Last updated {{ ref.last_edited }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+    <div class="divider divider-bottom bg-primary-3"></div>
+</section>
+{% endblock content %}

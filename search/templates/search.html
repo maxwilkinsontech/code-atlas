@@ -111,7 +111,7 @@
                                     Show more results</button><div class="collapse row" id="morePublicResults">`;
                     }
                     notesHTML += `<div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                                <a href="" class="card card-body hover-box-shadow p-4 h-100"><h4>${results[i]['title']}</h4>
+                                <a href="/notes/view/${results[i]['id']}/" class="card card-body hover-box-shadow p-4 h-100"><h4>${results[i]['title']}</h4>
                                 <div style="height: 250px; overflow: hidden;" class="note-content">${results[i]['content']}</div>
                                 </a></div>`;
                     if (i == results.length - 1) {

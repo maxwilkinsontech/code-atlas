@@ -13,7 +13,7 @@ class NoteForm(forms.ModelForm):
         model = Note
         fields = ['title', 'content']
 
-    def __init__(self, note=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(NoteForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({
             'placeholder': 'Keep the title short but descriptive',
@@ -26,7 +26,7 @@ class NoteForm(forms.ModelForm):
         })
         # Add tags to field if form being called from EditNoteView.
         if self.instance is not None:
-            self.fields['tags'].initial = ', '.join([str(i) for i in self.instance.tags])
+            self.fields['tags'].initial = self.instance.tags_to_string()
 
     def save(self, data, commit=True):
         note = super().save(commit=False)
