@@ -14,6 +14,7 @@ Django==3.0.6
 django-storages==1.9.1
 django-tagging==0.5.0
 django-widget-tweaks==1.4.8
+djangorestframework==3.11.0
 docutils==0.15.2
 durationpy==0.5
 future==0.18.2
