@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from notes.models import Note, Reference
 from users.models import User
-from notes.models import Note
 
 
 class NotesTest(TestCase):
@@ -95,7 +95,7 @@ class CreateNoteViewTest(TestCase):
         self.assertEqual(note.is_public, False)
         self.assertEqual(note.references.count(), 1)  
 
-class ViewNoteTest(TestCase):
+class ViewNoteViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
         self.user.set_password('password')
@@ -132,7 +132,7 @@ class ViewNoteTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'view_note.html')
 
-class EditNoteTest(TestCase):
+class EditNoteViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
         self.user.set_password('password')
@@ -194,7 +194,7 @@ class EditNoteTest(TestCase):
         self.assertEqual(note.is_public, True)
         self.assertEqual(note.references.count(), 1)    
 
-class DeleteNoteTest(TestCase):
+class DeleteNoteViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
         self.user.set_password('password')
@@ -223,3 +223,77 @@ class DeleteNoteTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertIsNotNone(self.note)
+
+class CloneNoteViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(email='test@email.com')
+        self.user.set_password('password')
+        self.user.save()
+        self.client.login(email=self.user.email, password='password')
+        
+        self.note = Note.objects.create(
+            user=self.user,
+            title='test',
+            content='content'
+        )
+        self.note.tags = 'test'
+        Reference.objects.create(
+            note=self.note,
+            reference_url='https://google.com/'
+        )
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(f'/notes/create/clone/{self.note.id}/')
+        
+        self.assertEqual(response.status_code, 200)
+           
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('clone_note', args=[self.note.id]))
+
+        self.assertEqual(response.status_code, 200)
+    
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('clone_note', args=[self.note.id]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'clone_note.html')
+
+    def test_dispatch_note_not_public(self):
+        user = User.objects.create_user(email='test2@email.com')
+        note = Note.objects.create(
+            user=user,
+            title='test',
+            content='content',
+            is_public=False
+        )
+        response = self.client.get(reverse('clone_note', args=[note.id]))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_dispatch_note_public(self):
+        user = User.objects.create_user(email='test2@email.com')
+        note = Note.objects.create(
+            user=user,
+            title='test',
+            content='content',
+        )
+        response = self.client.get(reverse('clone_note', args=[note.id]))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_dispatch_note_not_public_but_note_creator(self):
+        self.note.is_public = False
+        self.note.save()
+        response = self.client.get(reverse('clone_note', args=[self.note.id]))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_initial_correct(self):
+        response = self.client.get(reverse('clone_note', args=[self.note.id]))
+
+        self.assertEqual(response.status_code, 200)
+        form = response.context['form']
+        self.assertIsNotNone(form['title'], self.note.title)
+        self.assertIsNotNone(form['content'], self.note.content)
+        self.assertIsNotNone(form['tags'], 'test')
+        self.assertEqual(len(response.context['references']), 1)

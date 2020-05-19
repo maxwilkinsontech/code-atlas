@@ -66,17 +66,17 @@ class CloneNoteView(CreateNoteView):
     template_name = 'clone_note.html'
     model = Note
 
-    def get_object(self):
+    def dispatch(self, request, *args, **kwargs):
         """
-        Can only clone Note if it is public or the requesting User is the creator of the Note.
+        Can only clone Note if it is public or the requesting User is the creator of the Note. 
         """
         note = super().get_object()
 
-        if note.is_public or note.user == self.request.user:
-            self.object = note
-            return note
+        if not note.is_public and note.user != self.request.user:
+            return redirect('notes')
 
-        return
+        self.object = note
+        return super().dispatch(request, *args, **kwargs)
 
     def get_initial(self):
         """
