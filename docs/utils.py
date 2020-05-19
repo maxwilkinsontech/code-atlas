@@ -2,6 +2,25 @@ import requests
 
 from bs4 import BeautifulSoup
 
+"""
+<h2 class="h1 mt-4">Django Docs</h2>
+<div class="lead mb-4">
+    Results directly from the Django documentation {{ django_docs_info.version }} 
+    <a href="{{ django_docs_info.url }}">docs.djangoproject.com</a>.
+</div>
+<ul class="list-group">
+    {% for result in django_search_results %}
+        <a href="{{ result.url }}" target="_blank">
+            <li class="list-group-item p-4 my-1">
+                <h6 class="mb-2">{{ result.title }}</h6>
+                <p>{{ result.breadcrumbs }}</p>
+            </li>
+        </a>
+    {% empty %}
+        <p class="mt-4">No results found.</p>
+    {% endfor %}
+</ul>
+"""
 
 def django_docs_info():
     """

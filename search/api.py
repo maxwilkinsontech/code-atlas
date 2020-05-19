@@ -10,7 +10,8 @@ class SearchPublicNotesView(ListAPIView):
     Returns public Notes matching query.
     """
     serializer_class = NoteSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+    paginate_by = 10
 
     def get_queryset(self):
         search_query = self.request.GET.get('q', '')
@@ -19,6 +20,6 @@ class SearchPublicNotesView(ListAPIView):
             search_util = SearchUtil(search_query, user=user, log=False)
             results = search_util.get_search_results()
             # TODO: check for multiple queries
+            print(results.count())
             return results
         return []
-
