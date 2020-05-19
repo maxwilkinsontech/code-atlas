@@ -21,7 +21,7 @@ class SearchUtil:
         self.query = query
         self.tags = tags
         self.user = user
-        self.queryset = self.get_queryset(user)
+        self.queryset = self.get_queryset()
         # class settings
         self.ordering = ordering
         self.fields = fields
@@ -53,16 +53,18 @@ class SearchUtil:
             unclean_tag = match.group(0)
             full_tag = unclean_tag + '"' if unclean_tag.startswith('@"') else unclean_tag
             search_query = search_query.replace(full_tag, '')
+        # Remove white space from end of query as well as duplicate spaces between words.
+        search_query = re.sub(r'\s+', ' ', search_query).strip()
 
-        return search_query.strip(), tags
+        return search_query, tags
 
-    def get_queryset(self, user):
+    def get_queryset(self):
         """
         Return a Note queryset. If `user` is not None, return the given User's Notes otherwise 
         return than all Notes.
         """
         queryset = Note.objects.all()
-        if user is not None:
+        if self.user is not None:
             queryset = queryset.filter(user=self.user)
 
         return queryset
