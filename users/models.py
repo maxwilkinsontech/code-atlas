@@ -1,9 +1,11 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save
 from django.core.mail import send_mail
 from django.dispatch import receiver
+from django.template import loader
 from django.db import models
 
 
@@ -56,15 +58,21 @@ class User(AbstractUser):
         searches = self.search_history.order_by('-search_date').values('query')[:5]
         return searches
 
-@receiver(post_save, sender=User)
-def send_welcome_email(sender, instance, **kwargs):
-    """
-    Send a new User a welcome email.
-    """
-    subject = 'Welcome to Code Atlas'
-    message = render_to_string('email/welcome.html')
-    instance.email_user(
-        subject, 
-        message,
-        from_email='noreply@code-atlas.me'
-    )
+# @receiver(post_save, sender=User)
+# def send_welcome_email(sender, instance, created, **kwargs):
+#     """
+#     Send a new User a welcome email.
+#     """
+#     if created:
+#         subject = 'Welcome to Code Atlas'
+#         body = 'Welcome to Code Atlas'
+
+#         email_message = EmailMultiAlternatives(
+#             subject, 
+#             body, 
+#             'noreply@code-atlas.me', 
+#             [instance.email]
+#         )
+#         html_email = loader.render_to_string('email/welcome.html')
+#         email_message.attach_alternative(html_email, 'text/html')
+#         email_message.send()

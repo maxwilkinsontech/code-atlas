@@ -4,8 +4,9 @@
 {% block nav-bar-color %}navbar-dark{% endblock nav-bar-color %}
 
 {% block content %}
-<div data-overlay="" class="{% if not view.get_search_query %}min-vh-100{% endif %} bg-primary-3 text-white o-hidden" style="padding-top: 62px !important;">
-    <section {% if view.get_search_query %}class="pt-4 pb-0"{% endif %}>
+{% with search_query=request.GET.q %}
+<div data-overlay="" class="{% if not search_query %}min-vh-100{% endif %} bg-primary-3 text-white o-hidden" style="padding-top: 62px !important;">
+    <section {% if search_query %}class="pt-4 pb-0"{% endif %}>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-9 text-center">
@@ -13,7 +14,7 @@
                     <div class="lead">Search your Notes or quickly find what you are looking for in the Django documentation</div>
                     <form class="mt-5 d-flex flex-column flex-md-row form-group" method="GET">
                         <input class="form-control form-control-lg h-100 mb-2 mb-md-0 mr-md-3" name="q"
-                            placeholder="Search Notes..." type="search" value="{{ view.get_search_query|default:'' }}">
+                            placeholder="Search Notes..." type="search" value="{{ search_query|default:'' }}">
                         <button class="btn btn-lg btn-primary" type="submit">Search</button>
                     </form>
                     <div class="d-flex align-items-center justify-content-center" style="overflow: hidden; white-space: nowrap;">
@@ -42,11 +43,11 @@
             </div>
         </div>
     </section>
-    {% if view.get_search_query %}
+    {% if search_query %}
         <div class="divider divider-bottom bg-light"></div>
     {% endif %}
 </div>
-{% if view.get_search_query %}
+{% if search_query %}
     <section class="bg-light pt-1 pb-0">
         <div class="container">
             <h2 class="h1 mt-4">Your Notes</h2>
@@ -69,7 +70,7 @@
             </div>
             <hr class="my-md-4 my-lg-5">
             <h2 class="h1 mt-4">Django Docs</h2>
-            <div class="lead mb-4">
+            <!-- <div class="lead mb-4">
                 Results directly from the Django documentation {{ django_docs_info.version }} 
                 <a href="{{ django_docs_info.url }}">docs.djangoproject.com</a>.
             </div>
@@ -84,9 +85,10 @@
                 {% empty %}
                     <p class="mt-4">No results found.</p>
                 {% endfor %}
-            </ul>
+            </ul> -->
         </div>
         <div class="divider divider-bottom bg-primary-3"></div>
     </section>
 {% endif %}
+{% endwith %}
 {% endblock content %}

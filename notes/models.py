@@ -1,6 +1,8 @@
 import random
 import string 
 
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 
 from tagging.registry import register
@@ -12,6 +14,8 @@ from users.models import User
 class Note(DateModel):
     """
     Model to represent a memorable point.
+    `document_vector` is an indexed field with the value of the concatenation of `title` and 
+    `content`. The field is updated whenever the save method is called.
     """
     id = models.IntegerField(primary_key=True, blank=True, unique=True)
     user = models.ForeignKey(
@@ -27,6 +31,11 @@ class Note(DateModel):
         help_text='Write your Note content here. You can use markdown for better formatting.'
     )
     is_public = models.BooleanField(default=True)
+    # Indexed columns for searching.
+    document_vector = SearchVectorField(null=True)
+
+    class Meta:
+        indexes = [GinIndex(fields=['document_vector',])]
 
     def save(self, *args, **kwargs):
         """Generate a random id of length 10 of numerical characters"""

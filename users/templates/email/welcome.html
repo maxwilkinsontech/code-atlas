@@ -1,3 +1,5 @@
+{% load static %}
+{% autoescape off %}
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -416,7 +418,7 @@
                                                 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]-->
                                                 <div style="font-size:1px;line-height:20px"> </div><img align="center"
                                                     alt="Image" border="0" class="center fixedwidth"
-                                                    src="images/Icon103.png"
+                                                    src="{% static 'img/email/Icon103.png' %}"
                                                     style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 100%; max-width: 75px; display: block;"
                                                     title="Image" width="75" />
                                                 <div style="font-size:1px;line-height:20px"> </div>
@@ -566,7 +568,7 @@
                                                 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]-->
                                                 <div style="font-size:1px;line-height:30px"> </div><img align="center"
                                                     alt="Image" border="0" class="center fixedwidth"
-                                                    src="images/Icon102.png"
+                                                    src="{% static 'img/email/Icon102.png' %}"
                                                     style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 100%; max-width: 75px; display: block;"
                                                     title="Image" width="75" />
                                                 <div style="font-size:1px;line-height:30px"> </div>
@@ -716,7 +718,7 @@
                                                 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]-->
                                                 <div style="font-size:1px;line-height:20px"> </div><img align="center"
                                                     alt="Image" border="0" class="center fixedwidth"
-                                                    src="images/Icon101.png"
+                                                    src="{% static 'img/email/Icon101.png' %}"
                                                     style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 100%; max-width: 75px; display: block;"
                                                     title="Image" width="75" />
                                                 <div style="font-size:1px;line-height:20px"> </div>
@@ -867,7 +869,7 @@
                                                 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]-->
                                                 <div style="font-size:1px;line-height:20px"> </div><img align="center"
                                                     alt="Image" border="0" class="center fixedwidth"
-                                                    src="images/Icon104.png"
+                                                    src="{% static 'img/email/Icon104.png' %}"
                                                     style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 100%; max-width: 75px; display: block;"
                                                     title="Image" width="75" />
                                                 <div style="font-size:1px;line-height:20px"> </div>
@@ -1260,3 +1262,4 @@
 </body>
 
 </html>
+{% endautoescape %}
