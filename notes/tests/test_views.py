@@ -39,6 +39,29 @@ class NotesTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object_list'].count(), 1)
 
+class NotesEditModeViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(email='test@email.com')
+        self.user.set_password('password')
+        self.user.save()
+        self.client.login(email=self.user.email, password='password')
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(f'/notes/mode/edit/')
+        
+        self.assertEqual(response.status_code, 200)
+           
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('notes_edit_mode'))
+
+        self.assertEqual(response.status_code, 200)
+    
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('notes_edit_mode'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'notes_edit.html')
+
 class NotesTagModeViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
@@ -59,18 +82,18 @@ class NotesTagModeViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
            
     def test_view_url_accessible_by_name(self):
-        response = self.client.get(reverse('notes_mode_tags'))
+        response = self.client.get(reverse('notes_tag_mode'))
 
         self.assertEqual(response.status_code, 200)
     
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('notes_mode_tags'))
+        response = self.client.get(reverse('notes_tag_mode'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'notes_tags.html')
 
     def test_get_queryset_correct(self):
-        response = self.client.get(reverse('notes_mode_tags'))
+        response = self.client.get(reverse('notes_tag_mode'))
 
         self.assertEqual(response.status_code, 200)
         tags_string = [x.name for x in response.context['object_list']]
