@@ -18,16 +18,19 @@ class NotesView(LoginRequiredMixin, ListView):
     """
     template_name = 'notes.html'
     paginate_by = 24
-    model = Note
 
     def get_queryset(self):
         return self.request.user.notes.order_by('-last_edited')
 
-class NotesEditModeView(LoginRequiredMixin, TemplateView):
+class NotesEditModeView(LoginRequiredMixin, ListView):
     """
     Returns a template for editing Notes in the masses easily. Data via api.
     """
     template_name = 'notes_edit.html'
+    paginate_by = 100
+    
+    def get_queryset(self):
+        return self.request.user.notes.all().order_by('-last_edited')
 
 class NotesTagModeView(LoginRequiredMixin, ListView):
     """

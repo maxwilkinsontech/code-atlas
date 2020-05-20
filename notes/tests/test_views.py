@@ -46,6 +46,12 @@ class NotesEditModeViewTest(TestCase):
         self.user.save()
         self.client.login(email=self.user.email, password='password')
 
+        self.note = Note.objects.create(
+            user=self.user,
+            title='test',
+            content='content'
+        )
+
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get(f'/notes/mode/edit/')
         
@@ -61,6 +67,13 @@ class NotesEditModeViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'notes_edit.html')
+
+    def test_get_queryset_correct(self):
+        response = self.client.get(reverse('notes_edit_mode'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object_list' in response.context)
+        self.assertEqual(len(response.context['object_list']), 1)
 
 class NotesTagModeViewTest(TestCase):
     def setUp(self):
