@@ -64,12 +64,10 @@ class Note(DateModel):
         meta_data = self.meta_data
         meta_data.num_clones += 1
         meta_data.save()
-        print('count incremented')
         # set self Note as cloned_note in given arg note.
         note_meta_data = note.meta_data
         note_meta_data.cloned_note = self
         note_meta_data.save()
-        print('cloned note saved')
 
     def increment_view_count(self):
         """
