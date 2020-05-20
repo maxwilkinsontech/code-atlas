@@ -5,8 +5,37 @@
 <div class="pb-0 min-vh-100 o-hidden" data-overlay="" style="padding-top: 80px !important;">
     <section>
         <div class="container">
-            <h1 class="display-3">My <mark data-aos="highlight-text" data-aos-delay="500"
-                        class="aos-init aos-animate">Notes</mark></h1>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-column align-items-start">
+                        <h1 class="display-3">My <mark data-aos="highlight-text" data-aos-delay="500"
+                                    class="aos-init aos-animate">Notes</mark></h1>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex flex-column align-items-end">
+                        <nav aria-label="breadcrumb ">
+                            <ol class="breadcrumb px-3">
+                                <a href="#">
+                                    <li class="breadcrumb-item">
+                                        <img src="{% static 'img/icons/theme/layout/layout-grid.svg' %}" class="icon icon-md sm-icon-sm text-primary">
+                                    </li>
+                                </a>
+                                <a href="{% url 'notes_mode_edit' %}" class="mx-3">
+                                    <li class="breadcrumb-item">
+                                        <img src="{% static 'img/icons/theme/layout/layout-left-panel-2.svg' %}" class="icon icon-md text-primary">
+                                    </li>
+                                </a>
+                                <a href="{% url 'notes_mode_tags' %}">
+                                    <li class="breadcrumb-item">
+                                        <img src="{% static 'img/icons/theme/layout/layout-4-blocks.svg' %}" class="icon icon-md text-primary">
+                                    </li>
+                                </a>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
             {# User's Notes #}
             <div class="row">
                 {% for note in object_list %}
