@@ -120,6 +120,8 @@ class CloneNoteView(CreateNoteView):
         """
         Log that the Note has been cloned.
         """
-        note = self.get_object()
-        note.increment_clone_count()
-        return super().form_valid(form)
+        redirect = super().form_valid(form)
+        # Save meta data.
+        cloned_note = self.get_object()
+        cloned_note.increment_clone_count(self.object)
+        return redirect

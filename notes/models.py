@@ -57,17 +57,23 @@ class Note(DateModel):
         tags = ', '.join([str(i) for i in self.tags])
         return tags
 
-    def increment_clone_count(self):
+    def increment_clone_count(self, note):
         """
-        Increment the clone count for the given Note.
+        Increment the clone count. Add self as `cloned_note` for given note argument.
         """
         meta_data = self.meta_data
         meta_data.num_clones += 1
         meta_data.save()
+        print('count incremented')
+        # set self Note as cloned_note in given arg note.
+        note_meta_data = note.meta_data
+        note_meta_data.cloned_note = self
+        note_meta_data.save()
+        print('cloned note saved')
 
     def increment_view_count(self):
         """
-        Increment the view count for the given Note.
+        Increment the view count.
         """
         meta_data = self.meta_data
         meta_data.num_views += 1
