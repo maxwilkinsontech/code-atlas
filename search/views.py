@@ -24,11 +24,3 @@ class SearchView(LoginRequiredMixin, ListView):
             results = search_util.get_search_results()
             return results
         return []
-
-    def search_api_url(self):
-        """
-        Returns the url with params for the search api call.
-        """
-        query = self.request.GET.get('q', '')
-        url = reverse_lazy('api_search_public_notes') + f'?q={query}'
-        return url
