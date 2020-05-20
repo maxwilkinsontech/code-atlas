@@ -3,7 +3,7 @@ from .base import *
 from decouple import Csv, Config, RepositoryEnv
 
 # Set config as .env.dev file
-env_path = 'notebook/settings/.env.staging'
+env_path = 'codeatlas/settings/.env.staging'
 env_config = Config(RepositoryEnv(env_path))
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -27,3 +27,53 @@ DATABASES = {
         'PORT': env_config.get('DB_PORT'),
     }
 }
+
+
+# Email - Mailgun
+
+EMAIL_HOST = 'smtp.eu.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env_config.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env_config.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+
+
+# Cookies
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+
+# Auth Settings
+
+LOGIN_URL = '/accounts/signin'
+LOGIN_REDIRECT_URL = '/notes'
+LOGOUT_REDIRECT_URL = '/'
+
+# Python social auth
+
+SOCIAL_AUTH_GITHUB_KEY = env_config.get('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = env_config.get('SOCIAL_AUTH_GITHUB_SECRET')
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env_config.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
+
+# S3
+
+AWS_ACCESS_KEY_ID = env_config.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env_config.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env_config.get('AWS_STORAGE_BUCKET_NAME')
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_REGION_NAME = 'eu-west-2'
+
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=31536000',
+}
+AWS_LOCATION = 'static'
+
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
