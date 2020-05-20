@@ -39,7 +39,7 @@ class NotesTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object_list'].count(), 1)
 
-class NotesTagsViewTest(TestCase):
+class NotesTagModeViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')
         self.user.set_password('password')

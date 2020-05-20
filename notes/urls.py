@@ -5,8 +5,8 @@ from . import views, api
 
 urlpatterns = [
     path('', views.NotesView.as_view(), name='notes'),
-    path('mode/edit/', views.NotesEditView.as_view(), name='notes_mode_edit'),
-    path('mode/tags/', views.NotesTagsView.as_view(), name='notes_mode_tags'),
+    path('mode/edit/', views.NotesEditModeView.as_view(), name='notes_edit_mode'),
+    path('mode/tags/', views.NotesTagModeView.as_view(), name='notes_tag_mode'),
     path('create/', views.CreateNoteView.as_view(), name='create_note'),
     path('create/clone/<pk>/', views.CloneNoteView.as_view(), name='clone_note'),
     path('view/<pk>/', views.ViewNoteView.as_view(), name='view_note'),
