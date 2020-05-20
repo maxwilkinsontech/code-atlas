@@ -93,12 +93,19 @@ class Reference(DateModel):
 
 class NoteMetaData(models.Model):
     """
-    Model to store meta data for a Note.
+    Model to store meta data for a Note. `note` is the created Note and `cloned_note` is the Note 
+    in which the new Note is cloned from.
     """
     note = models.OneToOneField(
         Note,
         on_delete=models.CASCADE,
         related_name='meta_data'
+    )
+    cloned_note = models.ForeignKey(
+        Note,
+        on_delete=models.SET_NULL,
+        related_name='clones',
+        null=True
     )
     num_views = models.PositiveIntegerField(default=0)
     num_clones = models.PositiveIntegerField(default=0)
