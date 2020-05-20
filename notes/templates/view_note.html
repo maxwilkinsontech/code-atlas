@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load widget_tweaks %}
-
-{% block head_extra %}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
-{% endblock head_extra %}
 
 {% block content %}
 <section class="pb-0 bg-light mt-4 mt-md-0">
@@ -17,7 +12,7 @@
                             <nav aria-label="breadcrumb ">
                                 <ol class="breadcrumb px-3">
                                     <li class="breadcrumb-item">
-                                        <a href="{% url 'edit_note' object.id %}" class="fade-page">
+                                        <a href="{% url 'edit_note' object.id %}">
                                             <img src="{% static 'img/icons/theme/general/edit.svg' %}" alt="arrow-left icon" class="icon icon-sm text-primary">
                                             Edit
                                         </a>
@@ -29,9 +24,11 @@
                 </div>
 
                 <h3 class="display-4 text-center">{{ object.title }}</h3>
+                {# Note content #}
                 <div class="card">
-                    <div class="lead m-4" id="content"></div>
+                    <div class="lead m-4 note-content">{{ object.content }}</div>
                 </div>
+                {# Note tags #}
                 <div>
                     <ul class="d-flex flex-wrap list-unstyled mb-0 mt-2">
                         {% for tag in object.tags %}
@@ -41,7 +38,11 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <small class="text-muted float-right text-right my-2">Created on {{ object.date_created }}<br>Last updated {{ object.last_edited }}</small>
+                <small class="text-muted float-right text-right my-2">
+                    Created on {{ object.date_created }}<br>
+                    Last updated {{ object.last_edited }}
+                </small>
+                {# Note references #}
                 {% with references=object.references.all %}
                     {% if references %}
                         <h4 class="mt-5">References</h4>
@@ -51,11 +52,13 @@
                             <div class="m-3">
                                 <div class="row">
                                     <div class="col-sm-8 col-md-9">
-                                        <h5><a href="{{ ref.reference_url }}">{{ ref.reference_url }}</a></h5>
+                                        <h5><a href="{{ ref.reference_url }}" target="_this">{{ ref.reference_url }}</a></h5>
                                         <p class="mb-2">{{ ref.reference_desc }}</p>
                                     </div>
                                     <div class="col-sm-4 col-md-3">
-                                        <small class="text-muted float-right text-right">Last updated {{ ref.last_edited }}</small>
+                                        <small class="text-muted float-right text-right">
+                                            Last updated {{ ref.last_edited }}
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -68,20 +71,3 @@
     <div class="divider divider-bottom bg-primary-3"></div>
 </section>
 {% endblock content %}
-
-{% block scripts_extra %}
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-<script id="mdown" type="text/markdown">
-{% autoescape off %}
-{{ object.content }}
-{% endautoescape %}
-</script>
-<script>
-    hljs.initHighlightingOnLoad();
-    var content = document.getElementById('content');
-    var mdown = document.getElementById('mdown');
-    content.innerHTML = marked(mdown.textContent);
-</script>
-{% endblock scripts_extra %}

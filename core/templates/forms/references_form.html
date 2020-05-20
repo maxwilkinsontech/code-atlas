@@ -1,0 +1,32 @@
+{% load widget_tweaks %}
+
+<table class="table">
+    {{ references.management_form }}
+    {% for form in references.forms %}
+    <tr class="formset_row">
+        {% for field in form.visible_fields %}
+            <td>
+                {% if forloop.first %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                {% endif %}
+                {% if form.is_bound %}
+                    {% if field.errors %}
+                        {% render_field field class="form-control is-invalid pb_height-50 reverse" %}
+                        {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field field class="form-control is-valid pb_height-50 reverse" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field field class="form-control pb_height-50 reverse" %}
+                {% endif %}
+            </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>

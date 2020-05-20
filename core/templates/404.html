@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Code Atlas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Code Atlas">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/favicon_io/site.webmanifest' %}">
+    <!-- Begin loading animation -->
+    <link href="{% static 'css/loaders/loader-pulse.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <!-- End loading animation -->
+    <link href="{% static 'css/theme.min.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<section class="bg-primary-3 text-white p-0 o-hidden">
+    <div class="container min-vh-100 d-flex flex-column justify-content-between text-center py-4 py-md-5">
+        <a class="display-4" href="{% url 'home' %}">
+            Code Atlas
+        </a>
+        <div class="my-5">
+            <div class="row justify-content-center">
+                <div class="col-5 mb-4">
+                    <img src="{% static 'img/illustrations/illustration-4.svg' %}" alt="404 Page Not Found"
+                        class="img-fluid">
+                </div>
+                <div class="col-12">
+                    <h1>404 - Page Not Found</h1>
+                    <div class="lead">Whoops, it looks like the page you request wasn't found.</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'notes' %}" class="btn btn-sm btn-outline-light fade-page">Back to Home</a>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

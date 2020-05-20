@@ -99,7 +99,7 @@ celerybeat-schedule
 
 # Environments
 .env
-.env.dev
+.env.staging
 .env.local
 .venv
 env/
@@ -128,3 +128,9 @@ dmypy.json
 
 # Vscode
 .vscode/
+
+# zappa
+zappa_settings.json
+
+# Mock data
+static/data/*

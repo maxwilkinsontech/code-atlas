@@ -4,14 +4,22 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Django Notebook</title>
+    <title>Code Atlas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bootstrap HTML template and UI kit by Medium Rare">
+    <meta name="description" content="Code Atlas">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/favicon_io/site.webmanifest' %}">
     <!-- Begin loading animation -->
     <link href="{% static 'css/loaders/loader-pulse.css' %}" rel="stylesheet" type="text/css" media="all" />
     <!-- End loading animation -->
     <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,600,700&display=swap" rel="stylesheet">
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github-gist.min.css">
+    <!-- SimpleMDE -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155126184-2"></script>
     <script>
@@ -33,11 +41,11 @@
     <div class="navbar-container">
         <nav class="navbar navbar-expand-lg {% block nav-bar-color %}navbar-light{% endblock nav-bar-color %}" {% block nav-bar-overlay %}data-overlay{% endblock nav-bar-overlay %}>
             <div class="container">
-                <a class="navbar-brand navbar-brand-dynamic-color fade-page" href="{% url 'notes' %}">
-                    Django Notebook
+                <a class="navbar-brand navbar-brand-dynamic-color" href="{% url 'notes' %}">
+                    Code Atlas
                 </a>
                 <div class="d-flex align-items-center order-lg-3">
-                    <a href="{% url 'notes' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0  order-lg-3 fade-page">My Notes</a>
+                    <a href="{% url 'notes' %}" class="btn btn-primary ml-lg-4 mr-3 mr-md-4 mr-lg-0  order-lg-3">My Notes</a>
                     <button aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                         data-target=".navbar-collapse" data-toggle="collapse" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -81,26 +89,21 @@
                         </div>
                     </form>
                     <ul class="navbar-nav my-3 my-lg-0">
-                        <!-- <div>
-                            <li class="nav-item">
-                                <a href="{% url 'notes' %}" class="nav-link fade-page">My Notes</a>
-                            </li>
-                        </div> -->
                         <li class="nav-item">
-                            <a href="{% url 'create_note' %}" class="nav-link fade-page">Create Note</a>
+                            <a href="{% url 'create_note' %}" class="nav-link">Create Note</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'search' %}" class="nav-link fade-page">Search Notes</a>
+                            <a href="{% url 'search' %}" class="nav-link">Search Notes</a>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">
                                 <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle nav-link nav-item arrow-bottom"
-                                    data-toggle="dropdown-grid" href="#" role="button">My account</a>
+                                    data-toggle="dropdown-grid" href="#" role="button">My Account</a>
                                 <div class="row dropdown-menu" style="left: -666px;">
                                     <div class="col-auto" data-dropdown-content="" style="left: 666px;">
                                         <div class="dropdown-grid-menu">
-                                            <a href="{% url 'account_settings' %}" class="dropdown-item fade-page">Settings</a>
-                                            <a href="{% url 'logout' %}" class="dropdown-item fade-page">Logout</a>
+                                            <a href="{% url 'account_settings' %}" class="dropdown-item">Settings</a>
+                                            <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
                                         </div>
                                     </div>
                                 </div>
@@ -120,14 +123,17 @@
                 class="row flex-column flex-lg-row align-items-center justify-content-center justify-content-lg-between text-center text-lg-left">
                 <div class="col-auto">
                     <div class="d-flex flex-column flex-sm-row align-items-center text-small">
-                        <div class="text-muted">Copyright © 2020 Django Notebook, All rights reserved
+                        <div class="text-muted">
+                            Copyright © 2020 Code Atlas, All rights reserved
+                            <a href="{% url 'privacy_policy' %}" class="mx-2">Privacy Policy</a>
+                            <a href="{% url 'terms_of_service' %}">Terms of Service</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-auto mt-3 mt-lg-0">
                     <ul class="list-unstyled d-flex mb-0">
                         <li class="mx-3">
-                            <a href="https://github.com/Maxamuss/django-notebook" target="_this" class="hover-fade-out">
+                            <a href="https://github.com/Maxamuss/code-atlas" target="_this" class="hover-fade-out">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     class="injected-svg icon icon-sm bg-white" data-src="/static/img/icons/social/github.svg/"
                                     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -186,11 +192,19 @@
     <script type="text/javascript" src="{% static 'js/typed.min.js' %}"></script>
     <!-- Required theme scripts (Do not remove) -->
     <script type="text/javascript" src="{% static 'js/theme.js' %}"></script>
+    <!-- Cookies  -->
+    <script type="text/javascript" src="{% static 'js/cookies.js' %}"></script>
+    <!-- Rendering of markdown and highlighting of code -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/highlight/custom-highlight.js' %}"></script>
+    <!-- SimpleMDE -->
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <!-- Removes page load animation when window is finished loading -->
     <script type="text/javascript">
         window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
     </script>
-    <!-- Search bar submit with enter -->
+    <!-- Submit Navbar search form upon Enter -->
     <script>
         $(function () {
             $('#search-form').each(function () {
@@ -200,13 +214,12 @@
                         this.form.submit();
                     }
                 });
-
                 $(this).find('input[type=submit]').hide();
             });
         });
     </script>
-    {% block scripts_extra %}{% endblock scripts_extra %}
 
+    {% block scripts_extra %}{% endblock scripts_extra %}
 </body>
 
 </html>

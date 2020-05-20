@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_extra %}
+{% endblock head_extra %}
+
+{% block content %}
+<div class="pb-0 min-vh-100 o-hidden" data-overlay="" style="padding-top: 80px !important;">
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-column align-items-start">
+                        <h1 class="display-3">Edit <mark data-aos="highlight-text" data-aos-delay="500"
+                                class="aos-init aos-animate">Notes</mark></h1>
+                    </div>
+                </div>
+                <p>Mode coming soon.</p>
+                <div class="col">
+                    <div class="d-flex flex-column align-items-end">
+                        <nav aria-label="breadcrumb ">
+                            <ol class="breadcrumb px-3">
+                                <a href="{% url 'notes' %}">
+                                    <li class="breadcrumb-item">
+                                        <img src="{% static 'img/icons/theme/layout/layout-grid.svg' %}"
+                                            class="icon text-primary">
+                                    </li>
+                                </a>
+                                <a href="#" class="mx-3">
+                                    <li class="breadcrumb-item">
+                                        <img src="{% static 'img/icons/theme/layout/layout-left-panel-2.svg' %}"
+                                            class="icon text-primary">
+                                    </li>
+                                </a>
+                                <a href="{% url 'notes_tag_mode' %}">
+                                    <li class="breadcrumb-item">
+                                        <img src="{% static 'img/icons/theme/layout/layout-4-blocks.svg' %}"
+                                            class="icon text-primary">
+                                    </li>
+                                </a>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <table id="notesTable" class="table bg-white" data-paging="true">
+                <thead>
+                    <th style="max-width: 30px">
+                        <div class="custom-control custom-checkbox text-center mr-0">
+                            <input type="checkbox" class="custom-control-input" id="checkAll">
+                            <label class="custom-control-label" for="checkAll"></label>
+                        </div>
+                    </th>
+                    <th>Title</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    {% for note in object_list %}
+                        <tr>
+                            <td style="max-width: 30px">
+                                <div class="custom-control custom-checkbox text-center mr-0">
+                                    <input type="checkbox" class="custom-control-input" id="{{ note.id }}" name="{{ note.id }}">
+                                    <label class="custom-control-label" for="{{ note.id }}"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="{% url 'view_note' note.id %}">
+                                    {{ note.title }}
+                                </a>
+                            </td>
+                            <td>
+                                <div class="">
+                                    <img src="{% static 'img/icons/theme/general/other-2.svg' %}" 
+                                        class="icon icon-sm text-primary">
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if object_list %}
+            {% if page_obj.has_previous or page_obj.has_next %}
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-column align-items-center mt-2">
+                        <nav>
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}"
+                                        aria-label="Previous">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" class="injected-svg icon icon-xs bg-primary"
+                                            data-src="assets/img/icons/interface/icon-arrow-left.svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
+                                </li>
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" class="injected-svg icon icon-xs bg-primary"
+                                            data-src="assets/img/icons/interface/icon-arrow-right.svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"
+            style="z-index: 0; transform: translate3d(0px, 1.1876px, 0px);">
+            <div class="blob bg-primary opacity-20 w-100 h-100 top left"></div>
+            <div id="jarallax-container-0"
+                style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -100;">
+                <div style="position: fixed;"></div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block scripts_extra %}
+<script>
+
+</script>
+{% endblock scripts_extra %}
