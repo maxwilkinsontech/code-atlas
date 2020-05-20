@@ -39,6 +39,43 @@ class NotesTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object_list'].count(), 1)
 
+class NotesTagsViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(email='test@email.com')
+        self.user.set_password('password')
+        self.user.save()
+        self.client.login(email=self.user.email, password='password')
+        
+        self.note = Note.objects.create(
+            user=self.user,
+            title='test',
+            content='content'
+        )
+        self.note.tags = 'test1, test2, test three'
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(f'/notes/mode/tags/')
+        
+        self.assertEqual(response.status_code, 200)
+           
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('notes_mode_tags'))
+
+        self.assertEqual(response.status_code, 200)
+    
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('notes_mode_tags'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'notes_tags.html')
+
+    def test_get_queryset_correct(self):
+        response = self.client.get(reverse('notes_mode_tags'))
+
+        self.assertEqual(response.status_code, 200)
+        tags_string = [x.name for x in response.context['object_list']]
+        self.assertEqual(tags_string, ['test2', 'test1', 'test three'])
+
 class CreateNoteViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')

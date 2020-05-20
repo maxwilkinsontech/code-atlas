@@ -41,11 +41,12 @@
             </div>
             {# User's Notes #}
             <div class="row">
-                {% for note in object_list %}
-                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
-                            <h4>{{ note.title }}</h4>
-                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+                {% for tag in object_list %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-2 text-center">
+                        <a href="{% url 'search' %}?q=@&quot;{{ tag.name }}&quot;" class="card card-body hover-box-shadow p-4 h-100">
+                            <h4>{{ tag.name }}</h4>
+                            <h1 class="display-3"><mark data-aos="highlight-text" data-aos-delay="500" class="aos-init aos-animate">{{ tag.count }}</mark></h1>
+                            <p>notes with this tag</p>
                         </a>
                     </div>
                 {% empty %}
@@ -64,44 +65,46 @@
             </div>
             {# Pagination Indicator #}
             {% if object_list %}
-                <div class="row">
-                    <div class="col">
-                        <div class="d-flex flex-column align-items-center mt-4">
-                            <nav>
-                                <ul class="pagination">
-                                    {% if page_obj.has_previous %}
-                                        <li class="page-item">
-                                            <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    class="injected-svg icon icon-xs bg-primary"
-                                                    data-src="assets/img/icons/interface/icon-arrow-left.svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                </svg>
-                                            </a>
+                {% if page_obj.has_previous or page_obj.has_next %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex flex-column align-items-center mt-4">
+                                <nav>
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        class="injected-svg icon icon-xs bg-primary"
+                                                        data-src="assets/img/icons/interface/icon-arrow-left.svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
                                         </li>
-                                    {% endif %}
-                                    <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
-                                    </li>
-                                    {% if page_obj.has_next %}
-                                        <li class="page-item">
-                                            <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    class="injected-svg icon icon-xs bg-primary"
-                                                    data-src="assets/img/icons/interface/icon-arrow-right.svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
+                                        {% if page_obj.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        class="injected-svg icon icon-xs bg-primary"
+                                                        data-src="assets/img/icons/interface/icon-arrow-right.svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             {% endif %}
         </div>
         <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"

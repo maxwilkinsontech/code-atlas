@@ -5,6 +5,8 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
+from tagging.models import Tag
+
 from .mixins import NoteFormMixin, NoteCreatorMixin, NoteCreatorOrPublicMixin
 from .models import Note, NoteMetaData
 from .forms import NoteForm
@@ -32,11 +34,12 @@ class NotesTagsView(LoginRequiredMixin, ListView):
     List a User's Notes ordered by most recently edited. Results split into pages of 24 objects.
     """
     template_name = 'notes_tags.html'
-    paginate_by = 200
-    model = Note
+    paginate_by = 100
 
     def get_queryset(self):
-        return self.request.user.notes.order_by('-last_edited')
+        tags = Tag.objects.usage_for_model(Note, counts=True, filters=dict(user=self.request.user))
+        tags = sorted(tags, key=lambda x: (x.count, x.name), reverse=True)
+        return tags
 
 class CreateNoteView(LoginRequiredMixin, NoteFormMixin, CreateView):
     """
