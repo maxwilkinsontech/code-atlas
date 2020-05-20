@@ -8,6 +8,17 @@
             <div class="col-md-12 col-lg-9 col-xl-9">
                 <div class="row">
                     <div class="col">
+                        <div class="d-flex flex-column align-items-start">
+                            {% if object.is_public %}
+                                <img src="{% static 'img/icons/theme/general/shield-disabled.svg' %}" alt="arrow-left icon" class="icon text-primary"
+                                    data-toggle="tooltip" data-placement="bottom" title="This note is public. Anyone can view it.">
+                            {% else %}
+                                <img src="{% static 'img/icons/theme/general/shield-protected.svg' %}" alt="arrow-left icon" class="icon text-primary"
+                                    data-toggle="tooltip" data-placement="bottom" title="This note is private. Only you can view it.">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col">
                         <div class="d-flex flex-column align-items-end">
                             <nav aria-label="breadcrumb ">
                                 <ol class="breadcrumb px-3">
@@ -71,3 +82,11 @@
     <div class="divider divider-bottom bg-primary-3"></div>
 </section>
 {% endblock content %}
+
+{% block scripts_extra %}
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+{% endblock scripts_extra %}
