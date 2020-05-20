@@ -13,6 +13,7 @@
             ".vscode/*",
             "static/*",
             ".gitignore",
+            "requirements/",
             "zappa_settings.json",
             "readme.md"
         ]
