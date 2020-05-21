@@ -36,7 +36,7 @@ class NotesEditModeView(LoginRequiredMixin, ListView):
 
         if ordering in ['public', 'private']:
             is_public = True if ordering == 'public' else False
-            queryset = notes.filter(is_public=is_public)
+            queryset = notes.filter(is_public=is_public).order_by(*default_ordering)
         elif ordering in ['date_created', '-date_created', 'last_edited', 
                           '-last_edited', 'title', '-title']:            
             queryset = notes.order_by(ordering)
