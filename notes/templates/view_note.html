@@ -50,8 +50,8 @@
                     </ul>
                 </div>
                 <small class="text-muted float-right text-right my-2">
-                    Created on {{ object.date_created }}<br>
-                    Last updated {{ object.last_edited }}
+                    Last updated {{ object.last_edited }}<br>
+                    {{ object.meta_data.num_views }} Views | {{ object.meta_data.num_clones }} Clones
                 </small>
                 {# Note references #}
                 {% with references=object.references.all %}

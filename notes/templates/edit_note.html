@@ -33,7 +33,8 @@
                 <h3 class="display-4 mb-2">Edit Note</h3>
                 <small class="text-muted my-2">
                     Created on {{ object.date_created }}<br>
-                    Last updated {{ object.last_edited }}
+                    Last updated {{ object.last_edited }}<br>
+                    {{ object.meta_data.num_views }} View{{ object.meta_data.num_views|pluralize }} | {{ object.meta_data.num_clones }} Clone{{ object.meta_data.num_clones|pluralize }}
                 </small>
             </div>
         </div>
