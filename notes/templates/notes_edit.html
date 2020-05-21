@@ -13,7 +13,6 @@
                     <div class="d-flex flex-column align-items-start">
                         <h1 class="display-3">Edit <mark data-aos="highlight-text" data-aos-delay="500"
                                 class="aos-init aos-animate">Notes</mark></h1>
-                        <p>Mode coming soon.</p>
                     </div>
                 </div>
                 <div class="col">
@@ -43,6 +42,46 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex flex-column align-items-start">
+                                <div class="form-group" style="width: 100%">
+                                    <select class="custom-select" id="orderingSelect">
+                                        <option selected="">Order Notes</option>
+                                        <option value="1">Date created</option>
+                                        <option value="2">Last edit date</option>
+                                        <option value="3">Title</option>
+                                        <option value="3">Public</option>
+                                        <option value="3">Private</option>
+                                    </select>
+                                    <img src="{% static 'img/icons/interface/icon-caret-down.svg' %}" alt="Arrow Down" class="icon icon-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex flex-column align-items-start">
+                                <div class="form-group" style="width: 100%">
+                                    <select class="custom-select" id="actionsSelect">
+                                        <option selected="">Action for selected Notes</option>
+                                        <option value="public">Make public</option>
+                                        <option value="private">Make private</option>
+                                        <option value="tag">Add Tag</option>
+                                        <option value="delete">Delete</option>
+                                    </select>
+                                    <img src="{% static 'img/icons/interface/icon-caret-down.svg' %}" alt="Arrow Down" class="icon icon-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex flex-column align-items-end">
+                        <p id="numNotesSelected">0 Notes Selected</p>
+                    </div>
+                </div>
+            </div>
             <table id="notesTable" class="table bg-white" data-paging="true">
                 <thead>
                     <th style="max-width: 30px">
@@ -52,6 +91,7 @@
                         </div>
                     </th>
                     <th>Title</th>
+                    <th>Public</th>
                     <th></th>
                 </thead>
                 <tbody>
@@ -69,10 +109,68 @@
                                 </a>
                             </td>
                             <td>
-                                <div class="">
-                                    <img src="{% static 'img/icons/theme/general/other-2.svg' %}" 
-                                        class="icon icon-sm text-primary">
-
+                                {% if note.is_public %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                        viewBox="0 0 24 24" version="1.1" class="injected-svg icon icon-sm bg-secondary"
+                                        data-toggle="tooltip" data-placement="bottom" title="This note is public. Anyone can view it.">
+                                        <title>Icon For Unlock</title>
+                                        <defs>
+                                            <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                        </defs>
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <mask fill="white">
+                                                <use xlink:href="#path-1"></use>
+                                            </mask>
+                                            <g></g>
+                                            <path
+                                                d="M15.6274517,4.55882251 L14.4693753,6.2959371 C13.9280401,5.51296885 13.0239252,5 12,5 C10.3431458,5 9,6.34314575 9,8 L9,10 L14,10 L17,10 L18,10 C19.1045695,10 20,10.8954305 20,12 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,12 C4,10.8954305 4.8954305,10 6,10 L7,10 L7,8 C7,5.23857625 9.23857625,3 12,3 C13.4280904,3 14.7163444,3.59871093 15.6274517,4.55882251 Z"
+                                                fill="#000000"></path>
+                                        </g>
+                                    </svg>
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                        viewBox="0 0 24 24" version="1.1" class="injected-svg icon icon-sm bg-primary"
+                                        data-toggle="tooltip" data-placement="bottom" title="This note is private. Only you can view it.">
+                                        <title>Icon For Lock</title>
+                                        <defs>
+                                            <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                        </defs>
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <mask fill="white">
+                                                <use xlink:href="#path-1"></use>
+                                            </mask>
+                                            <g></g>
+                                            <path
+                                                d="M7,10 L7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 L17,10 L18,10 C19.1045695,10 20,10.8954305 20,12 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,12 C4,10.8954305 4.8954305,10 6,10 L7,10 Z M12,5 C10.3431458,5 9,6.34314575 9,8 L9,10 L15,10 L15,8 C15,6.34314575 13.6568542,5 12,5 Z"
+                                                fill="#000000"></path>
+                                        </g>
+                                    </svg>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="dropdown px-2">
+                                    <a class="" href="#" role="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <img src="{% static 'img/icons/theme/general/other-2.svg' %}" class="icon icon-sm text-primary">
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{% url 'view_note' note.id %}">
+                                            <img src="{% static 'img/icons/theme/general/visible.svg' %}" class="icon icon-sm text-primary">
+                                            View
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'edit_note' note.id %}">
+                                            <img src="{% static 'img/icons/theme/general/edit.svg' %}" class="icon icon-sm text-primary">
+                                            Edit
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'clone_note' note.id %}">
+                                            <img src="{% static 'img/icons/theme/general/duplicate.svg' %}" class="icon icon-sm text-primary">
+                                            Clone
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <img src="{% static 'img/icons/theme/general/trash.svg' %}" class="icon icon-sm text-primary">
+                                            Delete
+                                        </a>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -80,47 +178,47 @@
                 </tbody>
             </table>
             {% if object_list %}
-            {% if page_obj.has_previous or page_obj.has_next %}
-            <div class="row">
-                <div class="col">
-                    <div class="d-flex flex-column align-items-center mt-2">
-                        <nav>
-                            <ul class="pagination">
-                                {% if page_obj.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}"
-                                        aria-label="Previous">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                            fill="none" class="injected-svg icon icon-xs bg-primary"
-                                            data-src="assets/img/icons/interface/icon-arrow-left.svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </a>
-                                </li>
-                                {% endif %}
-                                <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
-                                </li>
-                                {% if page_obj.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                            fill="none" class="injected-svg icon icon-xs bg-primary"
-                                            data-src="assets/img/icons/interface/icon-arrow-right.svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </a>
-                                </li>
-                                {% endif %}
-                            </ul>
-                        </nav>
+                {% if page_obj.has_previous or page_obj.has_next %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex flex-column align-items-center mt-2">
+                                <nav>
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}"
+                                                    aria-label="Previous">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                        fill="none" class="injected-svg icon icon-xs bg-primary"
+                                                        data-src="assets/img/icons/interface/icon-arrow-left.svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <path d="M12 5L5 12L12 19M19 12H6H19Z" stroke="#2C3038" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a>
+                                        </li>
+                                        {% if page_obj.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                        fill="none" class="injected-svg icon icon-xs bg-primary"
+                                                        data-src="assets/img/icons/interface/icon-arrow-right.svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <path d="M12 5L19 12L12 19M5 12H18H5Z" stroke="#2C3038" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            {% endif %}
+                {% endif %}
             {% endif %}
         </div>
         <div class="position-absolute w-50 h-100 top right" data-jarallax-element="50"
@@ -137,6 +235,92 @@
 
 {% block scripts_extra %}
 <script>
+    var csrfToken = Cookies.get('crsftoken');
+    var numChecked = 0;
+    // Update numNotesSelected text
+    function updateNumNotesSelectedText() {
+        var numNotesSelected = $('#numNotesSelected');
+        var text = (numChecked == 1) ? ' Note Selected' : ' Notes Selected' 
+        numNotesSelected.html(numChecked + text);
+    }
+    // Return dictionary of ids of selected Notes
+    function getSelectedIds() {
+        var numNotesSelected = $('#numNotesSelected');
+        var ids = {"ids": []};
+        for (i = 0; numNotesSelected.length; i++) {
+            ids['ids'].push(numNotesSelected[i].attr('id'))
+        }
+        return ids;
+    }
+    // Toggle all inputs
+    $('#checkAll').on('input', function () {
+        var checked = $(this).is(":checked");
+        var allCheckBoxes = $('.custom-control-input');
 
+        if (checked) {
+            allCheckBoxes.prop('checked', true);
+            numChecked = allCheckBoxes.length - 1;
+        } else {
+            allCheckBoxes.prop('checked', false);
+            numChecked = 0;
+        }
+        updateNumNotesSelectedText()
+    });
+    // Toggle individual input
+    $('.custom-control-input').on('input', function () {
+        var id = $(this).attr('id');
+        var checked = $(this).is(":checked");
+
+        if (id != 'checkAll') {
+            if (checked) {
+                numChecked += 1;
+            } else {
+                numChecked -= 1;
+            }
+        }
+        updateNumNotesSelectedText()
+    });
+
+    $('#actionsSelect').on('change', function () {
+        var value = this.value;
+        if (numChecked > 0 ) {
+            var ids = getSelectedIds();
+            var url;
+
+            if (value == 'public'){
+                if (confirm('Are you sure you want to make the selected Notes public?')) {
+                    console.log('public');
+                    url = '/notes/api/public/';
+                }
+            } else if (value == 'private') {
+                if (confirm('Are you sure you want to make the selected Notes private?')) {
+                    console.log('private');
+                    url = '/notes/api/private/';
+                }
+            } else if (value == 'tags') {
+                if (alert('Enter the tags you want to add to the selected Notes.')) {
+                    console.log('tags');
+                    url = '/notes/api/tags/';
+                }
+            } else if (value == 'delete') {
+                if (confirm('Are you sure that you want to delete the selected Notes? This cannot be undone.')) {
+                    console.log('delete');
+                    url = '/notes/api/delete/';
+                }
+            }
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: ids,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", csrfToken);
+                },
+                success: function (data) {
+                    console.log('SUCCESS');
+                }
+            });
+        }
+    });
 </script>
 {% endblock scripts_extra %}

@@ -44,7 +44,7 @@
                     <ul class="d-flex flex-wrap list-unstyled mb-0 mt-2">
                         {% for tag in object.tags %}
                             <li class="m-1">
-                                <a class="badge badge-pill badge-dark" href="#">{{ tag }}</a>
+                                <a class="badge badge-pill badge-dark" href="{% url 'search' %}?q=@&quot;{{ tag.name }}&quot;">{{ tag }}</a>
                             </li>
                         {% endfor %}
                     </ul>
