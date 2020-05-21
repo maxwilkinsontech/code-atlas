@@ -76,7 +76,7 @@ class NoteFormMixin(object):
 # --------------------------------------------------------------------------------------------------
 class MutlipleNoteIdsMixin(APIView):
     """
-    Make the Notes with ids passed public.
+    Mixin to be used a base class by API views that deal with multiple ids at once.
     """
     permission_classes = [IsAuthenticated]
     success_status = status.HTTP_200_OK
@@ -90,6 +90,9 @@ class MutlipleNoteIdsMixin(APIView):
         return queryset
 
     def post(self, request):
+        """
+        Given a non-empty queryset, perform the action. `perform_action` defined in child class.
+        """
         notes = self.get_queryset()
         if notes.exists():
             self.perform_action(notes)
