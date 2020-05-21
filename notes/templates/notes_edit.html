@@ -256,11 +256,25 @@
 
             numNotesSelected.forEach(note => {
                 id = note.id;
-                if (id != 'numNotesSelected' && note.checked) {
+                if (id != 'checkAll' && note.checked) {
                     ids['ids'].push(id);
                 }
             });
             return ids;
+        }
+
+        function postData(url, data) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: data,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    window.location.reload();
+                }
+            });
         }
         // Toggle all inputs
         $('#checkAll').on('input', function () {
@@ -305,30 +319,21 @@
                     if (confirm('Are you sure you want to make the selected Notes private?')) {
                         url = '/notes/api/private/';
                     }
-                } else if (value == 'tags') {
-                    var tags = ('Enter the tags you want to add to the selected Notes.');
+                } else if (value == 'tag') {
+                    var tags = prompt('Enter the tags you want to add to the selected Notes.');
                     if (tags != null) {
                         data['tags'] = tags;
                     }
                     url = '/notes/api/tags/';
-                    
                 } else if (value == 'delete') {
                     if (confirm('Are you sure that you want to delete the selected Notes? This cannot be undone.')) {
                         url = '/notes/api/delete/';
+                        
                     }
+                } else {
+                    return;
                 }
-
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: data,
-                    beforeSend: function (xhr, settings) {
-                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
-                    },
-                    success: function (data) {
-                        window.location.reload();
-                    }
-                });
+                postData(url, data);
             }
         });
     });
