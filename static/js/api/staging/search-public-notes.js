@@ -7,7 +7,7 @@ $(document).ready(function () {
     // Get search path
     function getSearchPath() {
         const urlParams = new URLSearchParams(window.location.search);
-        var basePath = '/search/api/';
+        var basePath = '/staging/search/api/';
         var query = urlParams.get('q');
         var path = basePath + '?q=' + query;
         return path
