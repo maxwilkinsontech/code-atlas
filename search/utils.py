@@ -115,7 +115,7 @@ class SearchUtil:
         tags = self.tags
 
         if tags:
-            queryset = TaggedItem.objects.get_union_by_model(self.queryset, tags)
+            queryset = TaggedItem.objects.get_intersection_by_model(self.queryset, tags)
             self.queryset = queryset
 
         return self

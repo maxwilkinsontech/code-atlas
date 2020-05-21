@@ -4,6 +4,7 @@ from .models import Note, Reference, NoteMetaData
 
 class NoteMetaDataInLine(admin.TabularInline):
     model = NoteMetaData
+    fk_name = 'note'
     extra = 0
 
 class ReferenceInLine(admin.TabularInline):

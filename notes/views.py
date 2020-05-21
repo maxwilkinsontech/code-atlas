@@ -30,7 +30,20 @@ class NotesEditModeView(LoginRequiredMixin, ListView):
     paginate_by = 100
     
     def get_queryset(self):
-        return self.request.user.notes.all().order_by('-last_edited')
+        notes = self.request.user.notes.all()
+        default_ordering = ['-last_edited', 'title']
+        ordering = self.request.GET.get('ordering')
+
+        if ordering in ['public', 'private']:
+            is_public = True if ordering == 'public' else False
+            queryset = notes.filter(is_public=is_public).order_by(*default_ordering)
+        elif ordering in ['date_created', '-date_created', 'last_edited', 
+                          '-last_edited', 'title', '-title']:            
+            queryset = notes.order_by(ordering)
+        else:
+            queryset = notes.order_by(*default_ordering)
+
+        return queryset
 
 class NotesTagModeView(LoginRequiredMixin, ListView):
     """
@@ -83,6 +96,11 @@ class DeleteNoteView(NoteCreatorMixin, DeleteView):
     model = Note
     success_url = reverse_lazy('notes')
 
+    def get_success_url(self):
+        if self.request.GET.get('edit_mode', False):
+            return reverse_lazy('notes_edit_mode')
+        return super().get_success_url()
+
 class CloneNoteView(CreateNoteView):
     """
     View for User to make a clone of another Note. The Note's num_clones is incremented upon a 
@@ -120,6 +138,8 @@ class CloneNoteView(CreateNoteView):
         """
         Log that the Note has been cloned.
         """
-        note = self.get_object()
-        note.increment_clone_count()
-        return super().form_valid(form)
+        redirect = super().form_valid(form)
+        # Save meta data.
+        cloned_note = self.get_object()
+        cloned_note.increment_clone_count(self.object)
+        return redirect

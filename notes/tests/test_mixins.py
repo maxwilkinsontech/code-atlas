@@ -2,7 +2,9 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
 
-from notes.mixins import NoteCreatorMixin, NoteCreatorOrPublicMixin, NoteFormMixin
+from notes.mixins import (
+    NoteCreatorMixin, NoteCreatorOrPublicMixin, NoteFormMixin, MutlipleNoteIdsMixin
+)
 from notes.models import Note
 from users.models import User
 
@@ -146,3 +148,82 @@ class NoteFormMixinTest(TestCase):
         url = self.mixin.success_url()
 
         self.assertEqual(url, f'/notes/view/{self.note.id}/')
+
+class MutlipleNoteIdsMixinTest(TestCase):
+
+    class HelperClass(MutlipleNoteIdsMixin):
+        def perform_action(self, notes):
+            pass
+
+    def setUp(self):
+        self.mixin = MutlipleNoteIdsMixin()
+        self.user = User.objects.create_user(email='test@email.com')
+
+        self.note = Note.objects.create(
+            user=self.user,
+            title='test',
+            content='content',
+        )
+
+    def test_get_queryset_no_ids_passed(self):
+        request = factory.post(
+            reverse('home'), 
+        )
+        request.data = {}
+        request.user = self.user
+        self.mixin.request = request
+
+        queryset = self.mixin.get_queryset()
+
+        self.assertFalse(queryset.exists())
+
+    def test_get_queryset_invalid_ids_passed(self):
+        request = factory.post(
+            reverse('home'), 
+        )
+        request.data = {'ids': [123]}
+        request.user = self.user
+        self.mixin.request = request
+
+        queryset = self.mixin.get_queryset()
+
+        self.assertFalse(queryset.exists())
+        
+    def test_get_queryset_valid_ids_passed(self):
+        request = factory.post(
+            reverse('home'), 
+        )
+        request.data = {'ids': [self.note.id]}
+        request.user = self.user
+        self.mixin.request = request
+
+        queryset = self.mixin.get_queryset()
+
+        self.assertTrue(queryset.exists())
+        self.assertEqual(queryset.count(), 1)
+
+    def test_post_no_queryset(self):
+        request = factory.post(
+            reverse('home'), 
+        )
+        request.data = {'ids': []}
+        request.user = self.user
+        self.mixin.request = request
+
+        response = self.mixin.post(request)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_valid(self):
+        request = factory.post(
+            reverse('home'), 
+        )
+        request.data = {'ids': [self.note.id]}
+        request.user = self.user
+        mixin = self.HelperClass()
+        mixin.request = request
+        
+        response = mixin.post(request)
+
+        self.assertEqual(response.status_code, mixin.success_status)
+

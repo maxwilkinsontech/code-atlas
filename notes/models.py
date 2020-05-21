@@ -57,17 +57,21 @@ class Note(DateModel):
         tags = ', '.join([str(i) for i in self.tags])
         return tags
 
-    def increment_clone_count(self):
+    def increment_clone_count(self, note):
         """
-        Increment the clone count for the given Note.
+        Increment the clone count. Add self as `cloned_note` for given note argument.
         """
         meta_data = self.meta_data
         meta_data.num_clones += 1
         meta_data.save()
+        # set self Note as cloned_note in given arg note.
+        note_meta_data = note.meta_data
+        note_meta_data.cloned_note = self
+        note_meta_data.save()
 
     def increment_view_count(self):
         """
-        Increment the view count for the given Note.
+        Increment the view count.
         """
         meta_data = self.meta_data
         meta_data.num_views += 1
@@ -93,12 +97,19 @@ class Reference(DateModel):
 
 class NoteMetaData(models.Model):
     """
-    Model to store meta data for a Note.
+    Model to store meta data for a Note. `note` is the created Note and `cloned_note` is the Note 
+    in which the new Note is cloned from.
     """
     note = models.OneToOneField(
         Note,
         on_delete=models.CASCADE,
         related_name='meta_data'
+    )
+    cloned_note = models.ForeignKey(
+        Note,
+        on_delete=models.SET_NULL,
+        related_name='clones',
+        null=True
     )
     num_views = models.PositiveIntegerField(default=0)
     num_clones = models.PositiveIntegerField(default=0)

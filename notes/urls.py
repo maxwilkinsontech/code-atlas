@@ -13,5 +13,9 @@ urlpatterns = [
     path('edit/<pk>/', views.EditNoteView.as_view(), name='edit_note'),
     path('delete/<pk>/', views.DeleteNoteView.as_view(), name='delete_note'),
     # API views
-    path('api/', api.NoteListView.as_view(), name='api_notes'),
+    # path('api/', api.NotesListView.as_view()),
+    path('api/public/', api.NotesMakePublicView.as_view()),
+    path('api/private/', api.NotesMakePrivateView.as_view()),
+    path('api/tags/', api.NotesAddTagsView.as_view()),
+    path('api/delete/', api.NotesDeleteView.as_view()),
 ]
