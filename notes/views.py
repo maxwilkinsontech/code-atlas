@@ -30,15 +30,15 @@ class NotesEditModeView(LoginRequiredMixin, ListView):
     paginate_by = 100
     
     def get_queryset(self):
-        default_ordering = '-last_edited'
+        default_ordering = ['-last_edited', 'title']
         ordering = self.request.GET.get('ordering')
 
         if ordering in ['']:
-            ordering = ordering
+            ordering = [ordering]
         else:
             ordering = default_ordering
 
-        queryset = self.request.user.notes.all().order_by(ordering)
+        queryset = self.request.user.notes.all().order_by(*ordering)
 
         return queryset
 
