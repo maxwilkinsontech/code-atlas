@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-You will need to create database. This may require changes needing to be made to settings `codeatlas/settings/local.py`
+You will need to create database. This may require changes needing to be made to the settings file: `codeatlas/settings/local.py`
 
 ```
 git clone https://github.com/Maxamuss/code-atlas
@@ -42,7 +42,7 @@ Please feel free to contribute.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Maxamuss/code-atlas/tags). 
 
 ## Authors
 
