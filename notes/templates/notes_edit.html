@@ -239,92 +239,98 @@
 
 {% block scripts_extra %}
 <script>
-    var csrfToken = Cookies.get('crsftoken');
-    var numChecked = 0;
-    // Update numNotesSelected text
-    function updateNumNotesSelectedText() {
-        var numNotesSelected = $('#numNotesSelected');
-        var text = (numChecked == 1) ? ' Note Selected' : ' Notes Selected' 
-        numNotesSelected.html(numChecked + text);
-    }
-    // Return dictionary of ids of selected Notes
-    function getSelectedIds() {
-        var numNotesSelected = $('#numNotesSelected');
-        var ids = {"ids": []};
-        for (i = 0; numNotesSelected.length; i++) {
-            ids['ids'].push(numNotesSelected[i].attr('id'))
+    $(document).ready(function () {
+        var csrfToken = Cookies.get('crsftoken');
+        var numChecked = 0;
+        // Update numNotesSelected text
+        function updateNumNotesSelectedText() {
+            var numNotesSelected = $('#numNotesSelected');
+            var text = (numChecked == 1) ? ' Note Selected' : ' Notes Selected' 
+            numNotesSelected.html(numChecked + text);
         }
-        return ids;
-    }
-    // Toggle all inputs
-    $('#checkAll').on('input', function () {
-        var checked = $(this).is(":checked");
-        var allCheckBoxes = $('.custom-control-input');
+        // Return dictionary of ids of selected Notes
+        function getSelectedIds() {
+            var numNotesSelected = document.querySelectorAll('.custom-control-input');
+            var ids = {ids: []};
+            var id; 
 
-        if (checked) {
-            allCheckBoxes.prop('checked', true);
-            numChecked = allCheckBoxes.length - 1;
-        } else {
-            allCheckBoxes.prop('checked', false);
-            numChecked = 0;
-        }
-        updateNumNotesSelectedText()
-    });
-    // Toggle individual input
-    $('.custom-control-input').on('input', function () {
-        var id = $(this).attr('id');
-        var checked = $(this).is(":checked");
-
-        if (id != 'checkAll') {
-            if (checked) {
-                numChecked += 1;
-            } else {
-                numChecked -= 1;
-            }
-        }
-        updateNumNotesSelectedText()
-    });
-
-    $('#actionsSelect').on('change', function () {
-        var value = this.value;
-        if (numChecked > 0 ) {
-            var ids = getSelectedIds();
-            var url;
-
-            if (value == 'public'){
-                if (confirm('Are you sure you want to make the selected Notes public?')) {
-                    console.log('public');
-                    url = '/notes/api/public/';
-                }
-            } else if (value == 'private') {
-                if (confirm('Are you sure you want to make the selected Notes private?')) {
-                    console.log('private');
-                    url = '/notes/api/private/';
-                }
-            } else if (value == 'tags') {
-                if (alert('Enter the tags you want to add to the selected Notes.')) {
-                    console.log('tags');
-                    url = '/notes/api/tags/';
-                }
-            } else if (value == 'delete') {
-                if (confirm('Are you sure that you want to delete the selected Notes? This cannot be undone.')) {
-                    console.log('delete');
-                    url = '/notes/api/delete/';
-                }
-            }
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: ids,
-                beforeSend: function (xhr, settings) {
-                    xhr.setRequestHeader("X-CSRFToken", csrfToken);
-                },
-                success: function (data) {
-                    console.log('SUCCESS');
+            numNotesSelected.forEach(note => {
+                id = note.id;
+                if (id != 'numNotesSelected' && note.checked) {
+                    ids['ids'].push(id);
                 }
             });
+            return ids;
         }
+        // Toggle all inputs
+        $('#checkAll').on('input', function () {
+            var checked = $(this).is(":checked");
+            var allCheckBoxes = $('.custom-control-input');
+
+            if (checked) {
+                allCheckBoxes.prop('checked', true);
+                numChecked = allCheckBoxes.length - 1;
+            } else {
+                allCheckBoxes.prop('checked', false);
+                numChecked = 0;
+            }
+            updateNumNotesSelectedText()
+        });
+        // Toggle individual input
+        $('.custom-control-input').on('input', function () {
+            var id = $(this).attr('id');
+            var checked = $(this).is(":checked");
+
+            if (id != 'checkAll') {
+                if (checked) {
+                    numChecked += 1;
+                } else {
+                    numChecked -= 1;
+                }
+            }
+            updateNumNotesSelectedText()
+        });
+
+        $('#actionsSelect').on('change', function () {
+            var value = this.value;
+            if (numChecked > 0 ) {
+                var data = getSelectedIds();
+                var url;
+
+                if (value == 'public'){
+                    if (confirm('Are you sure you want to make the selected Notes public?')) {
+                        url = '/notes/api/public/';
+                    }
+                } else if (value == 'private') {
+                    if (confirm('Are you sure you want to make the selected Notes private?')) {
+                        url = '/notes/api/private/';
+                    }
+                } else if (value == 'tags') {
+                    var tags = ('Enter the tags you want to add to the selected Notes.');
+                    if (tags != null) {
+                        data['tags'] = tags;
+                    }
+                    url = '/notes/api/tags/';
+                    
+                } else if (value == 'delete') {
+                    if (confirm('Are you sure that you want to delete the selected Notes? This cannot be undone.')) {
+                        url = '/notes/api/delete/';
+                    }
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
     });
 </script>
 {% endblock scripts_extra %}

@@ -1,6 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView
 from rest_framework import status
+from django.utils import timezone
 
 from tagging.models import Tag
 
@@ -23,14 +24,14 @@ class NotesMakePublicView(MutlipleNoteIdsMixin):
     Make the Notes with ids passed public.
     """
     def perform_action(self, notes):
-        notes.update(is_public=True)        
+        notes.update(is_public=True, last_edited=timezone.now())        
 
 class NotesMakePrivateView(MutlipleNoteIdsMixin):
     """
     Make the Notes with ids passed private.
     """
     def perform_action(self, notes):
-        notes.update(is_public=False)
+        notes.update(is_public=False, last_edited=timezone.now())
 
 class NotesAddTagsView(MutlipleNoteIdsMixin):
     """

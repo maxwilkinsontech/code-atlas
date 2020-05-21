@@ -85,7 +85,7 @@ class MutlipleNoteIdsMixin(APIView):
         """
         Return a queryset of Notes matching the ids given.
         """
-        ids = self.request.data.get('ids', [])
+        ids = self.request.data.getlist('ids[]', [])
         queryset = self.request.user.notes.filter(id__in=ids)
         return queryset
 
