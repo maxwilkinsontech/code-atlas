@@ -28,10 +28,10 @@ class NotesMakePublicViewTest(APITestCase):
         )
         
         self.data = {
-            'ids[]': [self.note.id]
+            'ids': [self.note.id]
         }
         self.data2 = {
-            'ids[]': [self.note.id, self.note2.id]
+            'ids': [self.note.id, self.note2.id]
         }
 
     def test_post_no_data(self):
@@ -87,10 +87,10 @@ class NotesMakePrivateViewTest(APITestCase):
         )
         
         self.data = {
-            'ids[]': [self.note.id]
+            'ids': [self.note.id]
         }
         self.data2 = {
-            'ids[]': [self.note.id, self.note2.id]
+            'ids': [self.note.id, self.note2.id]
         }
 
     def test_post_no_data(self):
@@ -145,11 +145,11 @@ class NotesAddTagsViewTest(APITestCase):
         self.note2.tags = 'initial'
 
         self.data = {
-            'ids[]': [self.note.id],
+            'ids': [self.note.id],
             'tags': 'test'
         }
         self.data2 = {
-            'ids[]': [self.note.id, self.note2.id],
+            'ids': [self.note.id, self.note2.id],
             'tags': 'test, django'
         }
 
@@ -201,10 +201,10 @@ class NotesDeleteViewTest(APITestCase):
         )
 
         self.data = {
-            'ids[]': [self.note.id]
+            'ids': [self.note.id]
         }
         self.data2 = {
-            'ids[]': [self.note.id, self.note2.id]
+            'ids': [self.note.id, self.note2.id]
         }
 
     def test_post_no_data(self):

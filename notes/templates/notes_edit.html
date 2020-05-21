@@ -242,6 +242,8 @@
 
 {% block scripts_extra %}
 <script>
+    jQuery.ajaxSettings.traditional = true; 
+
     $(document).ready(function () {
         var csrfToken = Cookies.get('crsftoken');
         var numChecked = 0;
@@ -268,6 +270,7 @@
 
         function postData(url, data) {
             $.ajax({
+                traditional: true,
                 url: url,
                 type: 'POST',
                 data: data,
