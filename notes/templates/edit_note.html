@@ -57,21 +57,5 @@
 
 {% block scripts_extra %}
     <script src="{% static 'js/formset/jquery.formset.js' %}"></script>
-    <script type="text/javascript">
-        var simplemde = new SimpleMDE({
-            status: false,
-            spellChecker: false,
-            renderingConfig: {
-                codeSyntaxHighlighting: true,
-            },
-            showIcons: ['code', 'table', 'redo', 'heading', 'undo'],
-            hideIcons: ['side-by-side', 'fullscreen'],
-        });
-
-        $('.formset_row').formset({
-            addText: 'Add another reference +',
-            deleteText: 'X',
-            prefix: 'references'
-        });
-    </script>
+    <script src="{% static 'js/forms/note-content.js' %}"></script>
 {% endblock scripts_extra %}
