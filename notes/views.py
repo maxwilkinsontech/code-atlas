@@ -93,6 +93,11 @@ class DeleteNoteView(NoteCreatorMixin, DeleteView):
     model = Note
     success_url = reverse_lazy('notes')
 
+    def get_success_url(self):
+        if self.request.GET.get('edit_mode', False):
+            return reverse_lazy('notes_edit_mode')
+        return super().get_success_url()
+
 class CloneNoteView(CreateNoteView):
     """
     View for User to make a clone of another Note. The Note's num_clones is incremented upon a 
