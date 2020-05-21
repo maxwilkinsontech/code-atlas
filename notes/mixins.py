@@ -3,8 +3,14 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db import transaction
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+
 from .forms import ReferenceFormSet
 from .models import NoteMetaData
+
 
 class NoteCreatorMixin(AccessMixin):
     """
@@ -17,7 +23,7 @@ class NoteCreatorMixin(AccessMixin):
         if not user.is_authenticated:
             return redirect('login')
         # Check user is creator of note.
-        if note.user != request.user:
+        if note.user != user:
             return redirect('view_note', note.id)
         return super().dispatch(request, *args, **kwargs)
 
@@ -64,3 +70,32 @@ class NoteFormMixin(object):
 
     def success_url(self):
         return reverse_lazy('view_note', args=[self.object.id])
+
+# --------------------------------------------------------------------------------------------------
+#                                   Rest Framework Mixins
+# --------------------------------------------------------------------------------------------------
+class MutlipleNoteIdsMixin(APIView):
+    """
+    Mixin to be used a base class by API views that deal with multiple ids at once.
+    """
+    permission_classes = [IsAuthenticated]
+    success_status = status.HTTP_200_OK
+
+    def get_queryset(self):
+        """
+        Return a queryset of Notes matching the ids given.
+        """
+        ids = dict(self.request.data).get('ids', [])
+        queryset = self.request.user.notes.filter(id__in=ids)
+        return queryset
+
+    def post(self, request):
+        """
+        Given a non-empty queryset, perform the action. `perform_action` defined in child class.
+        """
+        notes = self.get_queryset()
+        if notes.exists():
+            self.perform_action(notes)
+            return Response(status=self.success_status)
+        else:
+            return  Response(status=status.HTTP_400_BAD_REQUEST)

@@ -49,7 +49,14 @@ class NotesEditModeViewTest(TestCase):
         self.note = Note.objects.create(
             user=self.user,
             title='test',
-            content='content'
+            content='content',
+            is_public=True
+        )
+        self.note2 = Note.objects.create(
+            user=self.user,
+            title='test',
+            content='content',
+            is_public=False
         )
 
     def test_view_url_exists_at_desired_location(self):
@@ -73,7 +80,28 @@ class NotesEditModeViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue('object_list' in response.context)
-        self.assertEqual(len(response.context['object_list']), 1)
+        self.assertEqual(len(response.context['object_list']), 2)
+
+    def test_get_queryset_invalid_ordering_param(self):
+        response = self.client.get(reverse('notes_edit_mode'))
+
+        self.assertEqual(response.status_code, 200)
+        queryset = response.context['object_list']
+        self.assertEqual(queryset.query.order_by, ('-last_edited', 'title'))
+
+    def test_get_queryset_valid_ordering_params(self):
+        for ordering in ['date_created', '-date_created', 'last_edited', 
+                         '-last_edited', 'title', '-title']:
+            response = self.client.get(reverse('notes_edit_mode') + '?ordering=' + ordering)
+            self.assertEqual(response.status_code, 200)
+            queryset = response.context['object_list']
+            self.assertEqual(queryset.query.order_by, (ordering,))
+
+    def test_get_queryset_valid_filtering(self):
+        for ordering in ['public', 'private']:
+            response = self.client.get(reverse('notes_edit_mode') + '?ordering=' + ordering)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.context['object_list'].count(), 1)
 
 class NotesTagModeViewTest(TestCase):
     def setUp(self):
@@ -295,6 +323,22 @@ class DeleteNoteViewTest(TestCase):
         response = self.client.post(reverse('delete_note', args=[self.note.id]))
 
         self.assertEqual(response.status_code, 302)
+        self.assertIsNotNone(self.note)
+
+    def test_get_success_url_no_param(self):
+        response = self.client.post(reverse('delete_note', args=[self.note.id]))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('notes'))
+        self.assertIsNotNone(self.note)
+
+    def test_get_success_url_edit_mode_param(self):
+        response = self.client.post(
+            reverse('delete_note', args=[self.note.id]) + '?edit_mode=true'
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('notes_edit_mode'))
         self.assertIsNotNone(self.note)
 
 class CloneNoteViewTest(TestCase):
