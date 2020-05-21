@@ -1,7 +1,8 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView
-from rest_framework.response import Response
 from rest_framework import status
+
+from tagging.models import Tag
 
 from .mixins import MutlipleNoteIdsMixin
 from .serializers import NoteSerializer
@@ -21,34 +22,33 @@ class NotesMakePublicView(MutlipleNoteIdsMixin):
     """
     Make the Notes with ids passed public.
     """
-    def post(self, request):
-        notes = self.get_queryset()
-        notes.update(is_public=True)
-        return Response(status=status.HTTP_200_OK)
+    def perform_action(self, notes):
+        notes.update(is_public=True)        
 
 class NotesMakePrivateView(MutlipleNoteIdsMixin):
     """
     Make the Notes with ids passed private.
     """
-    def post(self, request):
-        notes = self.get_queryset()
+    def perform_action(self, notes):
         notes.update(is_public=False)
-        return Response(status=status.HTTP_200_OK)
 
 class NotesAddTagsView(MutlipleNoteIdsMixin):
     """
     Add tags to the Notes with ids passed.
     """
-    def post(self, request):
-        notes = self.get_queryset()
-        # notes.delete()
-        return Response(status=status.HTTP_200_OK)
+    def perform_action(self, notes):
+        tags = self.request.data.get('tags', '')
+        tags_list = tags.split(', ')
+        if tags:
+            for note in notes:
+                for tag in tags_list:
+                    Tag.objects.add_tag(note, tag)
 
 class NotesDeleteView(MutlipleNoteIdsMixin):
     """
     Delete Notes with ids passed.
     """
-    def post(self, request):
-        notes = self.get_queryset()
+    success_status = status.HTTP_204_NO_CONTENT
+
+    def perform_action(self, notes):
         notes.delete()
-        return Response(status=status.HTTP_200_OK)
