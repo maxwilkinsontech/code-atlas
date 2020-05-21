@@ -50,11 +50,14 @@
                                 <div class="form-group" style="width: 100%">
                                     <select class="custom-select" id="orderingSelect">
                                         <option selected="">Order Notes</option>
-                                        <option value="1">Date created</option>
-                                        <option value="2">Last edit date</option>
-                                        <option value="3">Title</option>
-                                        <option value="3">Public</option>
-                                        <option value="3">Private</option>
+                                        <option value="1">Date created (asc)</option>
+                                        <option value="2">Date created (desc)</option>
+                                        <option value="3">Last edit date (asc)</option>
+                                        <option value="4">Last edit date (desc)</option>
+                                        <option value="5">Title (asc)</option>
+                                        <option value="6">Title (desc)</option>
+                                        <option value="7">Public</option>
+                                        <option value="8">Private</option>
                                     </select>
                                     <img src="{% static 'img/icons/interface/icon-caret-down.svg' %}" alt="Arrow Down" class="icon icon-sm">
                                 </div>
@@ -190,7 +193,7 @@
                                     <ul class="pagination">
                                         {% if page_obj.has_previous %}
                                             <li class="page-item">
-                                                <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}"
+                                                <a class="page-link rounded" href="?page={{ page_obj.previous_page_number }}&ordering={{ request.GET.ordering }}"
                                                     aria-label="Previous">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                                         fill="none" class="injected-svg icon icon-xs bg-primary"
@@ -206,7 +209,7 @@
                                         </li>
                                         {% if page_obj.has_next %}
                                             <li class="page-item">
-                                                <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                                <a class="page-link rounded" href="?page={{ page_obj.next_page_number }}&ordering={{ request.GET.ordering }}" aria-label="Next">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                                         fill="none" class="injected-svg icon icon-xs bg-primary"
                                                         data-src="assets/img/icons/interface/icon-arrow-right.svg"
@@ -335,6 +338,31 @@
                 }
                 postData(url, data);
             }
+        });
+        $('#orderingSelect').on('change', function () {
+            var value = this.value;
+            var url = '/notes/mode/edit/?ordering='
+
+            if (value == '1'){
+                url += 'date_created';
+            } else if (value == '2') {
+                url += '-date_created';
+            } else if (value == '3') {
+                url += 'last_edited';
+            } else if (value == '4') {
+                url += '-last_edited';
+            } else if (value == '5') {
+                url += 'title';
+            } else if (value == '6') {
+                url += '-title';
+            } else if (value == '7') {
+                url += 'public';
+            } else if (value == '8') {
+                url += 'private';
+            } else {
+                return;
+            }
+            window.location.replace(url);
         });
     });
 </script>

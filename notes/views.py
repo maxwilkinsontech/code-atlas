@@ -30,15 +30,18 @@ class NotesEditModeView(LoginRequiredMixin, ListView):
     paginate_by = 100
     
     def get_queryset(self):
+        notes = self.request.user.notes.all()
         default_ordering = ['-last_edited', 'title']
         ordering = self.request.GET.get('ordering')
 
-        if ordering in ['']:
-            ordering = [ordering]
+        if ordering in ['public', 'private']:
+            is_public = True if ordering == 'public' else False
+            queryset = notes.filter(is_public=is_public)
+        elif ordering in ['date_created', '-date_created', 'last_edited', 
+                          '-last_edited', 'title', '-title']:            
+            queryset = notes.order_by(ordering)
         else:
-            ordering = default_ordering
-
-        queryset = self.request.user.notes.all().order_by(*ordering)
+            queryset = notes.order_by(*default_ordering)
 
         return queryset
 
