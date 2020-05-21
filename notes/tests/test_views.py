@@ -297,22 +297,6 @@ class DeleteNoteViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIsNotNone(self.note)
 
-    def test_get_success_url_no_param(self):
-        response = self.client.post(reverse('delete_note', args=[self.note.id]))
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('notes'))
-        self.assertIsNotNone(self.note)
-
-    def test_get_success_url_edit_mode_param(self):
-        response = self.client.post(
-            reverse('delete_note', args=[self.note.id]) + '?edit_mode=true'
-        )
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('notes_edit_mode'))
-        self.assertIsNotNone(self.note)
-
 class CloneNoteViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@email.com')

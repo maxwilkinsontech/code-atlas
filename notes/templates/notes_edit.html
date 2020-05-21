@@ -166,14 +166,10 @@
                                             <img src="{% static 'img/icons/theme/general/duplicate.svg' %}" class="icon icon-sm text-primary">
                                             Clone
                                         </a>
-                                        <form method="POST" action="{% url 'delete_note' note.id %}?edit_mode=true"
-                                            onsubmit="return confirm('Are you sure you want to delete this Note?');">
-                                            {% csrf_token %}
-                                            <button class="dropdown-item" type="submit">
-                                                <img src="{% static 'img/icons/theme/general/trash.svg' %}" class="icon icon-sm text-primary">
-                                                Delete
-                                            </button>
-                                        </form>
+                                        <a class="dropdown-item" href="#">
+                                            <img src="{% static 'img/icons/theme/general/trash.svg' %}" class="icon icon-sm text-primary">
+                                            Delete
+                                        </a>
                                     </div>
                                 </div>
                             </td>
