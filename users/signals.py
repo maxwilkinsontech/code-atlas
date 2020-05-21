@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.template import loader
 
-from .models import Profile
+from .models import User, Profile
 
 
 @receiver(post_save, sender=User)

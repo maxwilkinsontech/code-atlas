@@ -56,7 +56,7 @@ class Profile(models.Model):
     """
     Model to store extra information about a User. Used in a social context.
     """
-    user = models.Model(
+    user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         related_name='profile'
