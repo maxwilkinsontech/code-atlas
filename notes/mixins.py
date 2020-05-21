@@ -3,8 +3,12 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db import transaction
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 from .forms import ReferenceFormSet
 from .models import NoteMetaData
+
 
 class NoteCreatorMixin(AccessMixin):
     """
@@ -64,3 +68,20 @@ class NoteFormMixin(object):
 
     def success_url(self):
         return reverse_lazy('view_note', args=[self.object.id])
+
+# --------------------------------------------------------------------------------------------------
+#                                   Rest Framework Mixins
+# --------------------------------------------------------------------------------------------------
+class MutlipleNoteIdsMixin(APIView):
+    """
+    Make the Notes with ids passed public.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Return a queryset of Notes matching the ids given.
+        """
+        ids = self.request.data.get('ids', [])
+        queryset = self.request.user.notes.filter(id__in=ids)
+        return queryset
