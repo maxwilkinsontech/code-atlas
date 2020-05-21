@@ -25,6 +25,13 @@ DATABASES = {
 }
 
 
+# Rest Api
+
+REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+    'rest_framework.renderers.JSONRenderer',
+)
+
+
 # Email - Mailgun
 
 EMAIL_HOST = 'smtp.eu.mailgun.org'
