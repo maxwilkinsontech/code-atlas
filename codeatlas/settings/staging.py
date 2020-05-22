@@ -53,9 +53,9 @@ SESSION_COOKIE_SECURE = True
 
 # Auth Settings
 
-LOGIN_URL = '/accounts/signin'
-LOGIN_REDIRECT_URL = '/notes'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/staging/accounts/signin/'
+LOGIN_REDIRECT_URL = '/staging/notes/'
+LOGOUT_REDIRECT_URL = '/staging/'
 
 # Python social auth
 
