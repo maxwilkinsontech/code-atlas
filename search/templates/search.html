@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load markdown_extras %}
 
 {% block nav-bar-color %}navbar-dark{% endblock nav-bar-color %}
 
@@ -62,7 +63,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-4 my-2">
                         <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
                             <h4>{{ note.title }}</h4>
-                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content|markdown|safe }}</div>
                         </a>
                     </div>
                     {% if forloop.last and forloop.counter >= 7 %}
@@ -78,12 +79,31 @@
             <hr class="my-md-4 my-lg-5">
             <h2 class="h1 mt-4">Other User's Notes</h2>
             <div class="lead mb-4 ml-1">
-                Showing public Notes that match your query.
+                Showing public Notes that are relevant to your query.
             </div>
-            <div class="row" id="publicNotesResults">
-                <div class="loader mx-auto">
-                    <div class="loading-animation"></div>
-                </div>
+            <div class="row">
+                {% for note in view.get_public_notes %}
+                    {% if forloop.counter == 7 %}
+                        <button class="btn btn-primary mx-auto my-2" onclick="$('#morePublicResultsButton').hide();" data-toggle="collapse" id="morePublicResultsButton" href="#morePublicResults" role="button" aria-expanded="false">
+                            Show more results
+                        </button>
+                        <div class="collapse row" id="morePublicResults">
+                    {% endif %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
+                            <h4>{{ note.title }}</h4>
+                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content|markdown|safe }}</div>
+                        </a>
+                    </div>
+                    {% if forloop.last and forloop.counter >= 7 %}
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <p class="pl-3">
+                        No Notes matching your query found. 
+                        <a href="{% url 'create_note' %}">Create Note</a>
+                    </p>
+                {% endfor %}
             </div>
         </div>
         <div class="divider divider-bottom bg-primary-3"></div>
