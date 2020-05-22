@@ -25,4 +25,4 @@ class SearchView(LoginRequiredMixin, ListView):
         return []
 
     def get_public_notes(self):
-        return self.get_queryset(log=False)
+        return self.get_queryset(log=False)[:24]
