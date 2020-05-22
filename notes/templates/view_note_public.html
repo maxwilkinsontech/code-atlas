@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load markdown_extras %}
 
 {% block content %}
 <section class="pb-0 bg-light mt-4 mt-md-0">
@@ -39,7 +40,7 @@
                 <h3 class="display-4 text-center">{{ object.title }}</h3>
                 {# Note content #}
                 <div class="card">
-                    <div class="lead m-4 note-content">{{ object.content }}</div>
+                    <div class="lead m-4 note-content">{{ object.content|markdown|safe }}</div>
                 </div>
                 {# Note tags #}
                 <div>

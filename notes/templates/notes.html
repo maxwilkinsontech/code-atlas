@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load markdown_extras %}
 
 {% block content %}
 <div class="pb-0 min-vh-100 o-hidden" data-overlay="" style="padding-top: 80px !important;">
@@ -42,12 +43,12 @@
                     <div class="col-sm-12 col-md-6 col-lg-4 my-2">
                         <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100">
                             <h4>{{ note.title }}</h4>
-                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content }}</div>
+                            <div style="height: 250px; overflow: hidden;" class="note-content">{{ note.content|markdown|safe }}</div>
                         </a>
                     </div>
                 {% empty %}
-                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 my-2 ">
-                        <a href="{% url 'create_note' %}" class="card card-body hover-box-shadow p-4">
+                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 my-2">
+                        <a href="{% url 'create_note' %}" class="card card-body hover-box-shadow p-4 ">
                             <h4>Looking pretty empty!</h4>
                             <div style="height: 250px; overflow: hidden;">
                                 <p>Lets change that.</p> 
