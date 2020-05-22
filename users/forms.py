@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django import forms
 
-from .models import User
+from .models import User, Profile
 
 
 class SignUpForm(UserCreationForm):
@@ -15,8 +15,10 @@ class SignUpForm(UserCreationForm):
         del self.fields['password2']
 
 class SettingsForm(forms.Form):
+    username = forms.CharField(
+        help_text='This will be displayed on your public profile'
+    )
     email = forms.EmailField(
-        required=False,
         help_text='Do not change your email if you used a third party login. Set a password first.')
     password = forms.CharField(
         required=False, 
@@ -29,22 +31,35 @@ class SettingsForm(forms.Form):
         self.request = request
         self.user = user
         self.fields['email'].initial = user.email
+        self.fields['username'].initial = user.profile.username
 
     def clean(self):
         cleaned_data = super().clean()
         email = cleaned_data.get('email', '')
+        username = cleaned_data.get('username', '')
         
         # Make sure email is not already in use.
         if email != '' and email != self.user.email:
             existing_user = User.objects.filter(email=email)
             if existing_user.exists():
                 self.add_error('email', 'User with this Email address already exists.')
+        # Make sure username is not already in use.
+        if username != '' and username != self.user.profile.username:
+            existing_profile = Profile.objects.filter(username=username)
+            if existing_profile.exists():
+                self.add_error('username', 'This username is already taken.')
+        
 
     def save(self):
         user = self.user
         cd = self.cleaned_data
+        username = cd.get('username', '')
         email = cd.get('email', '')
         password = cd.get('password', '')
+
+        if username != '':
+            user.profile.username = username
+            user.profile.save()
 
         if email != '':
             user.email = email

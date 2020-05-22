@@ -61,6 +61,22 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         related_name='profile'
     )
-    username = models.CharField(max_length=150, blank=True)
-    username_set = models.BooleanField(default=False)
-    profile_image = models.URLField(blank=True)
+    username = models.CharField(
+        max_length=150,
+        unique=True, 
+        blank=True
+    )
+
+    def save(self, *args, **kwargs):
+        """Generate a random id of length 10 of numerical characters"""
+        if not self.username:
+            append_num = 1
+            email_tag = self.user.email.split('@')[0]
+            while True:
+                prepend = '' if append_num == 1 else str(append_num)
+                username = email_tag + prepend
+                if not Profile.objects.filter(username=username).exists():
+                    break
+                append_num += 1
+            self.username = username
+        super(Profile, self).save(*args, **kwargs)
