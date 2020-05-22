@@ -109,7 +109,8 @@ class NoteMetaData(models.Model):
         Note,
         on_delete=models.SET_NULL,
         related_name='clones',
-        null=True
+        null=True,
+        blank=True
     )
     num_views = models.PositiveIntegerField(default=0)
     num_clones = models.PositiveIntegerField(default=0)
