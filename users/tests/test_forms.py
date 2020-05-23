@@ -33,8 +33,8 @@ class SettingsFormTest(TestCase):
 
         self.assertNotEqual(form.errors, {})
 
-    def test_clean_with_valid_email(self):
-        form_data = {'email': 'test2@email.com'}
+    def test_clean_with_valid_username_email(self):
+        form_data = {'username': 'test', 'email': 'test2@email.com'}
 
         form = SettingsForm(data=form_data, user=self.user, request=self.request)
         form.is_valid()
@@ -42,8 +42,8 @@ class SettingsFormTest(TestCase):
 
         self.assertEqual(form.errors, {})
 
-    def test_save_both_empty_string(self):
-        form_data = {'email': '', 'password': ''}
+    def test_save_all_empty_string(self):
+        form_data = {'username': '', 'email': '', 'password': ''}
 
         form = SettingsForm(data=form_data, user=self.user, request=self.request)
         form.is_valid()
@@ -62,5 +62,15 @@ class SettingsFormTest(TestCase):
         user = form.save()
 
         self.assertEqual(user.email, 'new@email.com')
+
+    def test_save_username(self):
+        form_data = {'username': 'newusername'}
+
+        form = SettingsForm(data=form_data, user=self.user, request=self.request)
+        form.is_valid()
+        
+        user = form.save()
+
+        self.assertEqual(user.username, 'newusername')
 
     

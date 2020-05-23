@@ -44,7 +44,7 @@ class SettingsForm(forms.Form):
             if existing_user.exists():
                 self.add_error('email', 'User with this Email address already exists.')
         # Make sure username is not already in use.
-        if username != '' and username != self.user.profile.username:
+        if username != '' and username != self.user.username:
             existing_profile = User.objects.filter(username=username)
             if existing_profile.exists():
                 self.add_error('username', 'This username is already taken.')
