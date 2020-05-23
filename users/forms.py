@@ -52,6 +52,10 @@ class UserPreferencesForm(forms.ModelForm):
         model = UserPreferences
         fields = ['email_consent']
 
+    def __init__(self, user, *args, **kwargs):
+        super(UserPreferencesForm, self).__init__(*args, **kwargs)
+        self.fields['email_consent'].initial = user.preferences.email_consent
+
 class SettingsForm(forms.Form):
     username = forms.CharField(
         help_text='This will be displayed on your public profile'

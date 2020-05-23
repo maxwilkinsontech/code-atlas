@@ -1,7 +1,7 @@
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
 
-from users.forms import SettingsForm, SignUpForm, SetUsernameForm
+from users.forms import SettingsForm, SignUpForm, SetUsernameForm, UserPreferencesForm
 from users.models import User
 
 
@@ -108,4 +108,14 @@ class SettingsFormTest(TestCase):
 
         self.assertEqual(user.username, 'newusername')
 
+class UserPreferencesFormTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(email='test@email.com')
+        self.user.preferences.email_consent = False
+        self.user.preferences.save()
+
+    def test_form_initial_data(self):
+        form = UserPreferencesForm(user=self.user)
+        
+        self.assertEqual(form['email_consent'].initial, False)
     
