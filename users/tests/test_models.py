@@ -15,8 +15,19 @@ class UserModelTest(TestCase):
 
         self.assertIsNotNone(user)
 
-    def test_get_recent_searches(self):
+    def test_save_no_username_collision(self):
         user = User.objects.create_user(email='test3@email.com')
+
+        self.assertEqual(user.username, 'test3')
+
+    def test_save_with_username_collision(self):
+        User.objects.create_user(email='test3@email4.com')
+        user = User.objects.create_user(email='test3@email2.com')
+
+        self.assertEqual(user.username, 'test32')
+
+    def test_get_recent_searches(self):
+        user = User.objects.create_user(email='test4@email.com')
 
         for i in range(10):
             SearchHistory.objects.create(user=user, query=i)
