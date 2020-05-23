@@ -4,7 +4,7 @@ from django.views.generic import FormView, DeleteView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from .forms import SignUpForm, SettingsForm
+from .forms import SignUpForm, SetUsernameForm, SettingsForm, UserPreferencesForm
 from .models import User
 
 
@@ -23,10 +23,33 @@ class SignUp(FormView):
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return super().form_valid(form)
 
+class SetUsernameView(LoginRequiredMixin, FormView):
+    """
+    View for a User to set a username as well as set email preferences.
+    """
+    template_name = 'set_username.html'
+    form_class = SetUsernameForm
+    success_url = reverse_lazy('notes')
+
+    def get_form_kwargs(self):
+        kwargs = super(SetUsernameView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        email_consent = self.request.POST.get('email_consent', False)
+        form.save(email_consent)
+        return super().form_valid(form)
+
 class Settings(LoginRequiredMixin, FormView):
     template_name = 'settings.html'
     form_class = SettingsForm
     success_url = reverse_lazy('account_settings')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['preferences_form'] = UserPreferencesForm()
+        return data 
     
     def get_form_kwargs(self):
         kwargs = super(Settings, self).get_form_kwargs()

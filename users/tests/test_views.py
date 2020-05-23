@@ -89,6 +89,44 @@ class SignUpTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'signup.html')
+
+class SetUsernameViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(email='test@email.com')
+        self.user.set_password('password')
+        self.user.save()
+        self.client.login(email=self.user.email, password='password')
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/accounts/signup/username/')
+        
+        self.assertEqual(response.status_code, 200)
+           
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('set_username'))
+
+        self.assertEqual(response.status_code, 200)
+        
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('set_username'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'set_username.html')
+
+    def test_post(self):
+        response = self.client.post(
+            reverse('set_username'),
+            data={
+                'username': 'new_username',
+                'email_content': 'off'
+            }    
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.user.username, 'new_username')
+        self.assertEqual(self.user.preferences.email_consent, False)
         
 class SignInTest(TestCase):
     def test_view_url_exists_at_desired_location(self):
