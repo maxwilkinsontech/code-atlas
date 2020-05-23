@@ -47,12 +47,6 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 
-# Auth Settings
-
-LOGIN_URL = '/accounts/signin'
-LOGIN_REDIRECT_URL = '/notes'
-LOGOUT_REDIRECT_URL = '/'
-
 # Python social auth
 
 SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')

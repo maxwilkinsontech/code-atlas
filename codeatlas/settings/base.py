@@ -118,8 +118,8 @@ STATICFILES_DIRS = [
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_URL = '/accounts/signin'
-LOGIN_REDIRECT_URL = '/notes'
+LOGIN_URL = '/accounts/signin/'
+LOGIN_REDIRECT_URL = '/accounts/signup/username/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Django tagging
