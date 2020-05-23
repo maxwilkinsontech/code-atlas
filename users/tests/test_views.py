@@ -123,6 +123,14 @@ class SetUsernameViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'set_username.html')
+    
+    def test_dispatcg(self):
+        preferences = self.user.preferences
+        preferences.email_consent = True
+        preferences.save()
+        response = self.client.get(reverse('set_username'))
+
+        self.assertEqual(response.status_code, 302)
 
     def test_post(self):
         response = self.client.post(

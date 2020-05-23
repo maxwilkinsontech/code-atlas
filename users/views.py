@@ -11,7 +11,7 @@ from .models import User
 class SignUp(FormView):
     template_name = 'signup.html'
     form_class = SignUpForm
-    success_url = reverse_lazy('notes')
+    success_url = reverse_lazy('set_username')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -30,6 +30,11 @@ class SetUsernameView(LoginRequiredMixin, FormView):
     template_name = 'set_username.html'
     form_class = SetUsernameForm
     success_url = reverse_lazy('notes')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.preferences.email_consent is not None:
+            return redirect(self.success_url)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
         kwargs = super(SetUsernameView, self).get_form_kwargs()
