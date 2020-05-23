@@ -94,9 +94,12 @@
                             <h3>Account Preferences</h3>
                         </div>
                     </div>
-                    <form method="POST" novalidate>
+                    <form method="POST" action="{% url 'update_user_preferences' %}">
                         {% csrf_token %}
-                        {{ preferences_form }}
+                        <div class="custom-control custom-checkbox mr-4 mb-4">
+                            <input type="checkbox" class="custom-control-input" id="email_consent" name="email_consent" {% if user.preferences.email_consent %}checked=""{% endif %}>
+                            <label class="custom-control-label" for="email_consent">Recieve occasional emails</label>
+                        </div>
                         <button class="btn btn-primary" type="submit">Save changes</button>
                     </form>
                     <hr>

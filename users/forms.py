@@ -47,15 +47,6 @@ class SetUsernameForm(forms.Form):
         user.preferences.email_consent = consent
         user.preferences.save()
 
-class UserPreferencesForm(forms.ModelForm):
-    class Meta:
-        model = UserPreferences
-        fields = ['email_consent']
-
-    def __init__(self, user, *args, **kwargs):
-        super(UserPreferencesForm, self).__init__(*args, **kwargs)
-        self.fields['email_consent'].initial = user.preferences.email_consent
-
 class SettingsForm(forms.Form):
     username = forms.CharField(
         help_text='This will be displayed on your public profile'

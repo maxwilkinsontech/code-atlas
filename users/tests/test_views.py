@@ -27,12 +27,6 @@ class SettingsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'settings.html')
 
-    def test_preferences_form_in_context(self):
-        response = self.client.get(reverse('account_settings'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue('preferences_form' in response.context)
-
     def test_view_url_change_email(self):
         email = 'test2@email.com'
         username = 'new_username'
@@ -124,7 +118,7 @@ class SetUsernameViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'set_username.html')
     
-    def test_dispatcg(self):
+    def test_dispatch(self):
         preferences = self.user.preferences
         preferences.email_consent = True
         preferences.save()
@@ -146,7 +140,32 @@ class SetUsernameViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.user.username, 'new_username')
         self.assertEqual(self.user.preferences.email_consent, False)
-        
+
+class UpdateUserPreferenceViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(email='test@email.com')
+        self.user.set_password('password')
+        self.user.save()
+        self.client.login(email=self.user.email, password='password')
+
+        self.data = {
+            'email_consent': 'on'
+        }
+
+    def test_get(self):
+        response = self.client.get(reverse('update_user_preferences'))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_post(self):
+        response = self.client.post(
+            reverse('update_user_preferences'),
+            data=self.data
+        )
+        self.user.preferences.refresh_from_db()
+
+        self.assertEqual(self.user.preferences.email_consent, True)
+
 class SignInTest(TestCase):
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/accounts/signin/')

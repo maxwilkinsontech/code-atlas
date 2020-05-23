@@ -8,6 +8,10 @@ urlpatterns = [
         views.Settings.as_view(), 
         name='account_settings'
     ),
+    path('settings/update-user-preferences/', 
+        views.UpdateUserPreferenceView.as_view(), 
+        name='update_user_preferences'
+    ),
     path('settings/delete-account/', 
         views.DeleteAccount.as_view(), 
         name='delete_account'
