@@ -64,3 +64,14 @@ class User(AbstractUser):
                 append_num += 1
             self.username = username
         super(User, self).save(*args, **kwargs)
+
+class UserPreferences(models.Model):
+    """
+    Model to store preferences for a User model.
+    """
+    user = models.OneToOneField(
+        User, 
+        on_delete=models.CASCADE,
+        related_name='preferences'
+    )
+    email_consent = models.BooleanField(null=True)
