@@ -57,6 +57,7 @@ LOGIN_URL = '/staging/accounts/signin'
 LOGIN_REDIRECT_URL = '/staging/accounts/signup/username/'
 LOGOUT_REDIRECT_URL = '/staging/'
 
+
 # Python social auth
 
 SOCIAL_AUTH_GITHUB_KEY = env_config.get('SOCIAL_AUTH_GITHUB_KEY')
