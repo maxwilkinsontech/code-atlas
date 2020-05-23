@@ -40,7 +40,6 @@ class User(AbstractUser):
     """
     Custom User model with email rather than username. 
     """
-    username = None
     email = models.EmailField(_('email address'), unique=True)
 
     USERNAME_FIELD = 'email'
@@ -52,31 +51,16 @@ class User(AbstractUser):
         searches = self.search_history.order_by('-search_date').values('query')[:5]
         return searches
 
-class Profile(models.Model):
-    """
-    Model to store extra information about a User. Used in a social context.
-    """
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name='profile'
-    )
-    username = models.CharField(
-        max_length=150,
-        unique=True, 
-        blank=True
-    )
-
     def save(self, *args, **kwargs):
         """Generate a random id of length 10 of numerical characters"""
         if not self.username:
             append_num = 1
-            email_tag = self.user.email.split('@')[0]
+            email_tag = self.email.split('@')[0]
             while True:
                 prepend = '' if append_num == 1 else str(append_num)
                 username = email_tag + prepend
-                if not Profile.objects.filter(username=username).exists():
+                if not User.objects.filter(username=username).exists():
                     break
                 append_num += 1
             self.username = username
-        super(Profile, self).save(*args, **kwargs)
+        super(User, self).save(*args, **kwargs)

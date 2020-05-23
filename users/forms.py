@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django import forms
 
-from .models import User, Profile
+from .models import User
 
 
 class SignUpForm(UserCreationForm):
@@ -19,7 +19,7 @@ class SettingsForm(forms.Form):
         help_text='This will be displayed on your public profile'
     )
     email = forms.EmailField(
-        help_text='Do not change your email if you used a third party login. Set a password first.')
+        help_text='Do not change your email without setting a password first.')
     password = forms.CharField(
         required=False, 
         widget=forms.PasswordInput,
@@ -31,7 +31,7 @@ class SettingsForm(forms.Form):
         self.request = request
         self.user = user
         self.fields['email'].initial = user.email
-        self.fields['username'].initial = user.profile.username
+        self.fields['username'].initial = user.username
 
     def clean(self):
         cleaned_data = super().clean()
@@ -45,7 +45,7 @@ class SettingsForm(forms.Form):
                 self.add_error('email', 'User with this Email address already exists.')
         # Make sure username is not already in use.
         if username != '' and username != self.user.profile.username:
-            existing_profile = Profile.objects.filter(username=username)
+            existing_profile = User.objects.filter(username=username)
             if existing_profile.exists():
                 self.add_error('username', 'This username is already taken.')
         
@@ -58,8 +58,7 @@ class SettingsForm(forms.Form):
         password = cd.get('password', '')
 
         if username != '':
-            user.profile.username = username
-            user.profile.save()
+            user.username = username
 
         if email != '':
             user.email = email
