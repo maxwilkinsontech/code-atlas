@@ -53,9 +53,10 @@ SESSION_COOKIE_SECURE = True
 
 # Auth Settings
 
-LOGIN_URL = '/staging/accounts/signin/'
-LOGIN_REDIRECT_URL = '/staging/notes/'
+LOGIN_URL = '/staging/accounts/signin'
+LOGIN_REDIRECT_URL = '/staging/accounts/signup/username/'
 LOGOUT_REDIRECT_URL = '/staging/'
+
 
 # Python social auth
 
