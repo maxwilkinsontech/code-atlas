@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.template import loader
 
-from .models import User, Profile
+from .models import User, UserPreferences
 
 
 @receiver(post_save, sender=User)
@@ -14,7 +14,7 @@ def setup_user_account(sender, instance, created, **kwargs):
     Send a new User a welcome email as well as creating a Profile model.
     """
     if created:
-        Profile.objects.create(user=instance)
+        UserPreferences.objects.create(user=instance)
         # subject = 'Welcome to Code Atlas'
         # body = 'Welcome to Code Atlas'
 

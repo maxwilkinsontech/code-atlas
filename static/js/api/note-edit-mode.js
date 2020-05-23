@@ -34,6 +34,9 @@ $(document).ready(function () {
             },
             success: function (data) {
                 window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                alert('Something has gone wrong. Please try again.');
             }
         });
     }

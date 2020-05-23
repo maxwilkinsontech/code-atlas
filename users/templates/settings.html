@@ -38,6 +38,10 @@
                         <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab"
                             aria-controls="general" aria-selected="true">Profile</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="preferences-tab" data-toggle="tab" href="#preferences" role="tab"
+                            aria-controls="preferences" aria-selected="false">Preferences</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -68,6 +72,34 @@
                                 <p class="text-danger text-center">{{ error }}</p>
                             {% endfor %}
                         {% endif %}
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
+        <div class="container">
+            <div class="row mb-4 mb-md-5 align-items-start">
+                <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0 sticky-lg-top pl-lg-5">
+                    <div class="alert alert-primary">
+                        We will only send you occasional emails about new features and updates to the
+                        site. You can opt-out at any time.
+                        <a href="{% url 'privacy_policy' %}" target="_this">View our Privacy Policy</a>
+                    </div>
+                </div>
+                <div class="col-lg-8 border-lg-right pr-lg-5">
+                    <div class="row mb-lg-5">
+                        <div class="col">
+                            <h3>Account Preferences</h3>
+                        </div>
+                    </div>
+                    <form method="POST" action="{% url 'update_user_preferences' %}">
+                        {% csrf_token %}
+                        <div class="custom-control custom-checkbox mr-4 mb-4">
+                            <input type="checkbox" class="custom-control-input" id="email_consent" name="email_consent" {% if user.preferences.email_consent %}checked=""{% endif %}>
+                            <label class="custom-control-label" for="email_consent">Recieve occasional emails</label>
+                        </div>
                         <button class="btn btn-primary" type="submit">Save changes</button>
                     </form>
                     <hr>
