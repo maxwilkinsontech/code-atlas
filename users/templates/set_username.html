@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div data-overlay class="min-vh-100 bg-light d-flex flex-column justify-content-md-center">
+    <section class="py-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                    <div class="card card-body shadow">
+                        <h1 class="h5 text-center">Finish Account Setup</h1>
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <p class="text-danger text-center">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <form method="POST" novalidate>
+                            {% csrf_token %}
+                            {% include 'forms/form.html' with form=form label=True %}
+                            <p>
+                                If you want to recieve the odd email about new features and updates to the 
+                                site, please tick below. You can opt-out at any time.
+                            </p>
+                            <div class="custom-control custom-checkbox mr-4 mb-4">
+                                <input type="checkbox" class="custom-control-input" id="email_consent" name="email_consent">
+                                <label class="custom-control-label" for="email_consent">Recieve occasional emails</label>
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

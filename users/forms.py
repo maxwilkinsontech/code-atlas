@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django import forms
 
-from .models import User
+from .models import User, UserPreferences
 
 
 class SignUpForm(UserCreationForm):
@@ -13,6 +13,44 @@ class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         del self.fields['password2']
+
+class SetUsernameForm(forms.Form):
+    username = forms.CharField(
+        help_text='This will be displayed on your public profile'
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        super(SetUsernameForm, self).__init__(*args, **kwargs)
+        self.user = user
+        self.fields['username'].widget.attrs.update({
+            'placeholder': 'Please enter a username',
+        })
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username', '')
+        
+        # Make sure username is not already in use.
+        if username != '' and username != self.user.username:
+            existing_profile = User.objects.filter(username=username)
+            if existing_profile.exists():
+                self.add_error('username', 'This username is already taken.')
+
+    def save(self, email_consent):
+        user = self.user
+        cd = self.cleaned_data
+        username = cd.get('username', '')
+        consent = True if email_consent == 'on' else False
+        
+        user.username = username 
+        user.save()
+        user.preferences.email_consent = consent
+        user.preferences.save()
+
+class UserPreferencesForm(forms.ModelForm):
+    class Meta:
+        model = UserPreferences
+        fields = ['email_consent']
 
 class SettingsForm(forms.Form):
     username = forms.CharField(
@@ -48,7 +86,6 @@ class SettingsForm(forms.Form):
             existing_profile = User.objects.filter(username=username)
             if existing_profile.exists():
                 self.add_error('username', 'This username is already taken.')
-        
 
     def save(self):
         user = self.user
