@@ -8,6 +8,10 @@ urlpatterns = [
         views.Settings.as_view(), 
         name='account_settings'
     ),
+    path('settings/update-user-preferences/', 
+        views.UpdateUserPreferenceView.as_view(), 
+        name='update_user_preferences'
+    ),
     path('settings/delete-account/', 
         views.DeleteAccount.as_view(), 
         name='delete_account'
@@ -15,6 +19,10 @@ urlpatterns = [
     path('signup/', 
         views.SignUp.as_view(), 
         name='signup'
+    ),
+    path('signup/username/', 
+        views.SetUsernameView.as_view(), 
+        name='set_username'
     ),
     path('signin/', 
         auth_views.LoginView.as_view(

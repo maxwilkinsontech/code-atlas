@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-You will need to create database. This may require changes needing to be made to the settings file: `codeatlas/settings/local.py`
+You will need to create the database. This may require changes needing to be made to the settings file: `codeatlas/settings/local.py`
 
 ```
 git clone https://github.com/Maxamuss/code-atlas
