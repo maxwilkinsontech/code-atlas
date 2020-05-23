@@ -16,6 +16,10 @@ urlpatterns = [
         views.SignUp.as_view(), 
         name='signup'
     ),
+    path('signup/username/', 
+        views.SetUsernameView.as_view(), 
+        name='set_username'
+    ),
     path('signin/', 
         auth_views.LoginView.as_view(
             template_name='signin.html',
