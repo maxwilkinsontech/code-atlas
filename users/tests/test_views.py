@@ -27,17 +27,26 @@ class SettingsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'settings.html')
 
+    def test_preferences_form_in_context(self):
+        response = self.client.get(reverse('account_settings'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('preferences_form' in response.context)
+
     def test_view_url_change_email(self):
         email = 'test2@email.com'
+        username = 'new_username'
         response = self.client.post(
             reverse('account_settings'),
             data={
-                'email': email
+                'email': email,
+                'username': username
             }    
         )
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
         self.assertEqual(self.user.email, email)
+        self.assertEqual(self.user.username, username)
 
     def test_view_url_change_email_fail(self):
         email = 'existing@email.com'
@@ -55,6 +64,8 @@ class SettingsTest(TestCase):
         response = self.client.post(
             reverse('account_settings'),
             data={
+                'email': self.user.email,
+                'username': self.user.username,
                 'password': 'dfhsdjhHJKHJASHdfh3434'
             }    
         )
