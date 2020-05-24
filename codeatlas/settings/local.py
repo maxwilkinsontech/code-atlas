@@ -45,7 +45,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Set config as .env.dev file
 # Using try expecpt so that tests can be run via GitHub Actions.
 try:
-    env_path = 'notebook/settings/.env.local'
+    env_path = 'codeatlas/settings/.env.local'
     env_config = Config(RepositoryEnv(env_path))
 except:
     env_config = {}
