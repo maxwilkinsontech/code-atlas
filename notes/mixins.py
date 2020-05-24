@@ -31,6 +31,8 @@ class NoteCreatorOrPublicMixin(AccessMixin):
     """
     Mixin to prevent a User other than the owner from viewing non-public Note.
     """
+    is_note_owner = True
+
     def dispatch(self, request, *args, **kwargs):
         note = self.get_object()
         user = request.user
@@ -38,8 +40,10 @@ class NoteCreatorOrPublicMixin(AccessMixin):
         if not user.is_authenticated:
             return redirect('login')
         # Check user is creator of note or note is public.
-        if not note.is_public and note.user != request.user:
-            return redirect('notes')
+        if note.user != user:
+            self.is_note_owner = False
+            if not note.is_public:
+                return redirect('notes')
         # Passed checks, increment view count.
         note.increment_view_count()
         return super().dispatch(request, *args, **kwargs)
