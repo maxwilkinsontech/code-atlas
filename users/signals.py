@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.template import loader
 
 from .models import User, UserPreferences
+from .utils import send_welcome_email
 
 
 @receiver(post_save, sender=User)
@@ -15,15 +16,4 @@ def setup_user_account(sender, instance, created, **kwargs):
     """
     if created:
         UserPreferences.objects.create(user=instance)
-        # subject = 'Welcome to Code Atlas'
-        # body = 'Welcome to Code Atlas'
-
-        # email_message = EmailMultiAlternatives(
-        #     subject, 
-        #     body, 
-        #     'noreply@code-atlas.me', 
-        #     [instance.email]
-        # )
-        # html_email = loader.render_to_string('email/welcome.html')
-        # email_message.attach_alternative(html_email, 'text/html')
-        # email_message.send()
+        # send_welcome_email(instance)
