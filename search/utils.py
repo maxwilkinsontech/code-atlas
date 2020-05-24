@@ -20,17 +20,18 @@ class SearchUtil:
         `log`: indicates if the search query should be logged for the given User. Also indicates if 
         the given User's Notes should be included.
         """
+        self.search_query = search_query
         self.ordering = ordering
         self.fields = fields
         self.log = log
         # query data
-        query, tags = self.parse_search_query(search_query)
+        query, tags = self.parse_search_query()
         self.query = query
         self.tags = tags
         self.user = user
         self.queryset = self.get_queryset()
 
-    def parse_search_query(self, search_query):
+    def parse_search_query(self):
         """
         Extract infomation from search query. User's can use predefined syntax to filter their 
         search. A search query could look like: @tag_name @"tag name" search query
@@ -42,7 +43,7 @@ class SearchUtil:
             tags.append(match.group(2))
             return ""
 
-        search_query = re.sub(r'@(")?((?(1)[^"]+|\w+))(?(1)")', replacer, search_query)
+        search_query = re.sub(r'@(")?((?(1)[^"]+|\w+))(?(1)")', replacer, self.search_query)
         search_query = re.sub(r'\s+', ' ', search_query).strip()
 
         return search_query, tags
@@ -68,7 +69,7 @@ class SearchUtil:
         if self.user and self.log:
             SearchHistory.objects.create(
                 user=self.user, 
-                query=self.query
+                query=self.search_query
             )
 
     def get_search_results(self):
