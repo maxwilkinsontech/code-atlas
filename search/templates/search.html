@@ -60,16 +60,17 @@
                         <button class="btn btn-primary mx-auto my-2" onclick="$('#moreResultsButton').hide();" data-toggle="collapse" id="moreResultsButton" href="#moreResults" role="button" aria-expanded="false">
                             Show more results
                         </button>
-                        <div class="collapse row" id="moreResults">
+                        <div class="collapse container" id="moreResults">
+                            <div class="row">
                     {% endif %}
-                    <div class="col-sm-12 col-md-6 col-lg-4 my-2">
-                        <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100" style="max-height: 400px; overflow: hidden;">
-                            <h4>{{ note.title }}</h4>
-                            <div style="overflow-y: hidden;" class="note-content">{{ note.content|markdown|safe }}</div>
-                        </a>
-                    </div>
-                    {% if forloop.last and forloop.counter >= 7 %}
+                        <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+                            <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100" style="max-height: 400px; overflow: hidden;">
+                                <h4>{{ note.title }}</h4>
+                                <div style="overflow-y: hidden;" class="note-content">{{ note.content|markdown|safe }}</div>
+                            </a>
                         </div>
+                    {% if forloop.last and forloop.counter >= 7 %}
+                        </div></div>
                     {% endif %}
                 {% empty %}
                     <p class="pl-3">
@@ -89,7 +90,8 @@
                         <button class="btn btn-primary mx-auto my-2" onclick="$('#morePublicResultsButton').hide();" data-toggle="collapse" id="morePublicResultsButton" href="#morePublicResults" role="button" aria-expanded="false">
                             Show more results
                         </button>
-                        <div class="collapse row" id="morePublicResults">
+                        <div class="collapse container" id="morePublicResults">
+                            <div class="row">
                     {% endif %}
                     <div class="col-sm-12 col-md-6 col-lg-4 my-2">
                         <a href="{% url 'view_note' note.id %}" class="card card-body hover-box-shadow p-4 h-100" style="max-height: 400px; overflow: hidden;">
@@ -98,7 +100,7 @@
                         </a>
                     </div>
                     {% if forloop.last and forloop.counter >= 7 %}
-                        </div>
+                        </div></div>
                     {% endif %}
                 {% empty %}
                     <p class="pl-3">
