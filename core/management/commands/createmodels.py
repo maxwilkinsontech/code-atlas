@@ -9,11 +9,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):     
         for note in Note.objects.all():
-            NoteMetaData.objects.create(note=note)
+            try:
+                note.save()
+                NoteMetaData.objects.create(note=note)
+            except:
+                pass
 
         for user in User.objects.all():
-            UserPreferences.objects.create(user=user)
-            
+            try:
+                UserPreferences.objects.create(user=user)
+            except:
+                pass
+
         self.stdout.write(self.style.SUCCESS('Successful'))
 
         
