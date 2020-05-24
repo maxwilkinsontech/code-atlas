@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block nav-bar-color %}navbar-dark{% endblock nav-bar-color %}
+
 {% block content %}
-<div data-overlay class="min-vh-100 bg-light d-flex flex-column justify-content-md-center">
+<div class="min-vh-100 bg-primary-3 o-hidden bg-light d-flex flex-column justify-content-md-center" data-overlay="" style="padding-top: 80px !important;">
     <section class="py-3">
+        <div class="position-absolute w-50 h-100 top left" data-jarallax-element="100 50"
+            style="z-index: 0; transform: translate3d(15.1195px, 30.239px, 0px);">
+            <div class="blob blob-4 bg-gradient w-100 h-100 top left"></div>
+            <div id="jarallax-container-0"
+                style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -100;">
+                <div style="position: fixed;"></div>
+            </div>
+        </div>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-4 col-lg-5 col-md-6">

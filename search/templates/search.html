@@ -12,7 +12,9 @@
             <div class="row justify-content-center">
                 <div class="col-xl-8 col-lg-9 text-center">
                     <h1 class="display-3">Search for a Note</h1>
-                    <div class="lead">Search your Notes or quickly find what you are looking for in the Django documentation</div>
+                    <div class="lead">Search your Notes as well as relevant Notes from other users. <br>Use our 
+                        <a href="#" data-toggle="modal" data-target="#searchModal">search syntax</a> 
+                        for advanced searching.</div>
                     <form class="mt-5 d-flex flex-column flex-md-row form-group" method="GET">
                         <input class="form-control form-control-lg h-100 mb-2 mb-md-0 mr-md-3" name="q"
                             placeholder="Search Notes..." type="search" value="{{ search_query|default:'' }}">
@@ -109,11 +111,43 @@
         <div class="divider divider-bottom bg-primary-3"></div>
     </section>
 {% endif %}
+<!-- Advanced Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Advanced Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Filtering by tags</h5>
+                <p>
+                    To filter your search results by tags, you can use the syntax:<br>
+                    <code>@tag</code> or <code>@"multi-word tag"</code><br>
+                    This will only return Notes with all the given tags.<br><br>
+                    Tag filtering can be used with a normal query string. For example:<br>
+                    <code>@python inplace sorting</code><br>
+                    will search for Notes with <code>inplace sorting</code> in either the title or 
+                    content as well as having the tag <code>python</code>. Multiple tags can be passed 
+                    in the same search query.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endwith %}
 {% endblock content %}
 
-{% if request.GET.q %}
 {% block scripts_extra %}
-    <script type="text/javascript" src="{% static 'js/api/search-public-notes.js' %}"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 {% endblock scripts_extra %}
-{% endif %}

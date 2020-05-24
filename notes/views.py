@@ -72,11 +72,15 @@ class ViewNoteView(NoteCreatorOrPublicMixin, DetailView):
     """ 
     model = Note
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.select_related('meta_data')
+
     def get_template_names(self):
         """
         Render template depending on the User making request.
         """
-        if self.request.user == self.get_object().user:
+        if self.is_note_owner:
             return 'view_note.html'
         else:
             return 'view_note_public.html'
@@ -113,7 +117,7 @@ class CloneNoteView(CreateNoteView):
         """
         Can only clone Note if it is public or the requesting User is the creator of the Note. 
         """
-        note = super().get_object()
+        note = self.get_object()
 
         if not note.is_public and note.user != self.request.user:
             return redirect('notes')

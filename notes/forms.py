@@ -25,7 +25,7 @@ class NoteForm(forms.ModelForm):
             'placeholder': 'Provide a comma seperated list of tags e.g. python, django',
         })
         # Add tags to field if form being called from EditNoteView.
-        if self.instance is not None:
+        if self.instance.id is not None:
             self.fields['tags'].initial = self.instance.tags_to_string()
 
     def save(self, data, commit=True):

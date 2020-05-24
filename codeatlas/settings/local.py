@@ -10,6 +10,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '192.168.0.61']
 
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -25,6 +26,17 @@ DATABASES = {
 }
 
 
+# Debug toolbar
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+INSTALLED_APPS += ['debug_toolbar']
+
+MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+
+
 # Email Settings
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -33,7 +45,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Set config as .env.dev file
 # Using try expecpt so that tests can be run via GitHub Actions.
 try:
-    env_path = 'notebook/settings/.env.local'
+    env_path = 'codeatlas/settings/.env.local'
     env_config = Config(RepositoryEnv(env_path))
 except:
     env_config = {}
