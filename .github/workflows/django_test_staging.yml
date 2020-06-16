@@ -5,7 +5,7 @@ name: Python package
 
 on:
   pull_request:
-    branches: [ master, staging ]
+    branches: [ staging ]
 
 jobs:
   build:
@@ -34,4 +34,4 @@ jobs:
         pip install -r requirements/production.txt
     - name: Run tests
       run: |
-        python manage.py test
+        python manage.py test --settings=codeatlas.settings.staging
