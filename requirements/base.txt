@@ -3,7 +3,7 @@ asgiref==3.2.7
 beautifulsoup4==4.9.0
 boto3==1.13.9
 botocore==1.16.9
-certifi==2020.4.5.1
+certifi==2022.12.7
 cffi==1.14.0
 cfn-flip==1.2.3
 chardet==3.0.4
